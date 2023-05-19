@@ -1,3 +1,25 @@
+package com.ftn.sbnz.service.config;
+
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieScanner;
+import org.kie.api.runtime.KieContainer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class KjarConfiguration {
+    @Bean
+    public KieContainer kieContainer() {
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("com.ftn.sbnz", "kjar", "0.0.1-SNAPSHOT"));
+        KieScanner kScanner = ks.newKieScanner(kContainer);
+        kScanner.start(1000);
+        return kContainer;
+    }
+}
+
+/*
 package com.ftn.sbnz.service;
 //import org.kie.api.definition.type.FactType;
 import org.kie.api.runtime.KieContainer;
@@ -14,7 +36,7 @@ public class Test{
             // instanciranje
             KieContainer kc = KnowledgeSessionHelper.createRuleBase();
             KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kc, "k-session");
-        
+
 
            // KieSession kSession1 = kContainer.newKieSession("example-session");
             // insertovanje fact-a
@@ -33,7 +55,7 @@ public class Test{
             // kSession.delete(messageHandle);
             // kSession.fireAllRules();
             // kSession.setGlobal("newGlobal", 2);
-          
+
             // FactType type = kSession.getKieBase().getFactType(
             //     "chapter04.declaredTypes", "SpecialOrder");
             // Object instance = type.newInstance();
@@ -45,6 +67,4 @@ public class Test{
         }
     }
 }
-
-
-            
+ */
