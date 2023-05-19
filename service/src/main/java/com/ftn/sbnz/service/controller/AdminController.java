@@ -4,13 +4,18 @@ import com.ftn.sbnz.model.model.Admin;
 import com.ftn.sbnz.service.core.PaginatedResponse;
 import com.ftn.sbnz.service.dto.admin.AddAdminDto;
 import com.ftn.sbnz.service.dto.admin.AdminViewDto;
+import com.ftn.sbnz.service.dto.admin.UpdateAdminDto;
+import com.ftn.sbnz.service.dto.admin.UpdateAdminResponseDto;
 import com.ftn.sbnz.service.mapper.AdminMapper;
 import com.ftn.sbnz.service.service.AdminService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,5 +58,40 @@ public class AdminController {
                 allAdminsDto.getTotalPages()
         );
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminViewDto> getAdmin(@PathVariable Long id) {
+        Admin found = service.getById(id);
+        AdminViewDto foundDto = mapper.toViewDto(found);
+        return ResponseEntity.ok(foundDto);
+    }
+
+    // TODO: profile
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateAdminResponseDto> updateAdmin(@PathVariable Long id, @Valid @RequestBody UpdateAdminDto changesDto) {
+        Admin original = service.getById(id);
+        String originalUsername = original.getUsername();
+
+        Admin changes = mapper.toModel(changesDto);
+        Admin updated = service.update(id, changes);
+
+        String jwt = "";
+        // TODO: bring back this code when security is implemented
+//        if (!originalUsername.equals(updated.getUsername())) {
+//            jwt = tokenService.getToken(updated.getUsername());
+//        }
+
+        AdminViewDto updatedDto = mapper.toViewDto(updated);
+        return ResponseEntity.ok(new UpdateAdminResponseDto(updatedDto, jwt));
+    }
+
+    // TODO: password
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

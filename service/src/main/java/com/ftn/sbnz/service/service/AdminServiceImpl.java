@@ -2,13 +2,18 @@ package com.ftn.sbnz.service.service;
 
 import com.ftn.sbnz.model.model.Admin;
 import com.ftn.sbnz.model.model.Role;
+import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
+import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
 import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import com.ftn.sbnz.service.repository.AdminRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -77,17 +82,53 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin getById(Long id) {
-        return null;
+        Objects.requireNonNull(id, "Id must not be null.");
+        return repository.findByIdAndArchivedFalse(id)
+                .orElseThrow(() -> new EntityNotFoundException("Admin", id));
     }
 
     @Override
     public Admin update(Long id, Admin changes) {
-        return null;
+        // Without this check, NullPointerException (if changes is null) would be thrown after orm mapping (getById)
+        // which will render orm mapping useless
+        Objects.requireNonNull(changes, "Admin changes must not be null.");
+
+        Admin exist = getById(id);
+        if (!exist.getEmail().equals(changes.getEmail())) {
+            validateEmail(changes.getEmail());
+        }
+        if (!exist.getUsername().equals(changes.getUsername())) {
+            validateUsername(changes.getUsername());
+        }
+
+        Admin updated = new Admin(
+                exist.getId(),
+                changes.getName(),
+                changes.getSurname(),
+                changes.getBirthDate(),
+                changes.getJmbg(),
+                changes.getEmail(),
+                changes.getUsername(),
+                exist.getPassword(),
+                exist.isArchived(),
+                exist.getRole()
+        );
+        return repository.save(updated);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
+        Objects.requireNonNull(id, "Admin id must not be null");
 
+        if (!repository.existsByIdAndArchivedFalse(id)) {
+            throw new EntityNotFoundException("Admin", id);
+        }
+
+        int rowsAffected = repository.archiveById(id);
+        if (rowsAffected != 1) {
+            throw new MultipleDeletedRowsException("Admins");
+        }
     }
 
     private void validateEmail(String email) {
