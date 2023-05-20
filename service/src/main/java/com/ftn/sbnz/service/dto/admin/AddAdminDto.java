@@ -3,13 +3,15 @@ package com.ftn.sbnz.service.dto.admin;
 import com.ftn.sbnz.service.core.validation.annotation.Password;
 import com.ftn.sbnz.service.dto.user.RequestUserDto;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 public class AddAdminDto extends RequestUserDto {
     @Password
     private String password;
 
-    @Password(field = "Repeated password")
+    //    @Password(field = "Repeated password")
+    @NotBlank(message = "Repeated password must not be blank.")
     private String repeatedPassword;
 
     public AddAdminDto() {
