@@ -3,6 +3,7 @@ package com.ftn.sbnz.service.controller;
 import com.ftn.sbnz.model.model.Message;
 import com.ftn.sbnz.model.model.ParentMessage;
 import com.ftn.sbnz.model.util.KnowledgeSessionHelper;
+import com.ftn.sbnz.service.service.KnowledgeService;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/messages")
 public class MessageController {
+    private final KnowledgeService knowledgeService;
+
+    public MessageController(KnowledgeService knowledgeService) {
+        this.knowledgeService = knowledgeService;
+    }
+
     @PostMapping
     public ResponseEntity<Void> addMessage() {
-        KieContainer kc = KnowledgeSessionHelper.createRuleBase();
-        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kc, "k-session");
+//        KieContainer kc = KnowledgeSessionHelper.createRuleBase();
+//        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kc, "k-session");
+
+        KieSession kSession = knowledgeService.getkSession();
 
 
         // KieSession kSession1 = kContainer.newKieSession("example-session");

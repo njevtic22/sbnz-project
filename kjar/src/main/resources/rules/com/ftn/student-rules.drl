@@ -1,0 +1,131 @@
+package rules.com.ftn;
+import com.ftn.sbnz.model.model.Student;
+import com.ftn.sbnz.model.model.Report;
+import com.ftn.sbnz.model.model.Message
+import com.ftn.sbnz.model.model.VdpForStudent
+import com.ftn.sbnz.model.model.Vdp
+import com.ftn.sbnz.model.model.SanctionForStudent
+import com.ftn.sbnz.model.model.Sanction;
+import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju;
+import com.ftn.sbnz.model.model.NivoNasilja;
+
+rule "Hello Student"
+    lock-on-active true
+    when
+        $s: Student()
+    then
+        System.out.println("Hello from: " + $s.getName() + " " + $s.getSurname());
+end
+
+rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
+    lock-on-active true
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.PRVI,
+            $student: student,
+            $nivo: nivoNasilja
+        )
+    then
+        VdpForStudent $vdpfs = new VdpForStudent($student, Vdp.SAVETODAVNI_RAD_NASTAVNIKA);
+        modify($student){addReport($report), addVdp($vdpfs)}
+        insert($vdpfs);
+        System.out.println("Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+end
+
+rule "when: savetodavni rad nastavnika and nivo sklonosti NEMA, then warning"
+    no-loop true
+    when
+        $vdpfs: VdpForStudent(
+            $student: student,
+            vdp == Vdp.SAVETODAVNI_RAD_NASTAVNIKA,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        SanctionForStudent $sanctionfs = new SanctionForStudent($student, Sanction.WARNING);
+        modify($student){addSanction($sanctionfs)}
+        insert($sanctionfs);
+        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+end
+
+rule "when warning and student violence level NEMA, then student violence level LAKSI"
+    no-loop true
+    when
+        $sanctionfs: SanctionForStudent(
+            $student: student,
+            sanction == Sanction.WARNING,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.LAKSI)}
+        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.LAKSI + "  for student with id: " + $student.getId());
+end
+
+////////////////////////////
+// TODO: add acumulate
+rule "when: Report for 2st level violence, then pojacan rad nastavnika"
+    lock-on-active true
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.DRUGI,
+            $student: student,
+            $nivo: nivoNasilja
+        )
+    then
+        VdpForStudent $vdpfs = new VdpForStudent($student, Vdp.POJACAN_RAD_NASTAVNIKA);
+        modify($student){addReport($report), addVdp($vdpfs)}
+        insert($vdpfs);
+        System.out.println("Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+end
+
+rule "when: pojacan rad nastavnika and nivo sklonosti NEMA, then suspension for 3 days"
+    no-loop true
+    when
+        $vdpfs: VdpForStudent(
+            $student: student,
+            vdp == Vdp.POJACAN_RAD_NASTAVNIKA,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        SanctionForStudent $sanctionfs = new SanctionForStudent($student, Sanction.SUSPENSION_3);
+        modify($student){addSanction($sanctionfs)}
+        insert($sanctionfs);
+        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+end
+
+rule "when suspension for 3 days and student violence level NEMA, then student violence level SREDNJI"
+    no-loop true
+    when
+        $sanctionfs: SanctionForStudent(
+            $student: student,
+            sanction == Sanction.SUSPENSION_3,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI)}
+        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
