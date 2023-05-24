@@ -1,10 +1,9 @@
 package rules.com.ftn;
 import com.ftn.sbnz.model.model.Student;
 import com.ftn.sbnz.model.model.Report;
-import com.ftn.sbnz.model.model.Message
-import com.ftn.sbnz.model.model.VdpForStudent
-import com.ftn.sbnz.model.model.Vdp
-import com.ftn.sbnz.model.model.SanctionForStudent
+import com.ftn.sbnz.model.model.VdpForStudent;
+import com.ftn.sbnz.model.model.Vdp;
+import com.ftn.sbnz.model.model.SanctionForStudent;
 import com.ftn.sbnz.model.model.Sanction;
 import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju;
 import com.ftn.sbnz.model.model.NivoNasilja;
@@ -104,28 +103,3 @@ rule "when suspension for 3 days and student violence level NEMA, then student v
         modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI)}
         System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
