@@ -8,42 +8,51 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sanction_for_students")
-public class SanctionForStudent {
+@Table(name = "history_items")
+public class HistoryItem {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sanction_for_student_generator")
-    @SequenceGenerator(name = "sanction_for_student_generator", sequenceName = "sanction_for_student_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "history_item_generator")
+    @SequenceGenerator(name = "history_item_generator", sequenceName = "history_item_id_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne
     private Student student;
 
+    @OneToOne
+    private Report report;
+
+    @Enumerated(EnumType.STRING)
+    private Vdp vdp;
+
     @Enumerated(EnumType.STRING)
     private Sanction sanction;
 
-    public SanctionForStudent() { }
+    public HistoryItem() { }
 
-    public SanctionForStudent(Student student, Sanction sanction) {
-        this(null, student, sanction);
+    public HistoryItem(Student student, Report report, Vdp vdp, Sanction sanction) {
+        this(null, student, report, vdp, sanction);
     }
 
-    public SanctionForStudent(Long id, Student student, Sanction sanction) {
+    public HistoryItem(Long id, Student student, Report report, Vdp vdp, Sanction sanction) {
         this.id = id;
         this.student = student;
+        this.report = report;
+        this.vdp = vdp;
         this.sanction = sanction;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SanctionForStudent)) return false;
-        SanctionForStudent that = (SanctionForStudent) o;
+        if (!(o instanceof HistoryItem)) return false;
+        HistoryItem that = (HistoryItem) o;
         return Objects.equals(id, that.id);
     }
 
@@ -64,8 +73,24 @@ public class SanctionForStudent {
         return student;
     }
 
-    public void setStudentId(Student student) {
+    public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    public Vdp getVdp() {
+        return vdp;
+    }
+
+    public void setVdp(Vdp vdp) {
+        this.vdp = vdp;
     }
 
     public Sanction getSanction() {

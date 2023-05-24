@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("api/examples")
@@ -54,8 +55,6 @@ public class ExampleController {
                 false,
                 studentRole,
                 NivoSklonostiKaNasilju.NEMA,
-                new ArrayList<>(),
-                new ArrayList<>(),
                 new ArrayList<>()
         );
         students.add(student1);
@@ -73,8 +72,6 @@ public class ExampleController {
                 false,
                 studentRole,
                 NivoSklonostiKaNasilju.NEMA,
-                new ArrayList<>(),
-                new ArrayList<>(),
                 new ArrayList<>()
         );
         students.add(student2);
@@ -87,15 +84,11 @@ public class ExampleController {
         Report report2 = new Report(2L, student2, NivoNasilja.DRUGI);
 
         System.out.println("Student1");
-        System.out.println("Student1 - Reports size: " + student1.getReports().size());
-        System.out.println("Student1 - Vdps size: " + student1.getVdps().size());
-        System.out.println("Student1 - Sanctions size: " + student1.getSanctions().size());
+        System.out.println("Student1 - History size: " + student1.getHistory().size());
         System.out.println("Student1 - Nivo sklonosti ka nasilju: " + student1.getNivoSklonosti());
 
         System.out.println("Student2");
-        System.out.println("Student2 - Reports size: " + student2.getReports().size());
-        System.out.println("Student2 - Vdps size: " + student2.getVdps().size());
-        System.out.println("Student2 - Sanctions size: " + student2.getSanctions().size());
+        System.out.println("Student2 - History size: " + student2.getHistory().size());
         System.out.println("Student2 - Nivo sklonosti ka nasilju: " + student2.getNivoSklonosti());
 
 
@@ -108,15 +101,13 @@ public class ExampleController {
         System.out.println("------------------------------\nThe end of rules\n");
 
         System.out.println("Student1");
-        System.out.println("Student1 - Reports size: " + student1.getReports().size());
-        System.out.println("Student1 - Vdps size: " + student1.getVdps().size());
-        System.out.println("Student1 - Sanctions size: " + student1.getSanctions().size());
+        System.out.println("Student1 - History size: " + student1.getHistory().size());
+        System.out.println(Arrays.toString(student1.getHistory().toArray()));
         System.out.println("Student1 - Nivo sklonosti ka nasilju: " + student1.getNivoSklonosti());
 
         System.out.println("Student2");
-        System.out.println("Student2 - Reports size: " + student2.getReports().size());
-        System.out.println("Student2 - Vdps size: " + student2.getVdps().size());
-        System.out.println("Student2 - Sanctions size: " + student2.getSanctions().size());
+        System.out.println("Student2 - History size: " + student2.getHistory().size());
+        System.out.println(Arrays.toString(student2.getHistory().toArray()));
         System.out.println("Student2 - Nivo sklonosti ka nasilju: " + student2.getNivoSklonosti());
 
         return ResponseEntity.noContent().build();
