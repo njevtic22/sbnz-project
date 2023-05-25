@@ -38,7 +38,7 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
             $nivo: nivoNasilja
         )
     then
-        HistoryItem $item = new HistoryItem($student, $report, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null);
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null);
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
@@ -98,7 +98,7 @@ rule "when: Report for 2st level violence, then pojacan rad nastavnika"
             $nivo: nivoNasilja
         )
     then
-        HistoryItem $item = new HistoryItem($student, $report, Vdp.POJACAN_RAD_NASTAVNIKA, null);
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.POJACAN_RAD_NASTAVNIKA, null);
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);

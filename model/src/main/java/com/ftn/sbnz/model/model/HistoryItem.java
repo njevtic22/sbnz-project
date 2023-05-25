@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -25,8 +24,8 @@ public class HistoryItem {
     @ManyToOne
     private Student student;
 
-    @OneToOne
-    private Report report;
+    @Enumerated(EnumType.STRING)
+    private NivoNasilja nivoNasilja;
 
     @Enumerated(EnumType.STRING)
     private Vdp vdp;
@@ -36,14 +35,14 @@ public class HistoryItem {
 
     public HistoryItem() { }
 
-    public HistoryItem(Student student, Report report, Vdp vdp, Sanction sanction) {
-        this(null, student, report, vdp, sanction);
+    public HistoryItem(Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction) {
+        this(null, student, nivoNasilja, vdp, sanction);
     }
 
-    public HistoryItem(Long id, Student student, Report report, Vdp vdp, Sanction sanction) {
+    public HistoryItem(Long id, Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction) {
         this.id = id;
         this.student = student;
-        this.report = report;
+        this.nivoNasilja = nivoNasilja;
         this.vdp = vdp;
         this.sanction = sanction;
     }
@@ -77,12 +76,12 @@ public class HistoryItem {
         this.student = student;
     }
 
-    public Report getReport() {
-        return report;
+    public NivoNasilja getNivoNasilja() {
+        return nivoNasilja;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public void setNivoNasilja(NivoNasilja nivoNasilja) {
+        this.nivoNasilja = nivoNasilja;
     }
 
     public Vdp getVdp() {

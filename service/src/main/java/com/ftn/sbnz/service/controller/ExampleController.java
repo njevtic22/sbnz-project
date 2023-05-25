@@ -8,6 +8,7 @@ import com.ftn.sbnz.model.model.Role;
 import com.ftn.sbnz.model.model.Student;
 import com.ftn.sbnz.model.model.Teacher;
 import com.ftn.sbnz.service.service.KnowledgeService;
+import com.ftn.sbnz.service.util.LongGenerator;
 import org.kie.api.runtime.KieSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,11 @@ import java.util.Arrays;
 @RequestMapping("api/examples")
 public class ExampleController {
     private final KnowledgeService knowledgeService;
+    private final LongGenerator reportId;
 
-    public ExampleController(KnowledgeService knowledgeService) {
+    public ExampleController(KnowledgeService knowledgeService, LongGenerator reportId) {
         this.knowledgeService = knowledgeService;
+        this.reportId = reportId;
     }
 
     @PostMapping("set-example")
@@ -80,8 +83,8 @@ public class ExampleController {
         Odeljenje odeljenjeVII3 = new Odeljenje(1L, "VII-3", teacher1, students);
 
 
-        Report report1 = new Report(1L, student1, NivoNasilja.PRVI);
-        Report report2 = new Report(2L, student2, NivoNasilja.DRUGI);
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI);
+        Report report2 = new Report(reportId.next(), student2, NivoNasilja.DRUGI);
 
         System.out.println("Student1");
         System.out.println("Student1 - History size: " + student1.getHistory().size());
