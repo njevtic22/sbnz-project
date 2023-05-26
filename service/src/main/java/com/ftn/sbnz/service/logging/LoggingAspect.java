@@ -26,17 +26,16 @@ public class LoggingAspect {
         logger.warn(ex.getMessage(), ex);
     }
 
-    // TODO: add when security implemented
-//    @Pointcut("execution(* com.ftn.sbnz.service.security.rest.RestAuthenticationEntryPoint.commence(..))")
-//    private void authenticationExceptionHandlerPointcut() { }
-//
-//    @Async
-//    @Before("authenticationExceptionHandlerPointcut()")
-//    protected void logAuthenticationException(JoinPoint joinPoint) {
-//        Object[] args = joinPoint.getArgs();
-//        Exception ex = (Exception) args[2];
-//        logger.warn(ex.getMessage(), ex);
-//    }
+    @Pointcut("execution(* com.ftn.sbnz.service.security.rest.RestAuthenticationEntryPoint.commence(..))")
+    private void authenticationExceptionHandlerPointcut() { }
+
+    @Async
+    @Before("authenticationExceptionHandlerPointcut()")
+    protected void logAuthenticationException(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Exception ex = (Exception) args[2];
+        logger.warn(ex.getMessage(), ex);
+    }
 
     @Pointcut("execution(* com.ftn.sbnz.service.core.error.RestExceptionHandler.handleInternalServer(..))")
     private void internalServerErrorHandlerPointcut() { }

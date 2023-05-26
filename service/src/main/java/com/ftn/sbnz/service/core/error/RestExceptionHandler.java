@@ -7,6 +7,7 @@ import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,7 +43,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({
             UniquePropertyException.class,
-            InvalidPasswordException.class
+            InvalidPasswordException.class,
+            BadCredentialsException.class
     })
     public ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
         ApiError apiError = new ApiError(ex.getMessage());

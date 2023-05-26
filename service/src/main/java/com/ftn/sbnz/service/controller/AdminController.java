@@ -7,10 +7,12 @@ import com.ftn.sbnz.service.dto.admin.AdminViewDto;
 import com.ftn.sbnz.service.dto.admin.UpdateAdminDto;
 import com.ftn.sbnz.service.dto.admin.UpdateAdminResponseDto;
 import com.ftn.sbnz.service.mapper.AdminMapper;
+import com.ftn.sbnz.service.security.TokenService;
 import com.ftn.sbnz.service.service.AdminService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,13 +31,16 @@ import java.net.URI;
 public class AdminController {
     private final AdminService service;
     private final AdminMapper mapper;
+    private final TokenService tokenService;
 
-    public AdminController(AdminService service, AdminMapper mapper) {
+    public AdminController(AdminService service, AdminMapper mapper, TokenService tokenService) {
         this.service = service;
         this.mapper = mapper;
+        this.tokenService = tokenService;
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addAdmin(@Valid @RequestBody AddAdminDto newAdminDto, UriComponentsBuilder uriBuilder) {
         Admin newAdmin = mapper.toModel(newAdminDto);
         Admin added = service.add(newAdmin, newAdminDto.getRepeatedPassword());
@@ -48,6 +53,7 @@ public class AdminController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaginatedResponse<AdminViewDto>> getAdmins(Pageable pageable) {
         Page<Admin> allAdmins = service.getAll(pageable);
         Page<AdminViewDto> allAdminsDto = allAdmins.map(mapper::toViewDto);
@@ -61,6 +67,7 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AdminViewDto> getAdmin(@PathVariable Long id) {
         Admin found = service.getById(id);
         AdminViewDto foundDto = mapper.toViewDto(found);
@@ -70,6 +77,7 @@ public class AdminController {
     // TODO: profile
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UpdateAdminResponseDto> updateAdmin(@PathVariable Long id, @Valid @RequestBody UpdateAdminDto changesDto) {
         Admin original = service.getById(id);
         String originalUsername = original.getUsername();
@@ -78,10 +86,9 @@ public class AdminController {
         Admin updated = service.update(id, changes);
 
         String jwt = "";
-        // TODO: bring back this code when security is implemented
-//        if (!originalUsername.equals(updated.getUsername())) {
-//            jwt = tokenService.getToken(updated.getUsername());
-//        }
+        if (!originalUsername.equals(updated.getUsername())) {
+            jwt = tokenService.getToken(updated.getUsername());
+        }
 
         AdminViewDto updatedDto = mapper.toViewDto(updated);
         return ResponseEntity.ok(new UpdateAdminResponseDto(updatedDto, jwt));
@@ -90,6 +97,7 @@ public class AdminController {
     // TODO: password
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
