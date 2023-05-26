@@ -7,8 +7,11 @@ import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
 import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
 import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import com.ftn.sbnz.service.repository.AdminRepository;
+import com.ftn.sbnz.service.security.AuthenticationService;
+import com.ftn.sbnz.service.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +23,31 @@ public class AdminServiceImpl implements AdminService {
     private final AdminRepository repository;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationService authenticationService;
 
-    public AdminServiceImpl(AdminRepository repository, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminServiceImpl(AdminRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService) {
         this.repository = repository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationService = authenticationService;
     }
 
     @Override
     public boolean existsByUsername(String username) {
-        return false;
+        return repository.existsByUsername(username);
     }
 
     @Override
     public Admin getByUsername(String username) {
-        return null;
+        Strings.requireNonBlank(username, "Username must not be blank.");
+        return repository.findByUsernameAndArchivedFalse(username)
+                .orElseThrow(() -> new EntityNotFoundException("Admin", "username", username));
     }
 
     @Override
     public Admin getProfile() {
-        return null;
+        User authenticated = authenticationService.getAuthenticated();
+        return getByUsername(authenticated.getUsername());
     }
 
     @Override

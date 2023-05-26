@@ -1,5 +1,6 @@
 package com.ftn.sbnz.service.core.error;
 
+import com.ftn.sbnz.service.core.error.exceptions.BlankStringException;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
 import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
@@ -44,6 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({
             UniquePropertyException.class,
             InvalidPasswordException.class,
+            BlankStringException.class,
             BadCredentialsException.class
     })
     public ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {

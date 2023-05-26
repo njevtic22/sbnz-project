@@ -74,7 +74,13 @@ public class AdminController {
         return ResponseEntity.ok(foundDto);
     }
 
-    // TODO: profile
+    @GetMapping("/profile")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<AdminViewDto> getProfile() {
+        Admin found = service.getProfile();
+        AdminViewDto foundDto = mapper.toViewDto(found);
+        return ResponseEntity.ok(foundDto);
+    }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
