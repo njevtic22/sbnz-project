@@ -52,7 +52,24 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void changePassword(String oldPassword, String newPassword, String repeatedPassword) {
+        User authenticated = authenticationService.getAuthenticated();
+        Admin existingAdmin = getByUsername(authenticated.getUsername());
 
+        validatePasswordMatch(existingAdmin, oldPassword, newPassword, repeatedPassword);
+
+        Admin changed = new Admin(
+                existingAdmin.getId(),
+                existingAdmin.getName(),
+                existingAdmin.getSurname(),
+                existingAdmin.getBirthDate(),
+                existingAdmin.getJmbg(),
+                existingAdmin.getEmail(),
+                existingAdmin.getUsername(),
+                passwordEncoder.encode(newPassword),
+                existingAdmin.isArchived(),
+                existingAdmin.getRole()
+        );
+        repository.save(changed);
     }
 
     @Override
@@ -148,6 +165,16 @@ public class AdminServiceImpl implements AdminService {
     private void validateUsername(String username) {
         if (repository.existsByUsername(username)) {
             throw new UniquePropertyException("Username '" + username + "' is already taken.");
+        }
+    }
+
+    private void validatePasswordMatch(Admin existingAdmin, String oldPassword, String newPassword, String repeatedPassword) {
+        if (!passwordEncoder.matches(oldPassword, existingAdmin.getPassword())) {
+            throw new InvalidPasswordException("Incorrect password.");
+        }
+
+        if (!newPassword.equals(repeatedPassword)) {
+            throw new InvalidPasswordException("New password and repeated password do not match.");
         }
     }
 }

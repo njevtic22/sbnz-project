@@ -6,6 +6,7 @@ import com.ftn.sbnz.service.dto.admin.AddAdminDto;
 import com.ftn.sbnz.service.dto.admin.AdminViewDto;
 import com.ftn.sbnz.service.dto.admin.UpdateAdminDto;
 import com.ftn.sbnz.service.dto.admin.UpdateAdminResponseDto;
+import com.ftn.sbnz.service.dto.user.PasswordChangeDto;
 import com.ftn.sbnz.service.mapper.AdminMapper;
 import com.ftn.sbnz.service.security.TokenService;
 import com.ftn.sbnz.service.service.AdminService;
@@ -100,7 +101,16 @@ public class AdminController {
         return ResponseEntity.ok(new UpdateAdminResponseDto(updatedDto, jwt));
     }
 
-    // TODO: password
+    @PutMapping("/password")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto) {
+        service.changePassword(
+                passwordChangeDto.getOldPassword(),
+                passwordChangeDto.getNewPassword(),
+                passwordChangeDto.getRepeatedPassword()
+        );
+        return ResponseEntity.noContent().build();
+    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
