@@ -62,7 +62,7 @@ public class PasswordConfig {
                 new IllegalSequenceRule(EnglishSequenceData.USQwerty, 5, false),
                 new WhitespaceRule(),
                 /*
-                 * Blacklist source
+                 * Original full blacklist source
                  * https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt
                  * */
                 new BlacklistRule(passwordBlacklistPath)
