@@ -1,1 +1,94 @@
-<p>login-page works!</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card class="padded">
+        <form
+            class="example-form"
+            fxLayout="column"
+            fxLayoutAlign="center stretch"
+            novalidate
+            [formGroup]="loginForm"
+        >
+            <mat-form-field appearance="fill" fxFill>
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" required />
+                <mat-error
+                    *ngIf="loginForm.controls['username'].hasError('required')"
+                >
+                    Username is required
+                </mat-error>
+                <mat-error
+                    *ngIf="
+                        loginForm.controls['username'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Username must not begin or end with space
+                </mat-error>
+            </mat-form-field>
+
+            <br />
+            <mat-form-field appearance="fill" fxFill>
+                <mat-label>Password</mat-label>
+                <input
+                    matInput
+                    required
+                    [type]="hidePassword ? 'password' : 'text'"
+                    formControlName="password"
+                    maxlength="50"
+                    (paste)="preventPaste($event)"
+                />
+                <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword"
+                >
+                    <mat-icon>{{
+                        hidePassword ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                </button>
+
+                <mat-hint align="end" aria-live="polite">
+                    {{ loginForm.controls["password"].value.length }} / 50
+                </mat-hint>
+
+                <mat-error
+                    *ngIf="loginForm.controls['password'].hasError('required')"
+                >
+                    Password is required
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        loginForm.controls['password'].hasError('whitespace')
+                    "
+                >
+                    Password must not contain spaces
+                </mat-error>
+            </mat-form-field>
+
+            <br />
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <div
+                    class="error-color"
+                    [ngClass]="{ 'error-message': !errorOccurred }"
+                >
+                    {{ errorMessage }}
+                </div>
+            </div>
+
+            <br />
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="login()"
+                    [disabled]="loginForm.invalid"
+                >
+                    Login
+                </button>
+            </div>
+        </form>
+    </mat-card>
+</div>
