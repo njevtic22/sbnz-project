@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "src/environment/environment";
 import { LoginRequest, LoginResponse } from "../types/login";
+import { Role } from "../types/role";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -30,5 +31,13 @@ export class AuthenticationService {
 
     isAuthenticated(): boolean {
         return Boolean(sessionStorage.getItem("token"));
+    }
+
+    getRole(): string {
+        const role: string | null = sessionStorage.getItem("role");
+        if (!role) {
+            return Role[Role.ROLE_ANONYMOUS];
+        }
+        return role;
     }
 }
