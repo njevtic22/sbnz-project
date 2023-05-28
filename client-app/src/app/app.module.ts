@@ -15,7 +15,8 @@ import { HeaderComponent } from "./components/header/header.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { LoginPageComponent } from "./pages/login-page/login-page.component";
 import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
-import { LogoutComponent } from './components/logout/logout.component';
+import { LogoutComponent } from "./components/logout/logout.component";
+import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import { LogoutComponent } from './components/logout/logout.component';
         LoginPageComponent,
         ProfilePageComponent,
         LogoutComponent,
+        NotFoundPageComponent,
     ],
     imports: [
         BrowserModule,
