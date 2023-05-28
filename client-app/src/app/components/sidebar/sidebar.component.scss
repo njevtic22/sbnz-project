@@ -1,0 +1,31 @@
+mat-sidenav-container {
+    &.mat-sidenav-container {
+        width: 100vw;
+        height: calc(100vh - 64px);
+        background: whitesmoke;
+        position: fixed;
+    }
+    & > mat-sidenav {
+        background: white;
+        width: 15vw;
+        min-width: 200px !important;
+    }
+    .content {
+        padding: 2%;
+    }
+}
+
+mat-icon,
+span {
+    margin-left: 5%;
+}
+
+.sidebar-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.logout-button {
+    width: 100%;
+}
