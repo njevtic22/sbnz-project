@@ -6,15 +6,19 @@
         [style.width.%]="12"
     >
         <mat-nav-list>
-            <a mat-list-item routerLink="/login">
+            <a mat-list-item routerLink="/login" *ngIf="!isAuthenticated()">
                 <mat-icon>login</mat-icon>
                 <span mat-line>Login</span>
             </a>
 
-            <a mat-list-item routerLink="/profile">
+            <a mat-list-item routerLink="/profile" *ngIf="isAuthenticated()">
                 <mat-icon>person</mat-icon>
                 <span mat-line>Profil</span>
             </a>
+        </mat-nav-list>
+
+        <mat-nav-list class="sidebar-bottom" *ngIf="isAuthenticated()">
+            <app-logout></app-logout>
         </mat-nav-list>
     </mat-sidenav>
 

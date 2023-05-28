@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
+        // https://stackoverflow.com/a/49813876
         this.routerSubscription = this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 let route: ActivatedRoute | null = this.route.firstChild;

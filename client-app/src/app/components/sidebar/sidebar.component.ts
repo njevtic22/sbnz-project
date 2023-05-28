@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { AuthenticationService } from "src/app/services/authentication.service";
 
 @Component({
     selector: "app-sidebar",
@@ -9,9 +9,13 @@ import { Router } from "@angular/router";
 export class SidebarComponent {
     opened: boolean = true;
 
-    constructor(private router: Router) {}
+    constructor(private authService: AuthenticationService) {}
 
     toggle(): void {
         this.opened = !this.opened;
+    }
+
+    isAuthenticated(): boolean {
+        return this.authService.isAuthenticated();
     }
 }
