@@ -5,7 +5,7 @@ import {
     Output,
     EventEmitter,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -21,7 +21,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(private router: Router, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        // TODO: Implement When Routes are added
+        this.routerSubscription = this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                let route: ActivatedRoute | null = this.route.firstChild;
+                let child: ActivatedRoute | null = route;
+
+                while (child?.firstChild) {
+                    route = child;
+                    child = child.firstChild;
+                }
+                this.title = route?.snapshot.data["title"];
+            }
+        });
     }
 
     ngOnDestroy(): void {

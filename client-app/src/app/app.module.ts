@@ -13,9 +13,17 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
+import { LoginPageComponent } from "./pages/login-page/login-page.component";
+import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent, SidebarComponent],
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        SidebarComponent,
+        LoginPageComponent,
+        ProfilePageComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
