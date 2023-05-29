@@ -33,7 +33,7 @@ public class ExampleController {
         this.reportId = reportId;
     }
 
-    @PostMapping("set-example")
+    @PostMapping("simple-example")
     public ResponseEntity<Void> setExample() {
         System.out.println("-------------------------------------------------- Start of controller --------------------------------------------------");
         KieSession kSession = knowledgeService.getkSession();
@@ -87,6 +87,40 @@ public class ExampleController {
     public ResponseEntity<Void> executeExample() {
         KieSession kSession = knowledgeService.getkSession();
         kSession.fireAllRules();
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("complex-example")
+    public ResponseEntity<Void> executeComplexExample() {
+        System.out.println("-------------------------------------------------- Start of controller --------------------------------------------------");
+        KieSession kSession = knowledgeService.getkSession();
+
+        Student student1 = studentService.getById(7L);
+
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI);
+
+        System.out.println("Student1 - " + student1.toString());
+        System.out.println("Student1 - History size: " + student1.getHistory().size());
+        System.out.println("Student1 - Nivo sklonosti ka nasilju: " + student1.getNivoSklonosti());
+
+
+
+        System.out.println("\n------------------------------\nRules firing");
+        kSession.insert(student1);
+        kSession.insert(report1);
+        kSession.fireAllRules();
+        System.out.println("------------------------------\nThe end of rules\n");
+
+        historyItemService.saveAll(student1.getHistory());
+
+        student1 = studentService.save(student1);
+
+        System.out.println("Student1 - " + student1.toString());
+        System.out.println("Student1 - History size: " + student1.getHistory().size());
+        System.out.println(Arrays.toString(student1.getHistory().toArray()));
+        System.out.println("Student1 - Nivo sklonosti ka nasilju: " + student1.getNivoSklonosti());
+
+        System.out.println("--------------------------------------------------- End of controller ---------------------------------------------------");
         return ResponseEntity.noContent().build();
     }
 }

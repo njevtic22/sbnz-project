@@ -1,11 +1,13 @@
 package rules.com.ftn;
+import java.time.LocalDate
 import com.ftn.sbnz.model.model.Student
 import com.ftn.sbnz.model.model.Report
 import com.ftn.sbnz.model.model.Vdp
 import com.ftn.sbnz.model.model.Sanction
 import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju
 import com.ftn.sbnz.model.model.NivoNasilja
-import com.ftn.sbnz.model.model.HistoryItem;
+import com.ftn.sbnz.model.model.HistoryItem
+import java.time.LocalDateTime;
 
 declare VdpForStudent
     student: Student
@@ -29,6 +31,8 @@ rule "Hello Student"
 end
 
 
+// 1, 2
+////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
     lock-on-active true
     when
@@ -37,8 +41,14 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
             $student: student,
             $nivo: nivoNasilja
         )
+        Number(intValue < 2) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.PRVI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
     then
-        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null);
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null, LocalDate.now());
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
@@ -87,7 +97,84 @@ rule "when warning and student violence level NEMA, then student violence level 
         System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.LAKSI + "  for student with id: " + $student.getId());
 end
 
-//////////////////////////////
+// 3
+////////////////////////////////////////////////////////////////////////////////////////////////////
+function boolean isInLastThreeMonths(HistoryItem $item) {
+    LocalDate $endDate = LocalDate.now();
+    LocalDate $startDate = $endDate.minusMonths(3);
+    LocalDate $reportDate = $item.getReportDate();
+
+    System.out.println("MY CUSTOM FUNCTION FOR ITEM: " + $item.getId());
+
+    return !$reportDate.isBefore($startDate) && !$reportDate.isAfter($endDate);
+}
+
+rule "3th time reported for 1st level violence"
+    lock-on-active true
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.PRVI,
+            $student: student,
+            $nivo: nivoNasilja
+        )
+        Number(intValue >= 2) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.PRVI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
+    then
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
+
+        VdpForStudent $vdpfs = new VdpForStudent();
+        $vdpfs.setStudent($student);
+        $vdpfs.setVdp(Vdp.SAVETODAVNI_RAD_PPS);
+        $vdpfs.setHistoryItem($item);
+
+        $student.addToHistory($item);
+        insert($vdpfs);
+
+        System.out.println("COMPLEX RULE FOR 1ST LEVEL VIOLENCE FOR STUDENT: " + $student.getId());
+end
+
+rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 day"
+    no-loop true
+    when
+        $vdpfs: VdpForStudent(
+            $student: student,
+            vdp == Vdp.SAVETODAVNI_RAD_PPS,
+            student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
+        )
+    then
+        HistoryItem $item = $vdpfs.getHistoryItem();
+        $item.setSanction(Sanction.SUSPENSION_1);
+
+        SanctionForStudent $sanctionfs = new SanctionForStudent();
+        $sanctionfs.setStudent($student);
+        $sanctionfs.setSanction(Sanction.SUSPENSION_1);
+        $sanctionfs.setHistoryItem($item);
+
+        insert($sanctionfs);
+
+        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+end
+
+
+rule "when suspension for 1 day and student violence level LAKSI, then student violence level SREDNJI"
+    no-loop true
+    when
+        $sanctionfs: SanctionForStudent(
+            $student: student,
+            sanction == Sanction.SUSPENSION_1,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
+        )
+    then
+        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI)}
+        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+end
+
+// 4
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // TODO: add acumulate
 rule "when: Report for 2st level violence, then pojacan rad nastavnika"
     lock-on-active true
@@ -98,7 +185,7 @@ rule "when: Report for 2st level violence, then pojacan rad nastavnika"
             $nivo: nivoNasilja
         )
     then
-        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.POJACAN_RAD_NASTAVNIKA, null);
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.POJACAN_RAD_NASTAVNIKA, null, LocalDate.now());
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);

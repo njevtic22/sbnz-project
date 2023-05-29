@@ -45,8 +45,9 @@ public class WebSecurityConfiguration {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/auth/login").permitAll().and()
-                .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/examples/set-example").permitAll().and()
+                .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/examples/simple-example").permitAll().and()
                 .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/examples/execute-example").permitAll().and()
+                .authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/examples/complex-example").permitAll().and()
                 .authorizeHttpRequests().antMatchers(HttpMethod.GET,
                         "/", "/webjars/**", "/*.html", "/favicon.ico", "/*/*.html",
                         "/*/*.css", "/*/*.js").permitAll().and()

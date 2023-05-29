@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -33,18 +34,22 @@ public class HistoryItem {
     @Enumerated(EnumType.STRING)
     private Sanction sanction;
 
+    @Column(nullable = false)
+    private LocalDate reportDate;
+
     public HistoryItem() { }
 
-    public HistoryItem(Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction) {
-        this(null, student, nivoNasilja, vdp, sanction);
+    public HistoryItem(Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction, LocalDate reportDate) {
+        this(null, student, nivoNasilja, vdp, sanction, reportDate);
     }
 
-    public HistoryItem(Long id, Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction) {
+    public HistoryItem(Long id, Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction, LocalDate reportDate) {
         this.id = id;
         this.student = student;
         this.nivoNasilja = nivoNasilja;
         this.vdp = vdp;
         this.sanction = sanction;
+        this.reportDate = reportDate;
     }
 
     @Override
@@ -98,5 +103,13 @@ public class HistoryItem {
 
     public void setSanction(Sanction sanction) {
         this.sanction = sanction;
+    }
+
+    public LocalDate getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(LocalDate reportDate) {
+        this.reportDate = reportDate;
     }
 }
