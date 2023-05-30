@@ -65,6 +65,17 @@ public class HistoryItem {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "HistoryItem{" +
+                "id=" + id +
+                ", student=" + student +
+                ", nivoNasilja=" + nivoNasilja +
+                ", vdp=" + vdp +
+                ", sanction=" + sanction +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

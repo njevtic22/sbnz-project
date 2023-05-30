@@ -39,7 +39,7 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
         modify($student){addToHistory($item)}
         insert($vdpfs);
 
-        System.out.println("Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+        System.out.println("COMPLEX 1,2: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
 
@@ -105,7 +105,7 @@ rule "3th time reported for 1st level violence"
         $student.addToHistory($item);
         insert($vdpfs);
 
-        System.out.println("COMPLEX RULE FOR 1ST LEVEL VIOLENCE FOR STUDENT: " + $student.getId());
+        System.out.println("COMPLEX 3: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
 rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 day"
