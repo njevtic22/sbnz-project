@@ -1,0 +1,6 @@
+package rules.com.ftn;
+
+rule "third_violence_level_rules"
+    when
+    then
+end

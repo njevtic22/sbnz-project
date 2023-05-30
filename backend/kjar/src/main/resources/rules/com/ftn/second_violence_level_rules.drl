@@ -1,0 +1,73 @@
+package rules.com.ftn;
+
+//import rules.com.ftn.SanctionForStudent;
+//import rules.com.ftn.VdpForStudent;
+//import function rules.com.ftn.isInLastThreeMonths;
+
+import java.time.LocalDate
+import com.ftn.sbnz.model.model.Report
+import com.ftn.sbnz.model.model.Vdp
+import com.ftn.sbnz.model.model.Sanction
+import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju
+import com.ftn.sbnz.model.model.NivoNasilja
+import com.ftn.sbnz.model.model.HistoryItem;
+
+// 4
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// TODO: add acumulate
+rule "when: Report for 2nd level violence, then pojacan rad nastavnika"
+    lock-on-active true
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.DRUGI,
+            $student: student,
+            $nivo: nivoNasilja
+        )
+    then
+        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.POJACAN_RAD_NASTAVNIKA, null, LocalDate.now());
+
+        VdpForStudent $vdpfs = new VdpForStudent();
+        $vdpfs.setStudent($student);
+        $vdpfs.setVdp(Vdp.POJACAN_RAD_NASTAVNIKA);
+        $vdpfs.setHistoryItem($item);
+
+        modify($student){addToHistory($item)}
+        insert($vdpfs);
+
+        System.out.println("Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+end
+
+rule "when: pojacan rad nastavnika and nivo sklonosti NEMA, then suspension for 3 days"
+    no-loop true
+    when
+        $vdpfs: VdpForStudent(
+            $student: student,
+            vdp == Vdp.POJACAN_RAD_NASTAVNIKA,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        HistoryItem $item = $vdpfs.getHistoryItem();
+        $item.setSanction(Sanction.SUSPENSION_3);
+
+        SanctionForStudent $sanctionfs = new SanctionForStudent();
+        $sanctionfs.setStudent($student);
+        $sanctionfs.setSanction(Sanction.SUSPENSION_3);
+        $sanctionfs.setHistoryItem($item);
+
+        insert($sanctionfs);
+
+        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+end
+
+rule "when suspension for 3 days and student violence level NEMA, then student violence level SREDNJI"
+    no-loop true
+    when
+        $sanctionfs: SanctionForStudent(
+            $student: student,
+            sanction == Sanction.SUSPENSION_3,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+        )
+    then
+        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI)}
+        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+end
