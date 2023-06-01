@@ -23,6 +23,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean existsByIdAndArchivedFalse(Long id);
 
     @Modifying(flushAutomatically = true, clearAutomatically = true)
-    @Query("update Admin a set a.archived = true where a.id = :id")
+    @Query("update Student s set s.archived = true where s.id = :id")
     int archiveById(Long id);
 }

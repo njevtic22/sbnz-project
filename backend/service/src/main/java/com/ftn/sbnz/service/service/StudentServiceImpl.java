@@ -26,12 +26,14 @@ public class StudentServiceImpl implements StudentService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
-    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService) {
+    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
         this.repository = repository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationService = authenticationService;
+        this.userService = userService;
     }
 
     @Override
@@ -169,13 +171,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private void validateEmail(String email) {
-        if (repository.existsByEmail(email)) {
+        if (userService.existsByEmail(email)) {
             throw new UniquePropertyException("Email '" + email + "' is already taken.");
         }
     }
 
     private void validateUsername(String username) {
-        if (repository.existsByUsername(username)) {
+        if (userService.existsByUsername(username)) {
             throw new UniquePropertyException("Username '" + username + "' is already taken.");
         }
     }

@@ -8,6 +8,7 @@ import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,6 +52,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
         ApiError apiError = new ApiError(ex.getMessage());
         return ResponseEntity.badRequest().body(apiError);
+    }
+
+    @ExceptionHandler({
+            AccessDeniedException.class
+    })
+    public ResponseEntity<ApiError> handleForbidden(RuntimeException ex) {
+        ApiError apiError = new ApiError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(apiError);
     }
 
     @ExceptionHandler({
