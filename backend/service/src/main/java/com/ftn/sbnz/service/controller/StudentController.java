@@ -41,7 +41,7 @@ public class StudentController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addStudent(@Valid @RequestBody AddStudentDto newStudentDto, UriComponentsBuilder uriBuilder) {
         Student newStudent = mapper.toModel(newStudentDto);
         Student added = service.add(newStudent, newStudentDto.getRepeatedPassword());
@@ -54,7 +54,7 @@ public class StudentController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')")
     public ResponseEntity<PaginatedResponse<StudentViewDto>> getStudents(Pageable pageable) {
         Page<Student> allStudents = service.getAll(pageable);
         Page<StudentViewDto> allStudentsDto = allStudents.map(mapper::toViewDto);
@@ -68,7 +68,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')")
     public ResponseEntity<StudentViewDto> getStudent(@PathVariable Long id) {
         Student found = service.getById(id);
         StudentViewDto foundDto = mapper.toViewDto(found);
@@ -113,7 +113,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
