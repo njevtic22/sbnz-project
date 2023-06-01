@@ -3,8 +3,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 
-import { HttpClientModule } from "@angular/common/http";
-import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatListModule } from "@angular/material/list";
@@ -15,6 +15,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatTabsModule } from "@angular/material/tabs";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -24,6 +25,9 @@ import { LoginPageComponent } from "./pages/login-page/login-page.component";
 import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
+import { ProfileChangeComponent } from "./components/profile-change/profile-change.component";
+import { JwtInterceptor } from "./interceptors/jwt.interceptor";
+import { PasswordChangeComponent } from "./components/password-change/password-change.component";
 
 @NgModule({
     declarations: [
@@ -34,6 +38,8 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
         ProfilePageComponent,
         LogoutComponent,
         NotFoundPageComponent,
+        ProfileChangeComponent,
+        PasswordChangeComponent,
     ],
     imports: [
         BrowserModule,
@@ -43,6 +49,7 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
 
         HttpClientModule,
         ReactiveFormsModule,
+        FormsModule,
 
         MatToolbarModule,
         MatListModule,
@@ -53,8 +60,11 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
         MatFormFieldModule,
         MatInputModule,
         MatSnackBarModule,
+        MatTabsModule,
     ],
-    providers: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

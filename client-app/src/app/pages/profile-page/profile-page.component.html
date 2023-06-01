@@ -1,1 +1,132 @@
-<p>profile-page works!</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card fxFlex>
+        <mat-card-content>
+            <div fxLayout="column" fxLayout.sm="column" fxLayout.xs="column">
+                <div fxFlex="30%" fxFlex.sm="95%" fxFlex.xs="95%">
+                    <div class="profile-card">
+                        <img
+                            [src]="getImage()"
+                            alt="fullName"
+                            width="10%"
+                            height="10%"
+                        />
+
+                        <form
+                            novalidate
+                            fxLayout="column"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Ime</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="name"
+                                        [(ngModel)]="user.name"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Prezime</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="surname"
+                                        [(ngModel)]="user.surname"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Datum rodjenja</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="birthDate"
+                                        [(ngModel)]="dateToShow"
+                                        format
+                                    />
+                                </mat-form-field>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Imejl</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="email"
+                                        [(ngModel)]="user.email"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Korisničko ime</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="username"
+                                        [(ngModel)]="user.username"
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Uloga</mat-label>
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="role"
+                                        [(ngModel)]="roleToShow"
+                                    />
+                                </mat-form-field>
+                            </div>
+
+                            <div
+                                fxLayout="row"
+                                fxLayoutAlign="center center"
+                                *ngIf="isStudent()"
+                            >
+                                <mat-form-field appearance="outline">
+                                    <mat-label
+                                        >Nivo sklonosti ka nasilju</mat-label
+                                    >
+                                    <input
+                                        matInput
+                                        readonly
+                                        name="nivoSklonosti"
+                                        [(ngModel)]="nivoToShow"
+                                    />
+                                </mat-form-field>
+                            </div>
+                        </form>
+
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="hideTabs = !hideTabs"
+                        >
+                            Promeni podatke
+                        </button>
+                    </div>
+                </div>
+
+                <div fxFlex="70%" fxFlex.sm="95%" fxFlex.xs="950%">
+                    <mat-tab-group
+                        *ngIf="!hideTabs"
+                        [@slideInOut]
+                        style="overflow: hidden"
+                        dynamicHeight
+                    >
+                        <mat-tab label="Promeni profil">
+                            <app-profile-change></app-profile-change>
+                        </mat-tab>
+
+                        <mat-tab label="Promeni sifru">
+                            <app-password-change></app-password-change>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

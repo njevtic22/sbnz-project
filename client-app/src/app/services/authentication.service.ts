@@ -33,6 +33,10 @@ export class AuthenticationService {
         return Boolean(sessionStorage.getItem("token"));
     }
 
+    isStudent(): boolean {
+        return sessionStorage.getItem("role") === Role[Role.ROLE_STUDENT];
+    }
+
     getRole(): string {
         const role: string | null = sessionStorage.getItem("role");
         if (!role) {

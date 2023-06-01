@@ -1,6 +1,5 @@
 package com.ftn.sbnz.service.dto.student;
 
-import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju;
 import com.ftn.sbnz.service.dto.user.UserViewDto;
 
 import java.time.LocalDate;
@@ -13,4 +12,7 @@ public class StudentViewDto extends UserViewDto {
         this.nivoSklonosti = nivoSklonosti;
     }
 
+    public String getNivoSklonosti() {
+        return nivoSklonosti;
+    }
 }
