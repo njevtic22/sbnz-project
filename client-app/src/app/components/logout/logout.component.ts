@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "src/app/services/authentication.service";
 
@@ -8,8 +8,6 @@ import { AuthenticationService } from "src/app/services/authentication.service";
     styleUrls: ["./logout.component.scss"],
 })
 export class LogoutComponent {
-    @Input() buttonClass: string = "";
-
     constructor(
         private router: Router,
         private authService: AuthenticationService

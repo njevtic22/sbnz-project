@@ -17,6 +17,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTabsModule } from "@angular/material/tabs";
 
+import { MatPasswordStrengthModule } from "@angular-material-extensions/password-strength";
+
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HeaderComponent } from "./components/header/header.component";
@@ -61,6 +63,8 @@ import { PasswordChangeComponent } from "./components/password-change/password-c
         MatInputModule,
         MatSnackBarModule,
         MatTabsModule,
+
+        MatPasswordStrengthModule.forRoot(),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

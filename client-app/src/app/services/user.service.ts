@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { User } from "../types/user";
 import { AuthenticationService } from "./authentication.service";
 import { environment } from "src/environment/environment";
+import { PasswordChange } from "../types/password";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -33,5 +34,13 @@ export class UserService {
         const url: string = environment.apiUrl + urlSufix + "/profile";
 
         return this.http.get<User>(url);
+    }
+
+    changePassword(passwordData: PasswordChange): Observable<void> {
+        const role: string = this.authService.getRole();
+        const urlSufix: string = this.roleUrls[role];
+        const url: string = environment.apiUrl + urlSufix + "/password";
+
+        return this.http.put<void>(url, passwordData, httpOptions);
     }
 }
