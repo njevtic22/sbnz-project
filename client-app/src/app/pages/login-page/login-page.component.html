@@ -8,12 +8,12 @@
             [formGroup]="loginForm"
         >
             <mat-form-field appearance="fill" fxFill>
-                <mat-label>Username</mat-label>
+                <mat-label>Korisničko ime</mat-label>
                 <input matInput formControlName="username" required />
                 <mat-error
                     *ngIf="loginForm.controls['username'].hasError('required')"
                 >
-                    Username is required
+                    Korisničko ime je neophodno
                 </mat-error>
                 <mat-error
                     *ngIf="
@@ -22,13 +22,13 @@
                         )
                     "
                 >
-                    Username must not begin or end with space
+                    Korisničko ime ne sme da počne ili završi sa razmakom
                 </mat-error>
             </mat-form-field>
 
             <br />
             <mat-form-field appearance="fill" fxFill>
-                <mat-label>Password</mat-label>
+                <mat-label>Šifra</mat-label>
                 <input
                     matInput
                     required
@@ -56,7 +56,7 @@
                 <mat-error
                     *ngIf="loginForm.controls['password'].hasError('required')"
                 >
-                    Password is required
+                    Šifra je neophodna
                 </mat-error>
 
                 <mat-error
@@ -64,7 +64,7 @@
                         loginForm.controls['password'].hasError('whitespace')
                     "
                 >
-                    Password must not contain spaces
+                    Šifra ne sme da sadrži razmake
                 </mat-error>
             </mat-form-field>
 
@@ -86,7 +86,7 @@
                     (click)="login()"
                     [disabled]="loginForm.invalid"
                 >
-                    Login
+                    Prijavi se
                 </button>
             </div>
         </form>

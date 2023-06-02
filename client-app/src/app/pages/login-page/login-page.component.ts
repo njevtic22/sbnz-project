@@ -20,7 +20,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     hidePassword: boolean = true;
 
     errorOccurred: boolean = false;
-    errorMessage: string = "Bad credentials";
+    errorMessage: string = "Pogrešno korisničko ime ili lozinka";
 
     private loginSubscription: Subscription = new Subscription();
 
@@ -62,7 +62,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                     errorResponse.status === 400
                 ) {
                     this.errorOccurred = true;
-                    this.errorMessage = errorResponse.error.message;
+                    this.errorMessage = "Pogrešno korisničko ime ili lozinka";
                 } else {
                     this.errorHandler.handle(errorResponse);
                 }
