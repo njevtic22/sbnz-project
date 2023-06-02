@@ -1,1 +1,116 @@
-<p>profile-change works!</p>
+<form
+    [formGroup]="profileForm"
+    fxFlex="100%"
+    fxFlex.md="60%"
+    fxFlex.sm="50%"
+    fxFlex.xs="100%"
+    fxLayout="column"
+    fxLayoutAlign="center stretch"
+>
+    <br />
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+
+            <mat-error
+                *ngIf="profileForm.controls['name'].hasError('required')"
+            >
+                Name is required
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    profileForm.controls['name'].hasError(
+                        'leadingTrailingSpace'
+                    )
+                "
+            >
+                Name must not begin or end with space
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Surname</mat-label>
+            <input matInput formControlName="surname" />
+
+            <mat-error
+                *ngIf="profileForm.controls['surname'].hasError('required')"
+            >
+                Surname is required
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    profileForm.controls['surname'].hasError(
+                        'leadingTrailingSpace'
+                    )
+                "
+            >
+                Surname must not begin or end with space
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+
+            <mat-error
+                *ngIf="profileForm.controls['email'].hasError('required')"
+            >
+                Email is required
+            </mat-error>
+
+            <mat-error *ngIf="profileForm.controls['email'].hasError('email')">
+                Email must be properly formed
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" />
+
+            <mat-error
+                *ngIf="profileForm.controls['username'].hasError('required')"
+            >
+                Username is required
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    profileForm.controls['username'].hasError(
+                        'leadingTrailingSpace'
+                    )
+                "
+            >
+                Username must not begin or end with space
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <br />
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div
+            class="error-color"
+            [ngClass]="{
+                'error-message': !errorOccurred
+            }"
+        >
+            {{ errorMessage }}
+        </div>
+    </div>
+
+    <br />
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <button
+            mat-raised-button
+            color="primary"
+            [disabled]="profileForm.invalid"
+            (click)="submit($event)"
+        >
+            Save
+        </button>
+    </div>
+</form>

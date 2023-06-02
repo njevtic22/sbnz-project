@@ -118,7 +118,12 @@
                         dynamicHeight
                     >
                         <mat-tab label="Promeni profil">
-                            <app-profile-change></app-profile-change>
+                            <app-profile-change
+                                [user]="user"
+                                [errorOccurred]="errorOccurred"
+                                [errorMessage]="errorMessage"
+                                (profileChanged)="changeProfile($event)"
+                            ></app-profile-change>
                         </mat-tab>
 
                         <mat-tab label="Promeni sifru">

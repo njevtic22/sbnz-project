@@ -3,11 +3,12 @@ import { Subscription } from "rxjs";
 import { trigger, transition, animate, style } from "@angular/animations";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { User } from "src/app/types/user";
+import { UpdateUserResponse, User } from "src/app/types/user";
 import { UserService } from "src/app/services/user.service";
 import { constants } from "src/app/constants";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
     selector: "app-profile-page",
@@ -63,6 +64,33 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.userSubscription.unsubscribe();
+    }
+
+    changeProfile(user: User): void {
+        this.userSubscription.unsubscribe();
+        this.userSubscription = this.userService.update(user).subscribe(
+            (response: UpdateUserResponse) => {
+                this.user = response.updated;
+                this.snackbar.open("Vaš profil je izmenjen.", "Zatvori", {
+                    duration: 5 * 1000,
+                });
+
+                this.errorOccurred = false;
+                this.errorMessage = "Unknown error";
+
+                if (response.token) {
+                    sessionStorage.setItem("token", response.token);
+                }
+            },
+            (errorResponse: HttpErrorResponse) => {
+                if (errorResponse.status === 400) {
+                    this.errorOccurred = true;
+                    this.errorMessage = errorResponse.error.message;
+                } else {
+                    this.errorHandler.handle(errorResponse);
+                }
+            }
+        );
     }
 
     getProfile(): void {
