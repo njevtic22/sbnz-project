@@ -13,7 +13,6 @@ public class TeacherMapper {
                 addTeacherDto.getName(),
                 addTeacherDto.getSurname(),
                 addTeacherDto.getBirthDate(),
-                addTeacherDto.getJmbg(),
                 addTeacherDto.getEmail(),
                 addTeacherDto.getUsername(),
                 addTeacherDto.getPassword(),
@@ -27,7 +26,6 @@ public class TeacherMapper {
                 updateTeacherDto.getName(),
                 updateTeacherDto.getSurname(),
                 updateTeacherDto.getBirthDate(),
-                updateTeacherDto.getJmbg(),
                 updateTeacherDto.getEmail(),
                 updateTeacherDto.getUsername(),
                 "",
@@ -42,7 +40,6 @@ public class TeacherMapper {
                 teacher.getName(),
                 teacher.getSurname(),
                 teacher.getBirthDate(),
-                teacher.getJmbg(),
                 teacher.getEmail(),
                 teacher.getUsername(),
                 teacher.getRole().getName()

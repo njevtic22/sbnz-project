@@ -18,8 +18,8 @@ public class AddTeacherDto extends RequestUserDto {
         super();
     }
 
-    public AddTeacherDto(String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, String repeatedPassword) {
-        super(name, surname, birthDate, jmbg, email, username);
+    public AddTeacherDto(String name, String surname, LocalDate birthDate, String email, String username, String password, String repeatedPassword) {
+        super(name, surname, birthDate, email, username);
         this.password = password;
         this.repeatedPassword = repeatedPassword;
     }

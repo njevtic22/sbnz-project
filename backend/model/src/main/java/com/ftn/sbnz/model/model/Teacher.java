@@ -9,11 +9,11 @@ import java.time.LocalDate;
 public class Teacher extends User {
     public Teacher() { }
 
-    public Teacher(String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role) {
-        super(name, surname, birthDate, jmbg, email, username, password, archived, role);
+    public Teacher(String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role) {
+        super(name, surname, birthDate, email, username, password, archived, role);
     }
 
-    public Teacher(Long id, String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role) {
-        super(id, name, surname, birthDate, jmbg, email, username, password, archived, role);
+    public Teacher(Long id, String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role) {
+        super(id, name, surname, birthDate, email, username, password, archived, role);
     }
 }

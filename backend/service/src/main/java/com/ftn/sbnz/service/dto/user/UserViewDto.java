@@ -7,17 +7,15 @@ public abstract class UserViewDto {
     private final String name;
     private final String surname;
     private final LocalDate birthDate;
-    private final String jmbg;
     private final String email;
     private final String username;
     private final String role;
 
-    public UserViewDto(Long id, String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String role) {
+    public UserViewDto(Long id, String name, String surname, LocalDate birthDate, String email, String username, String role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
-        this.jmbg = jmbg;
         this.email = email;
         this.username = username;
         this.role = role;
@@ -37,10 +35,6 @@ public abstract class UserViewDto {
 
     public LocalDate getBirthDate() {
         return birthDate;
-    }
-
-    public String getJmbg() {
-        return jmbg;
     }
 
     public String getEmail() {

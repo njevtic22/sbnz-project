@@ -19,12 +19,12 @@ public class Student extends User {
 
     public Student() { }
 
-    public Student(String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role, NivoSklonostiKaNasilju nivoSklonosti, List<HistoryItem> history) {
-        this(null, name, surname, birthDate, jmbg, email, username, password, archived, role, nivoSklonosti, history);
+    public Student(String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role, NivoSklonostiKaNasilju nivoSklonosti, List<HistoryItem> history) {
+        this(null, name, surname, birthDate, email, username, password, archived, role, nivoSklonosti, history);
     }
 
-    public Student(Long id, String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role, NivoSklonostiKaNasilju nivoSklonosti, List<HistoryItem> history) {
-        super(id, name, surname, birthDate, jmbg, email, username, password, archived, role);
+    public Student(Long id, String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role, NivoSklonostiKaNasilju nivoSklonosti, List<HistoryItem> history) {
+        super(id, name, surname, birthDate, email, username, password, archived, role);
         this.nivoSklonosti = nivoSklonosti;
         this.history = history;
     }

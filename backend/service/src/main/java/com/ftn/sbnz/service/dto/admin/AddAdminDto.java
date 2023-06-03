@@ -18,8 +18,8 @@ public class AddAdminDto extends RequestUserDto {
         super();
     }
 
-    public AddAdminDto(String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, String repeatedPassword) {
-        super(name, surname, birthDate, jmbg, email, username);
+    public AddAdminDto(String name, String surname, LocalDate birthDate, String email, String username, String password, String repeatedPassword) {
+        super(name, surname, birthDate, email, username);
         this.password = password;
         this.repeatedPassword = repeatedPassword;
     }

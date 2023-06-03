@@ -30,9 +30,6 @@ public abstract class User {
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    @Column(nullable = false)
-    private String jmbg;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -50,16 +47,15 @@ public abstract class User {
 
     public User() { }
 
-    public User(String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role) {
-        this(null, name, surname, birthDate, jmbg, email, username, password, archived, role);
+    public User(String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role) {
+        this(null, name, surname, birthDate, email, username, password, archived, role);
     }
 
-    public User(Long id, String name, String surname, LocalDate birthDate, String jmbg, String email, String username, String password, boolean archived, Role role) {
+    public User(Long id, String name, String surname, LocalDate birthDate, String email, String username, String password, boolean archived, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.birthDate = birthDate;
-        this.jmbg = jmbg;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -110,14 +106,6 @@ public abstract class User {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getJmbg() {
-        return jmbg;
-    }
-
-    public void setJmbg(String jmbg) {
-        this.jmbg = jmbg;
     }
 
     public String getEmail() {

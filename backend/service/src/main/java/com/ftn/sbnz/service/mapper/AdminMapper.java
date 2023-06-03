@@ -13,7 +13,6 @@ public class AdminMapper {
                 addAdminDto.getName(),
                 addAdminDto.getSurname(),
                 addAdminDto.getBirthDate(),
-                addAdminDto.getJmbg(),
                 addAdminDto.getEmail(),
                 addAdminDto.getUsername(),
                 addAdminDto.getPassword(),
@@ -27,7 +26,6 @@ public class AdminMapper {
                 updateAdminDto.getName(),
                 updateAdminDto.getSurname(),
                 updateAdminDto.getBirthDate(),
-                updateAdminDto.getJmbg(),
                 updateAdminDto.getEmail(),
                 updateAdminDto.getUsername(),
                 "",
@@ -42,7 +40,6 @@ public class AdminMapper {
                 admin.getName(),
                 admin.getSurname(),
                 admin.getBirthDate(),
-                admin.getJmbg(),
                 admin.getEmail(),
                 admin.getUsername(),
                 admin.getRole().getName()
