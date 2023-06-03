@@ -17,7 +17,7 @@ const routes: Routes = [
         component: LoginPageComponent,
         canActivate: [AuthGuard],
         data: {
-            title: "Login",
+            title: "Prijava",
             roles: [Role.ROLE_ANONYMOUS],
         },
     },

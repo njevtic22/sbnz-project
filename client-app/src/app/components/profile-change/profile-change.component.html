@@ -10,13 +10,13 @@
     <br />
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-form-field class="full-width">
-            <mat-label>Name</mat-label>
+            <mat-label>Ime</mat-label>
             <input matInput formControlName="name" />
 
             <mat-error
                 *ngIf="profileForm.controls['name'].hasError('required')"
             >
-                Name is required
+                Ime je obavezno polje
             </mat-error>
 
             <mat-error
@@ -26,18 +26,18 @@
                     )
                 "
             >
-                Name must not begin or end with space
+                Ime ne sme da počinje niti završava sa razmakom
             </mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width">
-            <mat-label>Surname</mat-label>
+            <mat-label>Prezime</mat-label>
             <input matInput formControlName="surname" />
 
             <mat-error
                 *ngIf="profileForm.controls['surname'].hasError('required')"
             >
-                Surname is required
+                Prezime je obavezno polje
             </mat-error>
 
             <mat-error
@@ -47,35 +47,35 @@
                     )
                 "
             >
-                Surname must not begin or end with space
+                Prezime ne sme da počinje niti završava sa razmakom
             </mat-error>
         </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
+            <mat-label>Imejl</mat-label>
             <input matInput formControlName="email" />
 
             <mat-error
                 *ngIf="profileForm.controls['email'].hasError('required')"
             >
-                Email is required
+                Imejl je obavezno polje
             </mat-error>
 
             <mat-error *ngIf="profileForm.controls['email'].hasError('email')">
-                Email must be properly formed
+                Imejl mora biti ispravno formiran
             </mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width">
-            <mat-label>Username</mat-label>
+            <mat-label>Korisničko ime</mat-label>
             <input matInput formControlName="username" />
 
             <mat-error
                 *ngIf="profileForm.controls['username'].hasError('required')"
             >
-                Username is required
+                Korisničko ime je obavezno polje
             </mat-error>
 
             <mat-error
@@ -85,7 +85,7 @@
                     )
                 "
             >
-                Username must not begin or end with space
+                Korisničko ime ne sme da počinje niti završava sa razmakom
             </mat-error>
         </mat-form-field>
     </div>
@@ -110,7 +110,7 @@
             [disabled]="profileForm.invalid"
             (click)="submit($event)"
         >
-            Save
+            Sačuvaj
         </button>
     </div>
 </form>
