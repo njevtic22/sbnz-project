@@ -10,6 +10,7 @@ import {
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subscription } from "rxjs";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
+import { LanguageService } from "src/app/services/language.service";
 import { UserService } from "src/app/services/user.service";
 import { PasswordChange } from "src/app/types/password";
 import { validateControlMatch } from "src/app/util/validator/control-match-validator";
@@ -60,7 +61,8 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
         private cd: ChangeDetectorRef,
         private snackbar: MatSnackBar,
         private userService: UserService,
-        private errorHandler: ErrorHandlerService
+        private errorHandler: ErrorHandlerService,
+        private languageService: LanguageService
     ) {}
 
     ngOnInit(): void {
@@ -124,7 +126,10 @@ export class PasswordChangeComponent implements OnInit, OnDestroy {
                         this.errorOccurred = true;
                         this.errorMessage = errorResponse.error.message;
                         if (this.errorMessage === "Incorrect password.") {
-                            this.errorMessage = "Neispravna trenutna sifra.";
+                            this.errorMessage =
+                                this.languageService.translateIncorrectPassword(
+                                    errorResponse.error.message
+                                );
                         }
                     } else {
                         this.errorHandler.handle(errorResponse);

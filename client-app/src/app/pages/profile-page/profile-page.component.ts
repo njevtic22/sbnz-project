@@ -9,6 +9,7 @@ import { constants } from "src/app/constants";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { LanguageService } from "src/app/services/language.service";
 
 @Component({
     selector: "app-profile-page",
@@ -55,6 +56,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private errorHandler: ErrorHandlerService,
         private authService: AuthenticationService,
+        private languageService: LanguageService,
         private snackbar: MatSnackBar
     ) {}
 
@@ -86,6 +88,18 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
                 if (errorResponse.status === 400) {
                     this.errorOccurred = true;
                     this.errorMessage = errorResponse.error.message;
+
+                    if (this.errorMessage.startsWith("Email ")) {
+                        this.errorMessage =
+                            this.languageService.translateTakenEmail(
+                                this.errorMessage
+                            );
+                    } else if (this.errorMessage.startsWith("Username ")) {
+                        this.errorMessage =
+                            this.languageService.translateTakenUsername(
+                                this.errorMessage
+                            );
+                    }
                 } else {
                     this.errorHandler.handle(errorResponse);
                 }

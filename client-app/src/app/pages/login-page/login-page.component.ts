@@ -9,6 +9,7 @@ import { validateWhitespace } from "src/app/util/validator/no-whitespace-validat
 import { validateLeadingTrailingWhitespace } from "src/app/util/validator/no-leading-trailing-whitespace";
 import { LoginRequest, LoginResponse } from "src/app/types/login";
 import { HttpErrorResponse } from "@angular/common/http";
+import { LanguageService } from "src/app/services/language.service";
 
 @Component({
     selector: "app-login-page",
@@ -28,7 +29,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private router: Router,
         private authService: AuthenticationService,
-        private errorHandler: ErrorHandlerService
+        private errorHandler: ErrorHandlerService,
+        private languageService: LanguageService
     ) {}
 
     ngOnInit(): void {
@@ -62,7 +64,10 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                     errorResponse.status === 400
                 ) {
                     this.errorOccurred = true;
-                    this.errorMessage = "Pogrešno korisničko ime ili lozinka";
+                    this.errorMessage =
+                        this.languageService.translateBadCredentials(
+                            errorResponse.error.message
+                        );
                 } else {
                     this.errorHandler.handle(errorResponse);
                 }
