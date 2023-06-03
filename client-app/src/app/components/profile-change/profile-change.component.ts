@@ -47,7 +47,6 @@ export class ProfileChangeComponent implements OnInit, OnDestroy {
                 [Validators.required, validateLeadingTrailingWhitespace()],
             ],
             birthDate: [this.user.birthDate],
-            jmbg: ["0000000000000", Validators.required],
             email: [this.user.email, [Validators.required, Validators.email]],
             username: [
                 this.user.username,

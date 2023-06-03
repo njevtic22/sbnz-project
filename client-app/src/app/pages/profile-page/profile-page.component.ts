@@ -30,7 +30,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
         name: "",
         surname: "",
         birthDate: [0, 0, 0],
-        jmbg: "",
         email: "",
         username: "",
         role: "",

@@ -3,7 +3,6 @@ export interface User {
     name: string;
     surname: string;
     birthDate: number[];
-    jmbg: string;
     email: string;
     username: string;
     role: string;
