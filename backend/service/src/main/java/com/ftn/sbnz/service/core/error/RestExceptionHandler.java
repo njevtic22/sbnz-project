@@ -4,6 +4,7 @@ import com.ftn.sbnz.service.core.error.exceptions.BlankStringException;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
 import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
+import com.ftn.sbnz.service.core.error.exceptions.StaresinaTakenException;
 import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             UniquePropertyException.class,
             InvalidPasswordException.class,
             BlankStringException.class,
-            BadCredentialsException.class
+            BadCredentialsException.class,
+            StaresinaTakenException.class
     })
     public ResponseEntity<ApiError> handleBadRequest(RuntimeException ex) {
         ApiError apiError = new ApiError(ex.getMessage());

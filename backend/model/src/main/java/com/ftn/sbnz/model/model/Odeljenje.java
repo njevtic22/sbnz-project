@@ -30,17 +30,21 @@ public class Odeljenje {
     @OneToMany
     private List<Student> ucenici;
 
+    @Column(nullable = false)
+    private boolean archived;
+
     public Odeljenje() { }
 
-    public Odeljenje(String naziv, Teacher staresina, List<Student> ucenici) {
-        this(null, naziv, staresina, ucenici);
+    public Odeljenje(String naziv, Teacher staresina, List<Student> ucenici, boolean archived) {
+        this(null, naziv, staresina, ucenici, archived);
     }
 
-    public Odeljenje(Long id, String naziv, Teacher staresina, List<Student> ucenici) {
+    public Odeljenje(Long id, String naziv, Teacher staresina, List<Student> ucenici, boolean archived) {
         this.id = id;
         this.naziv = naziv;
         this.staresina = staresina;
         this.ucenici = ucenici;
+        this.archived = archived;
     }
 
     @Override
@@ -86,5 +90,13 @@ public class Odeljenje {
 
     public void setUcenici(List<Student> ucenici) {
         this.ucenici = ucenici;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 }
