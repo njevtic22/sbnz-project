@@ -33,6 +33,10 @@ export class AuthenticationService {
         return Boolean(sessionStorage.getItem("token"));
     }
 
+    isAdmin(): boolean {
+        return sessionStorage.getItem("role") === Role[Role.ROLE_ADMIN];
+    }
+
     isStudent(): boolean {
         return sessionStorage.getItem("role") === Role[Role.ROLE_STUDENT];
     }

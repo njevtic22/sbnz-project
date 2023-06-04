@@ -18,4 +18,8 @@ export class SidebarComponent {
     isAuthenticated(): boolean {
         return this.authService.isAuthenticated();
     }
+
+    isAdmin(): boolean {
+        return this.authService.isAdmin();
+    }
 }

@@ -15,6 +15,11 @@
                 <mat-icon>person</mat-icon>
                 <span mat-line>Profil</span>
             </a>
+
+            <a mat-list-item routerLink="/classes" *ngIf="isAdmin()">
+                <mat-icon>class</mat-icon>
+                <span mat-line>Odeljenja</span>
+            </a>
         </mat-nav-list>
 
         <mat-nav-list class="sidebar-bottom" *ngIf="isAuthenticated()">

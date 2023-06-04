@@ -54,6 +54,7 @@ public class OdeljenjeMapper {
         return new OdeljenjeViewDto(
                 odeljenje.getId(),
                 odeljenje.getNaziv(),
+                (long) odeljenje.getUcenici().size(),
                 teacherViewDto
         );
     }
