@@ -19,6 +19,10 @@ export class ClassService {
     private classUrl: string = `${environment.apiUrl}/odeljenja`;
     constructor(private http: HttpClient) {}
 
+    addClass(classToAdd: RequestOdeljenje): Observable<void> {
+        return this.http.post<void>(this.classUrl, classToAdd, httpOptions);
+    }
+
     getClasses(
         page: number,
         size: number,
@@ -28,8 +32,12 @@ export class ClassService {
         return this.http.get<PaginatedResponse<Odeljenje>>(url);
     }
 
-    addClass(classToAdd: RequestOdeljenje): Observable<void> {
-        return this.http.post<void>(this.classUrl, classToAdd, httpOptions);
+    updateClass(
+        classId: number,
+        classToUpdate: RequestOdeljenje
+    ): Observable<Odeljenje> {
+        const url: string = `${this.classUrl}/${classId}`;
+        return this.http.put<Odeljenje>(url, classToUpdate, httpOptions);
     }
 
     deleteClass(classId: number): Observable<void> {

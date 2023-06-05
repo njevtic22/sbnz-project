@@ -81,11 +81,12 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
         const data: ModalData<RequestOdeljenje> = {
             mainData: {
                 naziv: "",
-                staresinaId: 0,
+                staresinaId: -1,
             },
             additionalData: {
                 teachers: this.teachers,
                 classNames: classNames,
+                buttonText: "Kreiraj",
             },
         };
 
@@ -122,6 +123,58 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
         this.classSubscription = this.classService
             .deleteClass(odeljenje.id)
             .subscribe(() => {
+                this.getClasses();
+                this.getNotStaresinaTeachers();
+            }, this.errorHandler.handle);
+    }
+
+    openUpdateClassModal(odeljenje: Odeljenje): void {
+        let classNames: string[] = [];
+        this.classes.forEach((classElement: Odeljenje) => {
+            if (classElement.naziv !== odeljenje.naziv) {
+                classNames.push(classElement.naziv);
+            }
+        });
+        console.log(classNames);
+
+        let teachers: User[] = [odeljenje.staresina, ...this.teachers];
+        console.log(teachers);
+
+        const data: ModalData<RequestOdeljenje> = {
+            mainData: {
+                naziv: odeljenje.naziv,
+                staresinaId: odeljenje.staresina.id as number,
+            },
+            additionalData: {
+                teachers: teachers,
+                classNames: classNames,
+                buttonText: "Ažuriraj",
+            },
+        };
+
+        const dialogRef: MatDialogRef<ClassDialogComponent> = this.dialog.open(
+            ClassDialogComponent,
+            {
+                data: data, // to share data by reference
+                height: "360px",
+                width: "400px",
+            }
+        );
+
+        dialogRef
+            .afterClosed()
+            .subscribe((result: ModalResult<RequestOdeljenje>) => {
+                if (result.success) {
+                    this.updateClass(odeljenje.id, result.data);
+                }
+            });
+    }
+
+    updateClass(classId: number, classToUpdate: RequestOdeljenje): void {
+        this.classSubscription.unsubscribe();
+        this.classSubscription = this.classService
+            .updateClass(classId, classToUpdate)
+            .subscribe((updatedClass: Odeljenje) => {
                 this.getClasses();
                 this.getNotStaresinaTeachers();
             }, this.errorHandler.handle);

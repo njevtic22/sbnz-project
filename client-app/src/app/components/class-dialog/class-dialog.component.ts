@@ -46,6 +46,11 @@ export class ClassDialogComponent implements OnInit {
     }
 
     createClassForm(): void {
+        let idToShow: number | null = this.data.mainData.staresinaId;
+        if (this.data.mainData.staresinaId <= 0) {
+            idToShow = null;
+        }
+
         this.classForm = this.fb.group({
             naziv: [
                 this.data.mainData.naziv,
@@ -55,10 +60,7 @@ export class ClassDialogComponent implements OnInit {
                     takenClassName(this.classNames),
                 ],
             ],
-            staresinaId: [
-                null /*this.data.mainData.staresinaId*/,
-                Validators.required,
-            ],
+            staresinaId: [idToShow, Validators.required],
         });
     }
 
