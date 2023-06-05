@@ -1,4 +1,11 @@
-<h2>Odeljenja škole: Gimnazija "Svetozar Marković"</h2>
+<div
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    (click)="openAddClassModal()"
+>
+    <h2>Odeljenja škole: Gimnazija "Svetozar Marković"</h2>
+    <button mat-raised-button color="primary">Novo odeljenje</button>
+</div>
 <table mat-table [dataSource]="classes" class="padded mat-elevation-z5">
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
     <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>

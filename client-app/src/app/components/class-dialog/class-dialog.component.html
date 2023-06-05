@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Novo odeljenje</h2>
+<mat-dialog-content>
+    <form
+        [formGroup]="classForm"
+        fxLayout="column"
+        fxLayoutAlign="center stretch"
+    >
+        <mat-form-field>
+            <mat-label>Naziv</mat-label>
+            <input matInput formControlName="naziv" />
+
+            <mat-error *ngIf="classForm.controls['naziv'].hasError('required')">
+                Obavezno polje
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    classForm.controls['naziv'].hasError('leadingTrailingSpace')
+                "
+            >
+                Naziv ne sme da počinje niti završava sa razmakom
+            </mat-error>
+
+            <mat-error
+                *ngIf="classForm.controls['naziv'].hasError('takenClassName')"
+            >
+                Naziv je već zauzet
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Odeljenski starešina</mat-label>
+            <mat-select formControlName="staresinaId" required>
+                <mat-option
+                    *ngFor="let teacher of data.additionalData.teachers"
+                    [value]="teacher.id"
+                >
+                    {{ teacher.name + " " + teacher.surname }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error
+                *ngIf="classForm.controls['staresinaId'].hasError('required')"
+            >
+                Obavezno polje
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="closeCancel()">Odustani</button>
+    <button
+        color="primary"
+        mat-raised-button
+        (click)="closeSubmit()"
+        [disabled]="classForm.invalid"
+    >
+        Kreiraj
+    </button>
+</mat-dialog-actions>

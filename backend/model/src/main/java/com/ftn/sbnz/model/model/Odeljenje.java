@@ -25,6 +25,7 @@ public class Odeljenje {
     private String naziv;
 
     @ManyToOne
+//    @OneToOne(optional = true) is same as many to one IN DATABASE
     private Teacher staresina;
 
     @OneToMany

@@ -26,6 +26,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/teachers")
@@ -55,7 +57,10 @@ public class TeacherController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public ResponseEntity<PaginatedResponse<TeacherViewDto>> getTeachers(Pageable pageable) {
+    public ResponseEntity<PaginatedResponse<TeacherViewDto>> getTeachers(
+//            @RequestParam(value="isStaresina", required = false) Boolean isStaresina,
+            Pageable pageable
+    ) {
         Page<Teacher> allTeachers = service.getAll(pageable);
         Page<TeacherViewDto> allTeachersDto = allTeachers.map(mapper::toViewDto);
 
@@ -65,6 +70,19 @@ public class TeacherController {
                 allTeachersDto.getTotalPages()
         );
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/not-staresina")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    public ResponseEntity<List<TeacherViewDto>> getNonStaresinaTeachers() {
+        List<Teacher> allTeachers = service.getAllNotStaresina();
+
+        List<TeacherViewDto> allTeachersDto = allTeachers
+                .stream()
+                .map(mapper::toViewDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(allTeachersDto);
     }
 
     @GetMapping("/{id}")

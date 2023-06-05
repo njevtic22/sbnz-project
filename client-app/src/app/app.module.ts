@@ -17,6 +17,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableModule } from "@angular/material/table";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatSelectModule } from "@angular/material/select";
 
 import { MatPasswordStrengthModule } from "@angular-material-extensions/password-strength";
 
@@ -32,6 +34,7 @@ import { ProfileChangeComponent } from "./components/profile-change/profile-chan
 import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { PasswordChangeComponent } from "./components/password-change/password-change.component";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
+import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
 
 @NgModule({
     declarations: [
@@ -45,6 +48,7 @@ import { ClassesPageComponent } from "./pages/classes-page/classes-page.componen
         ProfileChangeComponent,
         PasswordChangeComponent,
         ClassesPageComponent,
+        ClassDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -67,6 +71,8 @@ import { ClassesPageComponent } from "./pages/classes-page/classes-page.componen
         MatSnackBarModule,
         MatTabsModule,
         MatTableModule,
+        MatDialogModule,
+        MatSelectModule,
 
         MatPasswordStrengthModule.forRoot(),
     ],

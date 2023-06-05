@@ -1,6 +1,8 @@
 package com.ftn.sbnz.service.service;
 
+import com.ftn.sbnz.model.model.Odeljenje;
 import com.ftn.sbnz.model.model.Role;
+import com.ftn.sbnz.model.model.School;
 import com.ftn.sbnz.model.model.Teacher;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
@@ -10,12 +12,16 @@ import com.ftn.sbnz.service.repository.TeacherRepository;
 import com.ftn.sbnz.service.security.AuthenticationService;
 import com.ftn.sbnz.service.util.Strings;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -25,13 +31,22 @@ public class TeacherServiceImpl implements TeacherService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationService authenticationService;
     private final UserService userService;
+    private final SchoolService schoolService;
 
-    public TeacherServiceImpl(TeacherRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
+    public TeacherServiceImpl(
+            TeacherRepository repository,
+            RoleService roleService,
+            PasswordEncoder passwordEncoder,
+            AuthenticationService authenticationService,
+            UserService userService,
+            SchoolService schoolService
+    ) {
         this.repository = repository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationService = authenticationService;
         this.userService = userService;
+        this.schoolService = schoolService;
     }
 
     @Override
@@ -103,6 +118,31 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Page<Teacher> getAll(Pageable pageable) {
         return repository.findAllByArchivedFalse(pageable);
+    }
+
+    @Override
+    public List<Teacher> getAllNotStaresina() {
+        List<Teacher> allTeachers = getAll(PageRequest.of(0, Integer.MAX_VALUE, Sort.by("id").ascending())).getContent();
+
+        School school = schoolService.getById();
+
+        ArrayList<Teacher> notStaresinaTeachers = new ArrayList<>(allTeachers.size() / 2);
+        for (Teacher teacher : allTeachers) {
+            if (!isStaresina(teacher, school)) {
+                notStaresinaTeachers.add(teacher);
+            }
+        }
+
+        return notStaresinaTeachers;
+    }
+
+    private boolean isStaresina(Teacher teacher, School school) {
+        for (Odeljenje odeljenje : school.getOdeljenja()) {
+            if (odeljenje.getStaresina().equals(teacher)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

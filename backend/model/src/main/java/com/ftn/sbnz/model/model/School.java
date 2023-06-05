@@ -55,6 +55,10 @@ public class School {
         return Objects.hash(id);
     }
 
+    public void addOdeljenje(Odeljenje odeljenje) {
+        this.odeljenja.add(odeljenje);
+    }
+
     public Long getId() {
         return id;
     }

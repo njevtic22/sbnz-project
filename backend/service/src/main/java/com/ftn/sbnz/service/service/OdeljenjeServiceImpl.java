@@ -1,6 +1,7 @@
 package com.ftn.sbnz.service.service;
 
 import com.ftn.sbnz.model.model.Odeljenje;
+import com.ftn.sbnz.model.model.School;
 import com.ftn.sbnz.model.model.Teacher;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
@@ -21,10 +22,12 @@ import java.util.Objects;
 public class OdeljenjeServiceImpl implements OdeljenjeService {
     private final OdeljenjeRepository repository;
     private final TeacherService teacherService;
+    private final SchoolService schoolService;
 
-    public OdeljenjeServiceImpl(OdeljenjeRepository repository, TeacherService teacherService) {
+    public OdeljenjeServiceImpl(OdeljenjeRepository repository, TeacherService teacherService, SchoolService schoolService) {
         this.repository = repository;
         this.teacherService = teacherService;
+        this.schoolService = schoolService;
     }
 
     @Override
@@ -45,7 +48,14 @@ public class OdeljenjeServiceImpl implements OdeljenjeService {
                 new ArrayList<>(),
                 false
         );
-        return repository.save(toAdd);
+
+        Odeljenje added = repository.save(toAdd);
+
+        School school = schoolService.getById();
+        school.addOdeljenje(added);
+        schoolService.save(school);
+
+        return added;
     }
 
     @Override

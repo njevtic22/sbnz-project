@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environment/environment";
-import { Odeljenje } from "../types/class";
+import { Odeljenje, RequestOdeljenje } from "../types/class";
 import { PaginatedResponse } from "../types/paginated-response";
 
 const httpOptions = {
@@ -25,6 +25,10 @@ export class ClassService {
         sort: string
     ): Observable<PaginatedResponse<Odeljenje>> {
         const url: string = `${this.classUrl}?page=${page}&size=${size}&sort=${sort}`;
-        return this.http.get<PaginatedResponse<Odeljenje>>(this.classUrl);
+        return this.http.get<PaginatedResponse<Odeljenje>>(url);
+    }
+
+    addClass(classToAdd: RequestOdeljenje): Observable<void> {
+        return this.http.post<void>(this.classUrl, classToAdd, httpOptions);
     }
 }
