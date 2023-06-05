@@ -34,6 +34,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
         "naziv",
         "brojUcenika",
         "staresina",
+        "akcije",
     ];
 
     constructor(
@@ -110,6 +111,16 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
         this.classSubscription.unsubscribe();
         this.classSubscription = this.classService
             .addClass(newOdeljenje)
+            .subscribe(() => {
+                this.getClasses();
+                this.getNotStaresinaTeachers();
+            }, this.errorHandler.handle);
+    }
+
+    deleteClass(odeljenje: Odeljenje): void {
+        this.classSubscription.unsubscribe();
+        this.classSubscription = this.classService
+            .deleteClass(odeljenje.id)
             .subscribe(() => {
                 this.getClasses();
                 this.getNotStaresinaTeachers();

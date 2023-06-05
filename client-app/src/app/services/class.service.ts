@@ -31,4 +31,9 @@ export class ClassService {
     addClass(classToAdd: RequestOdeljenje): Observable<void> {
         return this.http.post<void>(this.classUrl, classToAdd, httpOptions);
     }
+
+    deleteClass(classId: number): Observable<void> {
+        const url: string = `${this.classUrl}/${classId}`;
+        return this.http.delete<void>(url);
+    }
 }

@@ -138,7 +138,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     private boolean isStaresina(Teacher teacher, School school) {
         for (Odeljenje odeljenje : school.getOdeljenja()) {
-            if (odeljenje.getStaresina().equals(teacher)) {
+            if (!odeljenje.isArchived() && odeljenje.getStaresina().equals(teacher)) {
                 return true;
             }
         }
