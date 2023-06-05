@@ -45,6 +45,17 @@
                 Obavezno polje
             </mat-error>
         </mat-form-field>
+
+        <mat-error
+            *ngIf="teachers.length === 0; else emptyLine"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+        >
+            Nema slobodnih profesora
+        </mat-error>
+        <ng-template #emptyLine>
+            <br />
+        </ng-template>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

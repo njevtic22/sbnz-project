@@ -92,7 +92,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             ClassDialogComponent,
             {
                 data: data, // to share data by reference
-                height: "350px",
+                height: "360px",
                 width: "400px",
             }
         );

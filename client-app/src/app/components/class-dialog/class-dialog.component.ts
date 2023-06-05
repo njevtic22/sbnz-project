@@ -4,6 +4,7 @@ import {
     FormBuilder,
     FormGroup,
     ValidationErrors,
+    ValidatorFn,
     Validators,
 } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -21,6 +22,8 @@ export class ClassDialogComponent implements OnInit {
     classForm!: FormGroup;
     teachers: User[] = [];
     classNames: string[] = [];
+
+    JSON = JSON;
 
     constructor(
         private fb: FormBuilder,
@@ -49,24 +52,13 @@ export class ClassDialogComponent implements OnInit {
                 [
                     Validators.required,
                     validateLeadingTrailingWhitespace(),
-                    (control: AbstractControl): ValidationErrors | null => {
-                        const value: string = control.value;
-                        if (!value) {
-                            return null;
-                        }
-
-                        if (this.classNames.includes(value)) {
-                            return {
-                                takenClassName: {
-                                    valid: false,
-                                },
-                            };
-                        }
-                        return null;
-                    },
+                    takenClassName(this.classNames),
                 ],
             ],
-            staresinaId: [null, Validators.required],
+            staresinaId: [
+                null /*this.data.mainData.staresinaId*/,
+                Validators.required,
+            ],
         });
     }
 
@@ -80,4 +72,22 @@ export class ClassDialogComponent implements OnInit {
         this.classForm.reset();
         this.dialogRef.close({ success: false, data: null });
     }
+}
+
+function takenClassName(classNames: string[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value: string = control.value;
+        if (!value) {
+            return null;
+        }
+
+        if (classNames.includes(value)) {
+            return {
+                takenClassName: {
+                    valid: false,
+                },
+            };
+        }
+        return null;
+    };
 }
