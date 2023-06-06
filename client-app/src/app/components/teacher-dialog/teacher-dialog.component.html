@@ -1,28 +1,164 @@
-<h2 mat-dialog-title>Novo odeljenje</h2>
+<h2 mat-dialog-title>Novi profesor</h2>
 <mat-dialog-content>
     <form
         [formGroup]="teacherForm"
         fxLayout="column"
         fxLayoutAlign="center stretch"
     >
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+                <mat-label>Ime</mat-label>
+                <input matInput formControlName="name" />
+
+                <mat-error
+                    *ngIf="teacherForm.controls['name'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        teacherForm.controls['name'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Ime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Prezime</mat-label>
+                <input matInput formControlName="surname" />
+
+                <mat-error
+                    *ngIf="teacherForm.controls['surname'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        teacherForm.controls['surname'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Prezime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+            </mat-form-field>
+        </div>
+
         <mat-form-field>
-            <mat-label>Ime</mat-label>
-            <input matInput formControlName="name" />
+            <mat-label>Datum rođenja</mat-label>
+            <input matInput formControlName="birthDate" />
 
             <mat-error
-                *ngIf="teacherForm.controls['name'].hasError('required')"
+                *ngIf="teacherForm.controls['birthDate'].hasError('required')"
             >
                 Obavezno polje
             </mat-error>
 
             <mat-error
                 *ngIf="
-                    teacherForm.controls['name'].hasError(
+                    teacherForm.controls['birthDate'].hasError(
                         'leadingTrailingSpace'
                     )
                 "
             >
-                Ime ne sme da počinje niti završava sa razmakom
+                Prezime ne sme da počinje niti završava sa razmakom
+            </mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+                <mat-label>Imejl</mat-label>
+                <input matInput formControlName="email" />
+
+                <mat-error
+                    *ngIf="teacherForm.controls['email'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="teacherForm.controls['email'].hasError('email')"
+                >
+                    Imejl mora biti ispravno formiran
+                </mat-error>
+
+                <mat-error
+                    *ngIf="teacherForm.controls['email'].hasError('takenValue')"
+                >
+                    Imejl je već zauzet
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Korisničko ime</mat-label>
+                <input matInput formControlName="username" />
+
+                <mat-error
+                    *ngIf="
+                        teacherForm.controls['username'].hasError('required')
+                    "
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        teacherForm.controls['username'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Korisničko ime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        teacherForm.controls['username'].hasError('takenValue')
+                    "
+                >
+                    Korisničko ime je već zauzeto
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Šifra</mat-label>
+            <input matInput formControlName="password" />
+
+            <mat-error
+                *ngIf="teacherForm.controls['password'].hasError('required')"
+            >
+                Obavezno polje
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Potvrda šifre</mat-label>
+            <input matInput formControlName="repeatedPassword" />
+
+            <mat-error
+                *ngIf="
+                    teacherForm.controls['repeatedPassword'].hasError(
+                        'required'
+                    )
+                "
+            >
+                Obavezno polje
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    teacherForm.controls['repeatedPassword'].hasError(
+                        'leadingTrailingSpace'
+                    )
+                "
+            >
+                Potvrda šifre ne sme da počinje niti završava sa razmakom
             </mat-error>
         </mat-form-field>
     </form>

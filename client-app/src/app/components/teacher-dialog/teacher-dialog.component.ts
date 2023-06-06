@@ -1,5 +1,12 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ModalData } from "src/app/types/modal";
 import { User } from "src/app/types/user";
@@ -13,6 +20,9 @@ import { validateLeadingTrailingWhitespace } from "src/app/util/validator/no-lea
 export class TeacherDialogComponent implements OnInit {
     teacherForm!: FormGroup;
 
+    private takenEmails: string[] = [];
+    private takenUsernames: string[] = [];
+
     constructor(
         private fb: FormBuilder,
 
@@ -22,6 +32,9 @@ export class TeacherDialogComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.takenEmails = this.data.additionalData.takenEmails;
+        this.takenUsernames = this.data.additionalData.takenUsernames;
+
         this.createTeacherForm();
 
         this.dialogRef.disableClose = true;
@@ -32,6 +45,7 @@ export class TeacherDialogComponent implements OnInit {
 
     createTeacherForm(): void {
         this.teacherForm = this.fb.group({
+            id: [this.data.mainData.id, Validators.required],
             name: [
                 this.data.mainData.name,
                 [Validators.required, validateLeadingTrailingWhitespace()],
@@ -43,12 +57,21 @@ export class TeacherDialogComponent implements OnInit {
             birthDate: [this.data.mainData.birthDate, Validators.required],
             email: [
                 this.data.mainData.email,
-                [Validators.required, Validators.email],
+                [
+                    Validators.required,
+                    Validators.email,
+                    validateNotTaken(this.takenEmails),
+                ],
             ],
             username: [
                 this.data.mainData.username,
-                [Validators.required, validateLeadingTrailingWhitespace()],
+                [
+                    Validators.required,
+                    validateLeadingTrailingWhitespace(),
+                    validateNotTaken(this.takenUsernames),
+                ],
             ],
+            role: [this.data.mainData.role, Validators.required],
             password: [
                 this.data.mainData.password,
                 [Validators.required, validateLeadingTrailingWhitespace()],
@@ -62,6 +85,8 @@ export class TeacherDialogComponent implements OnInit {
 
     closeSubmit(): void {
         const teacher: User = this.teacherForm.value;
+        teacher.birthDate = [1985, 10, 20];
+
         this.teacherForm.reset();
         this.dialogRef.close({ success: true, data: teacher });
     }
@@ -70,4 +95,22 @@ export class TeacherDialogComponent implements OnInit {
         this.teacherForm.reset();
         this.dialogRef.close({ success: false, data: null });
     }
+}
+
+function validateNotTaken(takenValues: string[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value: string = control.value;
+        if (!value) {
+            return null;
+        }
+
+        if (takenValues.includes(value)) {
+            return {
+                takenValue: {
+                    valid: false,
+                },
+            };
+        }
+        return null;
+    };
 }

@@ -2,7 +2,7 @@ export interface User {
     id?: number;
     name: string;
     surname: string;
-    birthDate: number[];
+    birthDate: number[] | string;
     email: string;
     username: string;
     role: string;

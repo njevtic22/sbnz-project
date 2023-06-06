@@ -5,6 +5,7 @@ import { UpdateUserResponse, User } from "../types/user";
 import { AuthenticationService } from "./authentication.service";
 import { environment } from "src/environment/environment";
 import { PasswordChange } from "../types/password";
+import { TakenEmailsUsernames } from "../types/taken-emails-usernames";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -50,5 +51,11 @@ export class UserService {
         const url: string = environment.apiUrl + urlSufix + "/password";
 
         return this.http.put<void>(url, passwordData, httpOptions);
+    }
+
+    getTakenEmailsAndUsernames(): Observable<TakenEmailsUsernames> {
+        const url: string =
+            environment.apiUrl + "/users/taken-emails-usernames";
+        return this.http.get<TakenEmailsUsernames>(url);
     }
 }

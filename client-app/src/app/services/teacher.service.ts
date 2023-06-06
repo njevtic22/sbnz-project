@@ -20,6 +20,10 @@ export class TeacherService {
 
     constructor(private http: HttpClient) {}
 
+    addTeacher(newTeacher: User): Observable<void> {
+        return this.http.post<void>(this.teacherUrl, newTeacher, httpOptions);
+    }
+
     getTeachers(
         page: number,
         size: number,

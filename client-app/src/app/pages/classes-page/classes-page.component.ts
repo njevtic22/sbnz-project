@@ -21,7 +21,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
     teachers: User[] = [];
     private teachersSubscription: Subscription = new Subscription();
 
-    classes!: Odeljenje[];
+    classes: Odeljenje[] = [];
     private classSubscription: Subscription = new Subscription();
 
     private page: number = 0;
@@ -60,6 +60,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             .getClasses(this.page, this.size, this.sort)
             .subscribe((response: PaginatedResponse<Odeljenje>) => {
                 this.classes = response.data;
+                this.table.renderRows();
             }, this.errorHandler.handle);
     }
 
