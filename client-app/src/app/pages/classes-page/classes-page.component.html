@@ -1,10 +1,8 @@
-<div
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-    (click)="openAddClassModal()"
->
+<div fxLayout="row" fxLayoutAlign="space-between center">
     <h2>Odeljenja škole: Gimnazija "Svetozar Marković"</h2>
-    <button mat-raised-button color="primary">Novo odeljenje</button>
+    <button mat-raised-button color="primary" (click)="openAddClassModal()">
+        Novo odeljenje
+    </button>
 </div>
 <table mat-table [dataSource]="classes" class="padded mat-elevation-z5">
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

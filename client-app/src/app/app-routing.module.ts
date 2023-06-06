@@ -6,6 +6,7 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
 import { Role } from "./types/role";
 import { AuthGuard } from "./guards/auth.guard";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
+import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
 
 const routes: Routes = [
     {
@@ -37,6 +38,15 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
             title: "Odeljenja",
+            roles: [Role.ROLE_ADMIN],
+        },
+    },
+    {
+        path: "teachers",
+        component: TeachersPageComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: "Profesori",
             roles: [Role.ROLE_ADMIN],
         },
     },

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environment/environment";
 import { User } from "../types/user";
+import { PaginatedResponse } from "../types/paginated-response";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -18,6 +19,15 @@ export class TeacherService {
     private teacherUrl: string = `${environment.apiUrl}/teachers`;
 
     constructor(private http: HttpClient) {}
+
+    getTeachers(
+        page: number,
+        size: number,
+        sort: string
+    ): Observable<PaginatedResponse<User>> {
+        const url: string = `${this.teacherUrl}?page=${page}&size=${size}&sort=${sort}`;
+        return this.http.get<PaginatedResponse<User>>(url);
+    }
 
     getNotStaresinaTeachers(): Observable<User[]> {
         const url: string = `${this.teacherUrl}/not-staresina`;

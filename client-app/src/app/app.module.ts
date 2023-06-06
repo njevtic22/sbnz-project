@@ -35,6 +35,7 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { PasswordChangeComponent } from "./components/password-change/password-change.component";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
+import { TeachersPageComponent } from './pages/teachers-page/teachers-page.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import { ClassDialogComponent } from "./components/class-dialog/class-dialog.com
         PasswordChangeComponent,
         ClassesPageComponent,
         ClassDialogComponent,
+        TeachersPageComponent,
     ],
     imports: [
         BrowserModule,

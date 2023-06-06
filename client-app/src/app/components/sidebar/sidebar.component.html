@@ -20,6 +20,11 @@
                 <mat-icon>class</mat-icon>
                 <span mat-line>Odeljenja</span>
             </a>
+
+            <a mat-list-item routerLink="/teachers" *ngIf="isAdmin()">
+                <mat-icon>supervisor_account</mat-icon>
+                <span mat-line>Profesori</span>
+            </a>
         </mat-nav-list>
 
         <mat-nav-list class="sidebar-bottom" *ngIf="isAuthenticated()">
