@@ -6,6 +6,9 @@ import { MatTable } from "@angular/material/table";
 import { TeacherService } from "src/app/services/teacher.service";
 import { ErrorHandlerService } from "src/app/services/error-handler.service";
 import { PaginatedResponse } from "src/app/types/paginated-response";
+import { ModalData, ModalResult } from "src/app/types/modal";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { TeacherDialogComponent } from "src/app/components/teacher-dialog/teacher-dialog.component";
 
 @Component({
     selector: "app-teachers-page",
@@ -32,6 +35,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
     ];
 
     constructor(
+        private dialog: MatDialog,
         private teacherService: TeacherService,
         private errorHandler: ErrorHandlerService
     ) {}
@@ -51,5 +55,39 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             .subscribe((result: PaginatedResponse<User>) => {
                 this.teachers = result.data;
             }, this.errorHandler.handle);
+    }
+
+    openAddTeacherModal(): void {
+        const data: ModalData<User> = {
+            mainData: {
+                // id: 0,
+                name: "",
+                surname: "",
+                birthDate: [],
+                email: "",
+                username: "",
+                role: "",
+                password: "",
+                repeatedPassword: "",
+            },
+            additionalData: {
+                id: 0,
+                buttonText: "Kreiraj",
+            },
+        };
+
+        const dialogRef: MatDialogRef<TeacherDialogComponent> =
+            this.dialog.open(TeacherDialogComponent, {
+                data: data, // to share data by reference
+                // height: "400px",
+                // width: "400px",
+            });
+
+        dialogRef.afterClosed().subscribe((result: ModalResult<User>) => {
+            // if (result.success) {
+            //     this.addTeacher(result.data);
+            // }
+            console.log(result);
+        });
     }
 }

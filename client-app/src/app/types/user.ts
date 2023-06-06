@@ -7,6 +7,8 @@ export interface User {
     username: string;
     role: string;
     nivoSklonosti?: string;
+    password?: string;
+    repeatedPassword?: string;
 }
 
 export interface UpdateUserResponse {

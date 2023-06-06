@@ -23,8 +23,6 @@ export class ClassDialogComponent implements OnInit {
     teachers: User[] = [];
     classNames: string[] = [];
 
-    JSON = JSON;
-
     constructor(
         private fb: FormBuilder,
 

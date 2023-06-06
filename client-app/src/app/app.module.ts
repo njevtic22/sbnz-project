@@ -36,6 +36,7 @@ import { PasswordChangeComponent } from "./components/password-change/password-c
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
 import { TeachersPageComponent } from './pages/teachers-page/teachers-page.component';
+import { TeacherDialogComponent } from './components/teacher-dialog/teacher-dialog.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { TeachersPageComponent } from './pages/teachers-page/teachers-page.compo
         ClassesPageComponent,
         ClassDialogComponent,
         TeachersPageComponent,
+        TeacherDialogComponent,
     ],
     imports: [
         BrowserModule,

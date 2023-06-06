@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Novo odeljenje</h2>
+<mat-dialog-content>
+    <form
+        [formGroup]="teacherForm"
+        fxLayout="column"
+        fxLayoutAlign="center stretch"
+    >
+        <mat-form-field>
+            <mat-label>Ime</mat-label>
+            <input matInput formControlName="name" />
+
+            <mat-error
+                *ngIf="teacherForm.controls['name'].hasError('required')"
+            >
+                Obavezno polje
+            </mat-error>
+
+            <mat-error
+                *ngIf="
+                    teacherForm.controls['name'].hasError(
+                        'leadingTrailingSpace'
+                    )
+                "
+            >
+                Ime ne sme da počinje niti završava sa razmakom
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="closeCancel()">Odustani</button>
+    <button
+        color="primary"
+        mat-raised-button
+        (click)="closeSubmit()"
+        [disabled]="teacherForm.invalid"
+    >
+        {{ data.additionalData.buttonText }}
+    </button>
+</mat-dialog-actions>
