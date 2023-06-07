@@ -136,10 +136,8 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
                 classNames.push(classElement.naziv);
             }
         });
-        console.log(classNames);
 
         let teachers: User[] = [odeljenje.staresina, ...this.teachers];
-        console.log(teachers);
 
         const data: ModalData<RequestOdeljenje> = {
             mainData: {

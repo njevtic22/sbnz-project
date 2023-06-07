@@ -112,7 +112,9 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
             .subscribe((user: User) => {
                 this.user = user;
                 this.roleToShow = this.roleMap[this.user.role];
-                this.dateToShow = `${this.user.birthDate[2]}.${this.user.birthDate[1]}.${this.user.birthDate[0]}.`;
+
+                const birthDate: number[] = this.user.birthDate as number[];
+                this.dateToShow = `${birthDate[2]}.${birthDate[1]}.${birthDate[0]}.`;
 
                 if (this.user.nivoSklonosti) {
                     this.nivoToShow = this.user.nivoSklonosti?.charAt(0);

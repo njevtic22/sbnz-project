@@ -105,10 +105,9 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             });
 
         dialogRef.afterClosed().subscribe((result: ModalResult<User>) => {
-            // if (result.success) {
-            //     this.addTeacher(result.data);
-            // }
-            console.log(result);
+            if (result.success) {
+                this.addTeacher(result.data);
+            }
         });
     }
 

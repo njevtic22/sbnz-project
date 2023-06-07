@@ -1,8 +1,9 @@
+import { Moment } from "moment";
 export interface User {
     id?: number;
     name: string;
     surname: string;
-    birthDate: number[] | string;
+    birthDate: number[] | string | Moment;
     email: string;
     username: string;
     role: string;

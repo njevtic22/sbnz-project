@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ModalData } from "src/app/types/modal";
 import { User } from "src/app/types/user";
 import { validateLeadingTrailingWhitespace } from "src/app/util/validator/no-leading-trailing-whitespace";
+import { Moment } from "moment";
 
 @Component({
     selector: "app-teacher-dialog",
@@ -89,9 +90,19 @@ export class TeacherDialogComponent implements OnInit {
 
     closeSubmit(): void {
         const teacher: User = this.teacherForm.value;
-        // teacher.birthDate = [1985, 10, 20];
-
         this.teacherForm.reset();
+
+        const mDate: Moment = teacher.birthDate as Moment;
+
+        let dateArray: number[] = [0, 0, 0];
+        let dateStringArray: string[] = mDate.format("YYYY-MM-DD").split("-");
+
+        dateArray[0] = Number(dateStringArray[0]);
+        dateArray[1] = Number(dateStringArray[1]);
+        dateArray[2] = Number(dateStringArray[2]);
+
+        teacher.birthDate = dateArray;
+
         this.dialogRef.close({ success: true, data: teacher });
     }
 
