@@ -19,6 +19,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableModule } from "@angular/material/table";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MAT_DATE_FORMATS, MatNativeDateModule } from "@angular/material/core";
 
 import { MatPasswordStrengthModule } from "@angular-material-extensions/password-strength";
 
@@ -35,8 +37,9 @@ import { JwtInterceptor } from "./interceptors/jwt.interceptor";
 import { PasswordChangeComponent } from "./components/password-change/password-change.component";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
-import { TeachersPageComponent } from './pages/teachers-page/teachers-page.component';
-import { TeacherDialogComponent } from './components/teacher-dialog/teacher-dialog.component';
+import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
+import { TeacherDialogComponent } from "./components/teacher-dialog/teacher-dialog.component";
+import { DATE_FORMATS } from "./types/custom-date-formats";
 
 @NgModule({
     declarations: [
@@ -77,11 +80,14 @@ import { TeacherDialogComponent } from './components/teacher-dialog/teacher-dial
         MatTableModule,
         MatDialogModule,
         MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
 
         MatPasswordStrengthModule.forRoot(),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     ],
     bootstrap: [AppComponent],
 })

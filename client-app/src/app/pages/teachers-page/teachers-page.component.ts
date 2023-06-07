@@ -83,7 +83,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
                 id: -1,
                 name: "",
                 surname: "",
-                birthDate: [],
+                birthDate: "",
                 email: "",
                 username: "",
                 role: "ROLE_TEACHER",
@@ -105,9 +105,10 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             });
 
         dialogRef.afterClosed().subscribe((result: ModalResult<User>) => {
-            if (result.success) {
-                this.addTeacher(result.data);
-            }
+            // if (result.success) {
+            //     this.addTeacher(result.data);
+            // }
+            console.log(result);
         });
     }
 

@@ -51,24 +51,37 @@
 
         <mat-form-field>
             <mat-label>Datum rođenja</mat-label>
-            <input matInput formControlName="birthDate" />
+            <input
+                matInput
+                formControlName="birthDate"
+                readonly
+                [max]="maxDate"
+                [matDatepicker]="birthDatePicker"
+                (click)="birthDatePicker.open()"
+            />
+
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="birthDatePicker"
+                [disabled]="false"
+            >
+            </mat-datepicker-toggle>
+
+            <mat-datepicker
+                #birthDatePicker
+                [disabled]="false"
+                startView="year"
+            >
+            </mat-datepicker>
 
             <mat-error
                 *ngIf="teacherForm.controls['birthDate'].hasError('required')"
             >
                 Obavezno polje
             </mat-error>
-
-            <mat-error
-                *ngIf="
-                    teacherForm.controls['birthDate'].hasError(
-                        'leadingTrailingSpace'
-                    )
-                "
-            >
-                Prezime ne sme da počinje niti završava sa razmakom
-            </mat-error>
         </mat-form-field>
+
+        {{ JSON.stringify(teacherForm.value) }}
 
         <div fxLayout="row" fxLayoutAlign="center center">
             <mat-form-field>

@@ -23,6 +23,10 @@ export class TeacherDialogComponent implements OnInit {
     private takenEmails: string[] = [];
     private takenUsernames: string[] = [];
 
+    JSON = JSON;
+
+    maxDate = new Date();
+
     constructor(
         private fb: FormBuilder,
 
@@ -85,7 +89,7 @@ export class TeacherDialogComponent implements OnInit {
 
     closeSubmit(): void {
         const teacher: User = this.teacherForm.value;
-        teacher.birthDate = [1985, 10, 20];
+        // teacher.birthDate = [1985, 10, 20];
 
         this.teacherForm.reset();
         this.dialogRef.close({ success: true, data: teacher });
