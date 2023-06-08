@@ -126,6 +126,16 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             }, this.errorHandler.handle);
     }
 
+    deleteTeacher(teacher: User): void {
+        this.teacherSubscription.unsubscribe();
+        this.teacherSubscription = this.teacherService
+            .deleteTeacher(teacher.id as number)
+            .subscribe(() => {
+                this.getTeachers();
+                // this.getTakenEmailsAndUsernames();
+            }, this.errorHandler.handle);
+    }
+
     openUpdateTeacherModal(teacher: User): void {
         let takenEmails: string[] = [];
         this.takenEmails.forEach((takenEmail: string) => {

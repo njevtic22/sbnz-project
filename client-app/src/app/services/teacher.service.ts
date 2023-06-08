@@ -42,4 +42,9 @@ export class TeacherService {
         const url: string = `${this.teacherUrl}/${changes.id}`;
         return this.http.put<User>(url, changes, httpOptions);
     }
+
+    deleteTeacher(teacherId: number): Observable<void> {
+        const url: string = `${this.teacherUrl}/${teacherId}`;
+        return this.http.delete<void>(url);
+    }
 }

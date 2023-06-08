@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, List<String>> getTakenEmailsAndUsernames() {
-        List<User> allUsers = repository.findAllByArchivedFalse();
+        List<User> allUsers = repository.findAll();
         ArrayList<String> emails = new ArrayList<>(allUsers.size());
         ArrayList<String> usernames = new ArrayList<>(allUsers.size());
 
