@@ -8,7 +8,7 @@ import { ErrorHandlerService } from "src/app/services/error-handler.service";
 import { PaginatedResponse } from "src/app/types/paginated-response";
 import { ModalData, ModalResult } from "src/app/types/modal";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { TeacherDialogComponent } from "src/app/components/teacher-dialog/teacher-dialog.component";
+import { AddUserDialogComponent } from "src/app/components/user/add-user-dialog/add-user-dialog.component";
 import { UserService } from "src/app/services/user.service";
 import { TakenEmailsUsernames } from "src/app/types/taken-emails-usernames";
 
@@ -98,8 +98,8 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             },
         };
 
-        const dialogRef: MatDialogRef<TeacherDialogComponent> =
-            this.dialog.open(TeacherDialogComponent, {
+        const dialogRef: MatDialogRef<AddUserDialogComponent> =
+            this.dialog.open(AddUserDialogComponent, {
                 data: data, // to share data by reference
                 // height: "400px",
                 // width: "400px",

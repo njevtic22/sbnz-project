@@ -30,9 +30,9 @@ import { validateControlMatch } from "src/app/util/validator/control-match-valid
 import { animate, style, transition, trigger } from "@angular/animations";
 
 @Component({
-    selector: "app-teacher-dialog",
-    templateUrl: "./teacher-dialog.component.html",
-    styleUrls: ["./teacher-dialog.component.scss"],
+    selector: "app-add-user-dialog",
+    templateUrl: "./add-user-dialog.component.html",
+    styleUrls: ["./add-user-dialog.component.scss"],
     animations: [
         trigger("slideInOut", [
             transition(":enter", [style({ height: 0 }), animate(300)]),
@@ -40,16 +40,16 @@ import { animate, style, transition, trigger } from "@angular/animations";
         ]),
     ],
 })
-export class TeacherDialogComponent implements OnInit, OnDestroy {
-    teacherForm!: FormGroup;
+export class AddUserDialogComponent implements OnInit, OnDestroy {
+    userForm!: FormGroup;
 
     private takenEmails: string[] = [];
     private takenUsernames: string[] = [];
 
     maxDate = new Date();
+    startDate = new Date(1985, 6, 15);
 
     hidePassword: boolean = true;
-    hideRepeatedPassword: boolean = true;
     hidePasswordDetails: boolean = true;
 
     private noNumerical: string = "Bez numeričke sekvence";
@@ -69,14 +69,14 @@ export class TeacherDialogComponent implements OnInit, OnDestroy {
 
         @Inject(MAT_DIALOG_DATA)
         public data: ModalData<User>, // this is reference to original
-        private dialogRef: MatDialogRef<TeacherDialogComponent>
+        private dialogRef: MatDialogRef<AddUserDialogComponent>
     ) {}
 
     ngOnInit(): void {
         this.takenEmails = this.data.additionalData.takenEmails;
         this.takenUsernames = this.data.additionalData.takenUsernames;
 
-        this.createTeacherForm();
+        this.createUserForm();
 
         this.dialogRef.disableClose = true;
         this.dialogRef.backdropClick().subscribe(() => {
@@ -88,8 +88,8 @@ export class TeacherDialogComponent implements OnInit, OnDestroy {
         clearBlacklist();
     }
 
-    createTeacherForm(): void {
-        this.teacherForm = this.fb.group(
+    createUserForm(): void {
+        this.userForm = this.fb.group(
             {
                 id: [this.data.mainData.id, Validators.required],
                 name: [
@@ -149,7 +149,7 @@ export class TeacherDialogComponent implements OnInit, OnDestroy {
 
     updateRegex(event: Event): void {
         const passwordControl: AbstractControl =
-            this.teacherForm.controls["password"];
+            this.userForm.controls["password"];
 
         if (passwordControl.hasError("forbiddenPassword")) {
             this.customMessage = this.noForbidden;
@@ -206,8 +206,8 @@ export class TeacherDialogComponent implements OnInit, OnDestroy {
         return password.length;
     }
     closeSubmit(): void {
-        const teacher: User = this.teacherForm.value;
-        this.teacherForm.reset();
+        const teacher: User = this.userForm.value;
+        this.userForm.reset();
 
         const mDate: Moment = teacher.birthDate as Moment;
 
@@ -224,7 +224,7 @@ export class TeacherDialogComponent implements OnInit, OnDestroy {
     }
 
     closeCancel(): void {
-        this.teacherForm.reset();
+        this.userForm.reset();
         this.dialogRef.close({ success: false, data: null });
     }
 }

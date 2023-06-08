@@ -47,7 +47,7 @@ import { PasswordChangeComponent } from "./components/password-change/password-c
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
 import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
-import { TeacherDialogComponent } from "./components/teacher-dialog/teacher-dialog.component";
+import { AddUserDialogComponent } from "./components/user/add-user-dialog/add-user-dialog.component";
 
 @NgModule({
     declarations: [
@@ -63,7 +63,7 @@ import { TeacherDialogComponent } from "./components/teacher-dialog/teacher-dial
         ClassesPageComponent,
         ClassDialogComponent,
         TeachersPageComponent,
-        TeacherDialogComponent,
+        AddUserDialogComponent,
     ],
     imports: [
         BrowserModule,

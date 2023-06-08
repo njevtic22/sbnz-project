@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>{{ data.additionalData.title }}</h2>
 <mat-dialog-content>
     <form
-        [formGroup]="teacherForm"
+        [formGroup]="userForm"
         fxLayout="column"
         fxLayoutAlign="center stretch"
     >
@@ -11,14 +11,14 @@
                 <input matInput formControlName="name" />
 
                 <mat-error
-                    *ngIf="teacherForm.controls['name'].hasError('required')"
+                    *ngIf="userForm.controls['name'].hasError('required')"
                 >
                     Obavezno polje
                 </mat-error>
 
                 <mat-error
                     *ngIf="
-                        teacherForm.controls['name'].hasError(
+                        userForm.controls['name'].hasError(
                             'leadingTrailingSpace'
                         )
                     "
@@ -32,14 +32,14 @@
                 <input matInput formControlName="surname" />
 
                 <mat-error
-                    *ngIf="teacherForm.controls['surname'].hasError('required')"
+                    *ngIf="userForm.controls['surname'].hasError('required')"
                 >
                     Obavezno polje
                 </mat-error>
 
                 <mat-error
                     *ngIf="
-                        teacherForm.controls['surname'].hasError(
+                        userForm.controls['surname'].hasError(
                             'leadingTrailingSpace'
                         )
                     "
@@ -69,13 +69,14 @@
 
             <mat-datepicker
                 #birthDatePicker
-                [disabled]="false"
                 startView="year"
+                [disabled]="false"
+                [startAt]="startDate"
             >
             </mat-datepicker>
 
             <mat-error
-                *ngIf="teacherForm.controls['birthDate'].hasError('required')"
+                *ngIf="userForm.controls['birthDate'].hasError('required')"
             >
                 Obavezno polje
             </mat-error>
@@ -87,19 +88,17 @@
                 <input matInput formControlName="email" />
 
                 <mat-error
-                    *ngIf="teacherForm.controls['email'].hasError('required')"
+                    *ngIf="userForm.controls['email'].hasError('required')"
                 >
                     Obavezno polje
                 </mat-error>
 
-                <mat-error
-                    *ngIf="teacherForm.controls['email'].hasError('email')"
-                >
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
                     Imejl mora biti ispravno formiran
                 </mat-error>
 
                 <mat-error
-                    *ngIf="teacherForm.controls['email'].hasError('takenValue')"
+                    *ngIf="userForm.controls['email'].hasError('takenValue')"
                 >
                     Imejl je već zauzet
                 </mat-error>
@@ -110,16 +109,14 @@
                 <input matInput formControlName="username" />
 
                 <mat-error
-                    *ngIf="
-                        teacherForm.controls['username'].hasError('required')
-                    "
+                    *ngIf="userForm.controls['username'].hasError('required')"
                 >
                     Obavezno polje
                 </mat-error>
 
                 <mat-error
                     *ngIf="
-                        teacherForm.controls['username'].hasError(
+                        userForm.controls['username'].hasError(
                             'leadingTrailingSpace'
                         )
                     "
@@ -128,9 +125,7 @@
                 </mat-error>
 
                 <mat-error
-                    *ngIf="
-                        teacherForm.controls['username'].hasError('takenValue')
-                    "
+                    *ngIf="userForm.controls['username'].hasError('takenValue')"
                 >
                     Korisničko ime je već zauzeto
                 </mat-error>
@@ -169,25 +164,25 @@
             </button>
 
             <mat-hint align="end" aria-live="polite">
-                {{ getPasswordLength(teacherForm.controls["password"].value) }}
+                {{ getPasswordLength(userForm.controls["password"].value) }}
                 / 50
             </mat-hint>
 
             <mat-error
-                *ngIf="teacherForm.controls['password'].hasError('required')"
+                *ngIf="userForm.controls['password'].hasError('required')"
             >
                 Obavezno polje
             </mat-error>
             <mat-error
-                *ngIf="teacherForm.controls['password'].hasError('mustMatch')"
+                *ngIf="userForm.controls['password'].hasError('mustMatch')"
             >
                 Šifre se ne poklapaju
             </mat-error>
         </mat-form-field>
 
         <mat-password-strength
-            #newPasswordValidation
-            [password]="teacherForm.controls['password'].value"
+            #passwordValidation
+            [password]="userForm.controls['password'].value"
             [customValidator]="invalidPasswordExpression"
         >
         </mat-password-strength>
@@ -195,7 +190,7 @@
             *ngIf="!hidePasswordDetails"
             [@slideInOut]
             style="overflow: hidden"
-            [passwordComponent]="newPasswordValidation"
+            [passwordComponent]="passwordValidation"
             lowerCaseCriteriaMsg="Barem 1 malo slovo"
             upperCaseCriteriaMsg="Barem 1 veliko slovo"
             digitsCriteriaMsg="Barem 1 cifra"
@@ -210,7 +205,7 @@
             <input
                 matInput
                 formControlName="repeatedPassword"
-                [type]="hideRepeatedPassword ? 'password' : 'text'"
+                [type]="hidePassword ? 'password' : 'text'"
                 maxlength="50"
                 (paste)="preventPaste($event)"
             />
@@ -218,17 +213,17 @@
             <button
                 mat-icon-button
                 matSuffix
-                (click)="hideRepeatedPassword = !hideRepeatedPassword"
+                (click)="hidePassword = !hidePassword"
             >
                 <mat-icon>
-                    {{ hideRepeatedPassword ? "visibility_off" : "visibility" }}
+                    {{ hidePassword ? "visibility_off" : "visibility" }}
                 </mat-icon>
             </button>
 
             <mat-hint align="end" aria-live="polite">
                 {{
                     getPasswordLength(
-                        teacherForm.controls["repeatedPassword"].value
+                        userForm.controls["repeatedPassword"].value
                     )
                 }}
                 / 50
@@ -236,18 +231,14 @@
 
             <mat-error
                 *ngIf="
-                    teacherForm.controls['repeatedPassword'].hasError(
-                        'required'
-                    )
+                    userForm.controls['repeatedPassword'].hasError('required')
                 "
             >
                 Obavezno polje
             </mat-error>
             <mat-error
                 *ngIf="
-                    teacherForm.controls['repeatedPassword'].hasError(
-                        'mustMatch'
-                    )
+                    userForm.controls['repeatedPassword'].hasError('mustMatch')
                 "
             >
                 Šifre se ne poklapaju
@@ -261,7 +252,7 @@
         color="primary"
         mat-raised-button
         (click)="closeSubmit()"
-        [disabled]="teacherForm.invalid"
+        [disabled]="userForm.invalid || passwordValidation.strength !== 100"
     >
         {{ data.additionalData.buttonText }}
     </button>
