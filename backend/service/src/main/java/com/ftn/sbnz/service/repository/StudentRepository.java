@@ -12,6 +12,12 @@ import java.util.Optional;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Page<Student> findAllByArchivedFalse(Pageable pageable);
 
+    @Query("select s from Odeljenje o join o.ucenici s where o.id = :classId")
+    Page<Student> findAllByClassId(Long classId, Pageable pageable);
+
+    @Query("select s from Odeljenje o join o.ucenici s where o.staresina.id = :teacherId")
+    Page<Student> findAllByTeacherId(Long teacherId, Pageable pageable);
+
     Optional<Student> findByIdAndArchivedFalse(Long id);
 
     Optional<Student> findByUsernameAndArchivedFalse(String username);

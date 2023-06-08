@@ -21,11 +21,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 @RestController
 @RequestMapping("/api/students")
@@ -53,10 +56,57 @@ public class StudentController {
         return ResponseEntity.created(uri).build();
     }
 
+    private final Map<String, BiFunction<String, Pageable, Page<Student>>> handlers = Map.ofEntries(
+            Map.entry("classId", (classId, pageable) -> getAllStudentsForClass(Long.valueOf(classId), pageable)),
+            Map.entry("teacherId", (teacherId, pageable) -> getAllStudentsForTeacher(Long.valueOf(teacherId), pageable))
+    );
+
+    private Page<Student> getAllStudentsForClass(Long classId, Pageable pageable) {
+        return service.getAllForClass(classId, pageable);
+    }
+
+    private Page<Student> getAllStudentsForTeacher(Long teacherId, Pageable pageable) {
+        return service.getAllForTeacher(teacherId, pageable);
+    }
+
+
+//    https://stackoverflow.com/questions/53130695/what-is-a-better-way-to-design-an-api-for-mutually-exclusive-request-parameters
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')")
-    public ResponseEntity<PaginatedResponse<StudentViewDto>> getStudents(Pageable pageable) {
-        Page<Student> allStudents = service.getAll(pageable);
+    public ResponseEntity<PaginatedResponse<StudentViewDto>> getStudents(
+//            @RequestParam(required = false) Long classId,
+//            @RequestParam(required = false) Long teacherId,
+            @RequestParam Map<String, String> params,
+            Pageable pageable
+    ) {
+//        if (classId != null && teacherId != null) {
+//            return ResponseEntity.unprocessableEntity().build();
+//        }
+//
+//        Page<Student> allStudents = null;
+//        if (classId != null) {
+//            allStudents = service.getAllForClass(classId, pageable);
+//        } else if (teacherId != null) {
+//            allStudents = service.getAllForTeacher(teacherId, pageable);
+//        } else {
+//            allStudents = service.getAll(pageable);
+//        }
+
+        if (params.containsKey("classId") && params.containsKey("teacherId")) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        Page<Student> allStudents = null;
+        if (params.containsKey("classId")) {
+            String classId = params.get("classId");
+            allStudents = handlers.get("classId").apply(classId, pageable);
+        } else if (params.containsKey("teacherId")) {
+            String teacherId = params.get("teacherId");
+            allStudents = handlers.get("teacherId").apply(teacherId, pageable);
+        } else {
+            allStudents = service.getAll(pageable);
+        }
+
         Page<StudentViewDto> allStudentsDto = allStudents.map(mapper::toViewDto);
 
         PaginatedResponse<StudentViewDto> responseDto = new PaginatedResponse<>(

@@ -117,6 +117,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Page<Student> getAllForClass(Long classId, Pageable pageable) {
+        return repository.findAllByClassId(classId, pageable);
+    }
+
+    @Override
+    public Page<Student> getAllForTeacher(Long teacherId, Pageable pageable) {
+        return repository.findAllByTeacherId(teacherId, pageable);
+    }
+
+    @Override
     public Student getById(Long id) {
         Objects.requireNonNull(id, "Id must not be null.");
         return repository.findByIdAndArchivedFalse(id)
