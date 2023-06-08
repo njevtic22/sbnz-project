@@ -7,6 +7,7 @@ import { Role } from "./types/role";
 import { AuthGuard } from "./guards/auth.guard";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
+import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/students-per-class-page.component";
 
 const routes: Routes = [
     {
@@ -38,6 +39,15 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
             title: "Odeljenja",
+            roles: [Role.ROLE_ADMIN],
+        },
+    },
+    {
+        path: "classes/:id/students",
+        component: StudentsPerClassPageComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: "Učenici",
             roles: [Role.ROLE_ADMIN],
         },
     },

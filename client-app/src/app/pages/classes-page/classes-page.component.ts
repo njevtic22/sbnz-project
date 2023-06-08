@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatTable } from "@angular/material/table";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ClassDialogComponent } from "src/app/components/class-dialog/class-dialog.component";
 import { constants } from "src/app/constants";
@@ -34,10 +35,12 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
         "naziv",
         "brojUcenika",
         "staresina",
+        "studenti",
         "akcije",
     ];
 
     constructor(
+        private router: Router,
         private dialog: MatDialog,
         private classService: ClassService,
         private teacherService: TeacherService,
@@ -179,5 +182,9 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
                 this.getClasses();
                 this.getNotStaresinaTeachers();
             }, this.errorHandler.handle);
+    }
+
+    redirectToStudentsPage(odeljenje: Odeljenje): void {
+        this.router.navigate([`classes/${odeljenje.id}/students`]);
     }
 }
