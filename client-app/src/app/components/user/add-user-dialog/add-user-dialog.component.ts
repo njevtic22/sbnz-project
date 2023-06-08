@@ -205,6 +205,7 @@ export class AddUserDialogComponent implements OnInit, OnDestroy {
         }
         return password.length;
     }
+
     closeSubmit(): void {
         const teacher: User = this.userForm.value;
         this.userForm.reset();

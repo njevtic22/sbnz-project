@@ -37,4 +37,9 @@ export class TeacherService {
         const url: string = `${this.teacherUrl}/not-staresina`;
         return this.http.get<User[]>(url);
     }
+
+    updateTeacher(changes: User): Observable<User> {
+        const url: string = `${this.teacherUrl}/${changes.id}`;
+        return this.http.put<User>(url, changes, httpOptions);
+    }
 }

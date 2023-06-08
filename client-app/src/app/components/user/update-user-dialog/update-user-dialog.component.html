@@ -1,0 +1,146 @@
+<h2 mat-dialog-title>{{ data.additionalData.title }}</h2>
+<mat-dialog-content>
+    <form
+        [formGroup]="userForm"
+        fxLayout="column"
+        fxLayoutAlign="center stretch"
+    >
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+                <mat-label>Ime</mat-label>
+                <input matInput formControlName="name" />
+
+                <mat-error
+                    *ngIf="userForm.controls['name'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        userForm.controls['name'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Ime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Prezime</mat-label>
+                <input matInput formControlName="surname" />
+
+                <mat-error
+                    *ngIf="userForm.controls['surname'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        userForm.controls['surname'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Prezime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Datum rođenja</mat-label>
+            <input
+                matInput
+                formControlName="birthDate"
+                readonly
+                [max]="maxDate"
+                [matDatepicker]="birthDatePicker"
+                (click)="birthDatePicker.open()"
+            />
+
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="birthDatePicker"
+                [disabled]="false"
+            >
+            </mat-datepicker-toggle>
+
+            <mat-datepicker
+                #birthDatePicker
+                startView="year"
+                [disabled]="false"
+                [startAt]="startDate"
+            >
+            </mat-datepicker>
+
+            <mat-error
+                *ngIf="userForm.controls['birthDate'].hasError('required')"
+            >
+                Obavezno polje
+            </mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+                <mat-label>Imejl</mat-label>
+                <input matInput formControlName="email" />
+
+                <mat-error
+                    *ngIf="userForm.controls['email'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                    Imejl mora biti ispravno formiran
+                </mat-error>
+
+                <mat-error
+                    *ngIf="userForm.controls['email'].hasError('takenValue')"
+                >
+                    Imejl je već zauzet
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Korisničko ime</mat-label>
+                <input matInput formControlName="username" />
+
+                <mat-error
+                    *ngIf="userForm.controls['username'].hasError('required')"
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error
+                    *ngIf="
+                        userForm.controls['username'].hasError(
+                            'leadingTrailingSpace'
+                        )
+                    "
+                >
+                    Korisničko ime ne sme da počinje niti završava sa razmakom
+                </mat-error>
+
+                <mat-error
+                    *ngIf="userForm.controls['username'].hasError('takenValue')"
+                >
+                    Korisničko ime je već zauzeto
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="closeCancel()">Odustani</button>
+    <button
+        color="primary"
+        mat-raised-button
+        (click)="closeSubmit()"
+        [disabled]="userForm.invalid"
+    >
+        {{ data.additionalData.buttonText }}
+    </button>
+</mat-dialog-actions>
