@@ -104,7 +104,13 @@ public class TeacherServiceImpl implements TeacherService {
                 false,
                 teacherRole
         );
-        return repository.save(toAdd);
+        Teacher added = repository.save(toAdd);
+
+        School school = schoolService.getById();
+        school.addTeacher(added);
+        schoolService.save(school);
+
+        return added;
     }
 
     @Override

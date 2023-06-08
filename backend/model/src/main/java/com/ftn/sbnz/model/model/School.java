@@ -59,6 +59,10 @@ public class School {
         this.odeljenja.add(odeljenje);
     }
 
+    public void addTeacher(Teacher teacher) {
+        this.teachers.add(teacher);
+    }
+
     public Long getId() {
         return id;
     }
