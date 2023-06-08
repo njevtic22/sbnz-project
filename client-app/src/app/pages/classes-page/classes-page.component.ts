@@ -185,6 +185,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
     }
 
     redirectToStudentsPage(odeljenje: Odeljenje): void {
+        sessionStorage.setItem("class", JSON.stringify(odeljenje));
         this.router.navigate([`classes/${odeljenje.id}/students`]);
     }
 }
