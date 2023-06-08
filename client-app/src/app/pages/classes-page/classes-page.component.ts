@@ -87,6 +87,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             additionalData: {
                 teachers: this.teachers,
                 classNames: classNames,
+                title: "Novo odeljenje",
                 buttonText: "Kreiraj",
             },
         };
@@ -147,6 +148,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             additionalData: {
                 teachers: teachers,
                 classNames: classNames,
+                title: "Promena podataka",
                 buttonText: "Ažuriraj",
             },
         };
