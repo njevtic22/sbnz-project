@@ -47,7 +47,6 @@ export class AddUserDialogComponent implements OnInit, OnDestroy {
     private takenUsernames: string[] = [];
 
     maxDate = new Date();
-    startDate = new Date(1985, 6, 15);
 
     hidePassword: boolean = true;
     hidePasswordDetails: boolean = true;

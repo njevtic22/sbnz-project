@@ -97,6 +97,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             additionalData: {
                 takenEmails: this.takenEmails,
                 takenUsernames: this.takenUsernames,
+                startDate: new Date(1985, 6, 15),
                 title: "Novi profesor",
                 buttonText: "Kreiraj",
             },

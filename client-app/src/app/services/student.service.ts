@@ -20,6 +20,11 @@ export class StudentService {
 
     constructor(private http: HttpClient) {}
 
+    addStudent(classId: number, newStudent: User): Observable<void> {
+        const url: string = `${this.studentUrl}?classId=${classId}`;
+        return this.http.post<void>(url, newStudent, httpOptions);
+    }
+
     getStudentsForClass(
         classId: number,
         page: number,

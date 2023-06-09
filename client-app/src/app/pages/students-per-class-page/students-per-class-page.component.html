@@ -1,4 +1,9 @@
-<h2>Odeljenje {{ class.naziv }}</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>Odeljenje: {{ class.naziv }}</h2>
+    <button mat-raised-button color="primary" (click)="openAddStudentModal()">
+        Novi učenik
+    </button>
+</div>
 <table mat-table [dataSource]="students" class="padded mat-elevation-z5">
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
     <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
