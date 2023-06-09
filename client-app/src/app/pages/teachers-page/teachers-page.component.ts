@@ -14,6 +14,7 @@ import { TakenEmailsUsernames } from "src/app/types/taken-emails-usernames";
 import { UpdateUserDialogComponent } from "src/app/components/user/update-user-dialog/update-user-dialog.component";
 import { Moment } from "moment";
 import * as moment from "moment";
+import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 
 @Component({
     selector: "app-teachers-page",
@@ -46,6 +47,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
 
     constructor(
         private dialog: MatDialog,
+        private snackbar: MatSnackBar,
         private teacherService: TeacherService,
         private userService: UserService,
         private errorHandler: ErrorHandlerService
@@ -124,6 +126,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getTeachers();
                 this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Profesor je dodat.");
             }, this.errorHandler.handle);
     }
 
@@ -134,6 +137,7 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getTeachers();
                 // this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Profesor je obrisan.");
             }, this.errorHandler.handle);
     }
 
@@ -200,6 +204,15 @@ export class TeachersPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getTeachers();
                 this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Profesor je ažuriran.");
             }, this.errorHandler.handle);
+    }
+
+    private openSnackbar(
+        message: string,
+        action: string = "Zatvori",
+        config: MatSnackBarConfig = { duration: 5 * 1000 }
+    ) {
+        this.snackbar.open(message, action, config);
     }
 }

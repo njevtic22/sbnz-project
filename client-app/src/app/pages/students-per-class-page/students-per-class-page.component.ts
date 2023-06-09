@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { StudentService } from "src/app/services/student.service";
@@ -145,6 +145,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getStudentsForClass();
                 this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Učenik je dodat.");
             }, this.errorHandler.handle);
     }
 
@@ -206,6 +207,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
             .subscribe((updated: User) => {
                 this.getStudentsForClass();
                 this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Učenik je ažuriran.");
             }, this.errorHandler.handle);
     }
 
@@ -216,6 +218,15 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getStudentsForClass();
                 // this.getTakenEmailsAndUsernames();
+                this.openSnackbar("Učenik je obrisan.");
             }, this.errorHandler.handle);
+    }
+
+    private openSnackbar(
+        message: string,
+        action: string = "Zatvori",
+        config: MatSnackBarConfig = { duration: 5 * 1000 }
+    ) {
+        this.snackbar.open(message, action, config);
     }
 }

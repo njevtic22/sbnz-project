@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBarConfig } from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTable } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -42,6 +44,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private dialog: MatDialog,
+        private snackbar: MatSnackBar,
         private classService: ClassService,
         private teacherService: TeacherService,
         private errorHandler: ErrorHandlerService
@@ -120,6 +123,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getClasses();
                 this.getNotStaresinaTeachers();
+                this.openSnackbar("Odeljenje je dodato.");
             }, this.errorHandler.handle);
     }
 
@@ -130,6 +134,7 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.getClasses();
                 this.getNotStaresinaTeachers();
+                this.openSnackbar("Odeljenje je obrisano.");
             }, this.errorHandler.handle);
     }
 
@@ -181,11 +186,20 @@ export class ClassesPageComponent implements OnInit, OnDestroy {
             .subscribe((updatedClass: Odeljenje) => {
                 this.getClasses();
                 this.getNotStaresinaTeachers();
+                this.openSnackbar("Odeljenje je ažurirano.");
             }, this.errorHandler.handle);
     }
 
     redirectToStudentsPage(odeljenje: Odeljenje): void {
         sessionStorage.setItem("class", JSON.stringify(odeljenje));
         this.router.navigate([`classes/${odeljenje.id}/students`]);
+    }
+
+    private openSnackbar(
+        message: string,
+        action: string = "Zatvori",
+        config: MatSnackBarConfig = { duration: 5 * 1000 }
+    ) {
+        this.snackbar.open(message, action, config);
     }
 }
