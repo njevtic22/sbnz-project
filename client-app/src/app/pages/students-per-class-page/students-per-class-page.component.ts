@@ -208,4 +208,14 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
                 this.getTakenEmailsAndUsernames();
             }, this.errorHandler.handle);
     }
+
+    deleteStudent(toDelete: User): void {
+        this.studentSubscription.unsubscribe();
+        this.studentSubscription = this.studentService
+            .deleteStudent(toDelete.id as number)
+            .subscribe(() => {
+                this.getStudentsForClass();
+                // this.getTakenEmailsAndUsernames();
+            }, this.errorHandler.handle);
+    }
 }

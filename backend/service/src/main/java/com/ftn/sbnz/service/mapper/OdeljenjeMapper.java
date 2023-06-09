@@ -1,6 +1,7 @@
 package com.ftn.sbnz.service.mapper;
 
 import com.ftn.sbnz.model.model.Odeljenje;
+import com.ftn.sbnz.model.model.Student;
 import com.ftn.sbnz.model.model.Teacher;
 import com.ftn.sbnz.service.dto.odeljenje.AddOdeljenjeDto;
 import com.ftn.sbnz.service.dto.odeljenje.OdeljenjeViewDto;
@@ -9,6 +10,7 @@ import com.ftn.sbnz.service.dto.teacher.TeacherViewDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class OdeljenjeMapper {
@@ -54,8 +56,18 @@ public class OdeljenjeMapper {
         return new OdeljenjeViewDto(
                 odeljenje.getId(),
                 odeljenje.getNaziv(),
-                (long) odeljenje.getUcenici().size(),
+                countNotArchivedStudents(odeljenje.getUcenici()),
                 teacherViewDto
         );
+    }
+
+    private long countNotArchivedStudents(List<Student> students) {
+        long notArchived = 0;
+        for (Student student : students) {
+            if (!student.isArchived()) {
+                notArchived++;
+            }
+        }
+        return notArchived;
     }
 }
