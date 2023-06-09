@@ -45,9 +45,13 @@ public class StudentController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> addStudent(@Valid @RequestBody AddStudentDto newStudentDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> addStudent(
+            @RequestParam Long classId,
+            @Valid @RequestBody AddStudentDto newStudentDto,
+            UriComponentsBuilder uriBuilder
+    ) {
         Student newStudent = mapper.toModel(newStudentDto);
-        Student added = service.add(newStudent, newStudentDto.getRepeatedPassword());
+        Student added = service.add(classId, newStudent, newStudentDto.getRepeatedPassword());
 
         URI uri = uriBuilder
                 .path("/api/students/{id}")

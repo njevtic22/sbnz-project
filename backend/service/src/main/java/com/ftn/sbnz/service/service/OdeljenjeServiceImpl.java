@@ -36,6 +36,11 @@ public class OdeljenjeServiceImpl implements OdeljenjeService {
     }
 
     @Override
+    public Odeljenje save(Odeljenje toSave) {
+        return repository.save(toSave);
+    }
+
+    @Override
     public Odeljenje add(Odeljenje newOdeljenje) {
         validateNaziv(newOdeljenje.getNaziv());
 

@@ -61,6 +61,10 @@ public class Odeljenje {
         return Objects.hash(id, naziv);
     }
 
+    public void addStudent(Student student) {
+        this.ucenici.add(student);
+    }
+
     public Long getId() {
         return id;
     }

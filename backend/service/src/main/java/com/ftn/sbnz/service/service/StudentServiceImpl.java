@@ -1,6 +1,7 @@
 package com.ftn.sbnz.service.service;
 
 import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju;
+import com.ftn.sbnz.model.model.Odeljenje;
 import com.ftn.sbnz.model.model.Role;
 import com.ftn.sbnz.model.model.Student;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
@@ -27,13 +28,15 @@ public class StudentServiceImpl implements StudentService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationService authenticationService;
     private final UserService userService;
+    private final OdeljenjeService odeljenjeService;
 
-    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService) {
+    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService, OdeljenjeService odeljenjeService) {
         this.repository = repository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationService = authenticationService;
         this.userService = userService;
+        this.odeljenjeService = odeljenjeService;
     }
 
     @Override
@@ -83,11 +86,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student add(Student newStudent, String repeatedPassword) {
+    public Student add(Long classId, Student newStudent, String repeatedPassword) {
         if (!newStudent.getPassword().equals(repeatedPassword)) {     // passwords are not encoded
             throw new InvalidPasswordException("New password and repeated password do not match.");
         }
-        return add(newStudent);
+
+        Odeljenje found = odeljenjeService.getById(classId);
+        Student added = add(newStudent);
+        found.addStudent(added);
+        odeljenjeService.save(found);
+
+        return added;
     }
 
     @Override

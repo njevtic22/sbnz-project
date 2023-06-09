@@ -9,7 +9,7 @@ public interface StudentService extends CrudService<Student> {
 
     Page<Student> getAllForTeacher(Long teacherId, Pageable pageable);
 
-    Student add(Student newStudent, String repeatedPassword);
+    Student add(Long classId, Student newStudent, String repeatedPassword);
 
     boolean existsByUsername(String username);
 
