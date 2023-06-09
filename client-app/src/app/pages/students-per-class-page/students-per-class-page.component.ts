@@ -15,6 +15,9 @@ import { UserService } from "src/app/services/user.service";
 import { TakenEmailsUsernames } from "src/app/types/taken-emails-usernames";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { AddUserDialogComponent } from "src/app/components/user/add-user-dialog/add-user-dialog.component";
+import { UpdateUserDialogComponent } from "src/app/components/user/update-user-dialog/update-user-dialog.component";
+import { Moment } from "moment";
+import * as moment from "moment";
 
 @Component({
     selector: "app-students-per-class-page",
@@ -46,6 +49,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
         "username",
         // "role",
         "nivoSklonosti",
+        "actions",
     ];
 
     constructor(
@@ -139,6 +143,67 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
         this.studentSubscription = this.studentService
             .addStudent(this.classId, newStudent)
             .subscribe(() => {
+                this.getStudentsForClass();
+                this.getTakenEmailsAndUsernames();
+            }, this.errorHandler.handle);
+    }
+
+    openUpdateStudentModal(student: User): void {
+        let takenEmails: string[] = [];
+        this.takenEmails.forEach((takenEmail: string) => {
+            if (takenEmail !== student.email) {
+                takenEmails.push(takenEmail);
+            }
+        });
+
+        let takenUsernames: string[] = [];
+        this.takenUsernames.forEach((takenUsername: string) => {
+            if (takenUsername !== student.username) {
+                takenUsernames.push(takenUsername);
+            }
+        });
+
+        const birthDateArray: number[] = student.birthDate as number[];
+        const birthDateStr: string = birthDateArray.join("-");
+        const birthDateMoment: Moment = moment(birthDateStr, "YYYY-MM-DD");
+
+        const data: ModalData<User> = {
+            mainData: {
+                id: student.id,
+                name: student.name,
+                surname: student.surname,
+                birthDate: birthDateMoment,
+                email: student.email,
+                username: student.username,
+                role: student.role,
+            },
+            additionalData: {
+                takenEmails: takenEmails,
+                takenUsernames: takenUsernames,
+                title: "Promena podataka",
+                buttonText: "Ažuriraj",
+            },
+        };
+
+        const dialogRef: MatDialogRef<UpdateUserDialogComponent> =
+            this.dialog.open(UpdateUserDialogComponent, {
+                data: data, // to share data by reference
+                // height: "400px",
+                // width: "400px",
+            });
+
+        dialogRef.afterClosed().subscribe((result: ModalResult<User>) => {
+            if (result.success) {
+                this.updateStudent(result.data);
+            }
+        });
+    }
+
+    updateStudent(changes: User): void {
+        this.studentSubscription.unsubscribe();
+        this.studentSubscription = this.studentService
+            .updateStudent(changes)
+            .subscribe((updated: User) => {
                 this.getStudentsForClass();
                 this.getTakenEmailsAndUsernames();
             }, this.errorHandler.handle);

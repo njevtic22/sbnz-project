@@ -138,7 +138,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT')")
     public ResponseEntity<UpdateStudentResponseDto> updateStudent(@PathVariable Long id, @Valid @RequestBody UpdateStudentDto changesDto) {
         Student original = service.getById(id);
         String originalUsername = original.getUsername();
