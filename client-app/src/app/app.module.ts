@@ -51,6 +51,7 @@ import { AddUserDialogComponent } from "./components/user/add-user-dialog/add-us
 import { UpdateUserDialogComponent } from './components/user/update-user-dialog/update-user-dialog.component';
 import { StudentsPerClassPageComponent } from './pages/students-per-class-page/students-per-class-page.component';
 import { StudentsForTeacherPageComponent } from './pages/students-for-teacher-page/students-for-teacher-page.component';
+import { HistoryPageComponent } from './pages/history-page/history-page.component';
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import { StudentsForTeacherPageComponent } from './pages/students-for-teacher-pa
         UpdateUserDialogComponent,
         StudentsPerClassPageComponent,
         StudentsForTeacherPageComponent,
+        HistoryPageComponent,
     ],
     imports: [
         BrowserModule,

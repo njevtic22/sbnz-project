@@ -49,6 +49,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
         "username",
         // "role",
         "nivoSklonosti",
+        "history",
         "actions",
     ];
 
@@ -79,7 +80,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        sessionStorage.removeItem("class");
+        // sessionStorage.removeItem("class");
         this.studentSubscription.unsubscribe();
         this.takenSubscription.unsubscribe();
     }

@@ -37,6 +37,7 @@ export class StudentsForTeacherPageComponent implements OnInit, OnDestroy {
         "username",
         // "role",
         "nivoSklonosti",
+        "history",
     ];
 
     constructor(

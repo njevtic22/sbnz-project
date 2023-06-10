@@ -30,6 +30,14 @@
                 <mat-icon>supervisor_account</mat-icon>
                 <span mat-line>Učenici</span>
             </a>
+
+            <a
+                mat-list-item
+                routerLink="/students/authenticated/history"
+                *ngIf="isStudent()"
+                ><mat-icon>history</mat-icon>
+                <span mat-line>Karton</span>
+            </a>
         </mat-nav-list>
 
         <mat-nav-list class="sidebar-bottom" *ngIf="isAuthenticated()">

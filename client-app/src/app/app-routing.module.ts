@@ -9,6 +9,7 @@ import { ClassesPageComponent } from "./pages/classes-page/classes-page.componen
 import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
 import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/students-per-class-page.component";
 import { StudentsForTeacherPageComponent } from "./pages/students-for-teacher-page/students-for-teacher-page.component";
+import { HistoryPageComponent } from "./pages/history-page/history-page.component";
 
 const routes: Routes = [
     {
@@ -68,6 +69,15 @@ const routes: Routes = [
         data: {
             title: "Učenici",
             roles: [Role.ROLE_TEACHER],
+        },
+    },
+    {
+        path: "students/:id/history",
+        component: HistoryPageComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: "Karton",
+            roles: [Role.ROLE_ADMIN, Role.ROLE_TEACHER, Role.ROLE_STUDENT],
         },
     },
     {

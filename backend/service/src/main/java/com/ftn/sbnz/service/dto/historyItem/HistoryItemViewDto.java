@@ -30,7 +30,7 @@ public class HistoryItemViewDto {
         return vdp;
     }
 
-    public SanctionViewDto getSanctionDto() {
+    public SanctionViewDto getSanction() {
         return sanction;
     }
 

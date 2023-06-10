@@ -25,6 +25,11 @@ export class StudentService {
         return this.http.post<void>(url, newStudent, httpOptions);
     }
 
+    getStudent(studentId: number): Observable<User> {
+        const url: string = `${this.studentUrl}/${studentId}`;
+        return this.http.get<User>(url);
+    }
+
     getStudentsForClass(
         classId: number,
         page: number,
