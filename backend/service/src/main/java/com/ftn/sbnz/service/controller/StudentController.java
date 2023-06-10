@@ -27,8 +27,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Map;
-import java.util.function.BiFunction;
 
 @RestController
 @RequestMapping("/api/students")
@@ -86,7 +84,7 @@ public class StudentController {
 
     @GetMapping("/for-teacher")
     @PreAuthorize("hasAnyRole('TEACHER')")
-    public ResponseEntity<PaginatedResponse<StudentViewDto>> getStudents(Pageable pageable) {
+    public ResponseEntity<PaginatedResponse<StudentViewDto>> getStudentsForTeacher(Pageable pageable) {
         Page<Student> allStudents = service.getAllForTeacher(pageable);
         Page<StudentViewDto> allStudentsDto = allStudents.map(mapper::toViewDto);
 

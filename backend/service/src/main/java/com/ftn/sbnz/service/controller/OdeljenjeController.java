@@ -85,6 +85,19 @@ public class OdeljenjeController {
         return ResponseEntity.ok(foundDto);
     }
 
+    @GetMapping("/for-teacher")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<OdeljenjeViewDto> getOdeljenjeForTeacher() {
+        Odeljenje found = service.getForTeacher();
+        if (found == null) {
+            return ResponseEntity.ok(null);
+        }
+
+        TeacherViewDto teacherDto = teacherMapper.toViewDto(found.getStaresina());
+        OdeljenjeViewDto foundDto = odeljenjeMapper.toViewDto(found, teacherDto);
+        return ResponseEntity.ok(foundDto);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<OdeljenjeViewDto> updateOdeljenje(@PathVariable Long id, @Valid @RequestBody UpdateOdeljenjeDto changesDto) {

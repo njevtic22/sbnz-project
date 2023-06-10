@@ -8,9 +8,12 @@ import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
 import com.ftn.sbnz.service.core.error.exceptions.StaresinaTakenException;
 import com.ftn.sbnz.service.core.error.exceptions.UniquePropertyException;
 import com.ftn.sbnz.service.repository.OdeljenjeRepository;
+import com.ftn.sbnz.service.security.AuthenticationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,11 +26,13 @@ public class OdeljenjeServiceImpl implements OdeljenjeService {
     private final OdeljenjeRepository repository;
     private final TeacherService teacherService;
     private final SchoolService schoolService;
+    private final AuthenticationService authenticationService;
 
-    public OdeljenjeServiceImpl(OdeljenjeRepository repository, TeacherService teacherService, SchoolService schoolService) {
+    public OdeljenjeServiceImpl(OdeljenjeRepository repository, TeacherService teacherService, SchoolService schoolService, AuthenticationService authenticationService) {
         this.repository = repository;
         this.teacherService = teacherService;
         this.schoolService = schoolService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -38,6 +43,20 @@ public class OdeljenjeServiceImpl implements OdeljenjeService {
     @Override
     public Odeljenje save(Odeljenje toSave) {
         return repository.save(toSave);
+    }
+
+    @Override
+    public Odeljenje getForTeacher() {
+        User authenticated = authenticationService.getAuthenticated();
+        Teacher authTeacher = teacherService.getByUsername(authenticated.getUsername());
+
+        List<Odeljenje> allClasses = getAll(PageRequest.of(0, Integer.MAX_VALUE, Sort.by("id"))).toList();
+        for (Odeljenje odeljenje : allClasses) {
+            if (odeljenje.getStaresina().equals(authTeacher)) {
+                return odeljenje;
+            }
+        }
+        return null;
     }
 
     @Override

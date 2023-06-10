@@ -1,5 +1,8 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2>Odeljenje: {{ class.naziv }}</h2>
+    <h2>
+        Odeljenje: {{ class.naziv }}, &nbsp; Starešina:
+        {{ class.staresina.name + " " + class.staresina.surname }}
+    </h2>
     <button mat-raised-button color="primary" (click)="openAddStudentModal()">
         Novi učenik
     </button>

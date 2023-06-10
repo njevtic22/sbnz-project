@@ -8,6 +8,7 @@ import { AuthGuard } from "./guards/auth.guard";
 import { ClassesPageComponent } from "./pages/classes-page/classes-page.component";
 import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
 import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/students-per-class-page.component";
+import { StudentsForTeacherPageComponent } from "./pages/students-for-teacher-page/students-for-teacher-page.component";
 
 const routes: Routes = [
     {
@@ -58,6 +59,15 @@ const routes: Routes = [
         data: {
             title: "Profesori",
             roles: [Role.ROLE_ADMIN],
+        },
+    },
+    {
+        path: "students",
+        component: StudentsForTeacherPageComponent,
+        canActivate: [AuthGuard],
+        data: {
+            title: "Učenici",
+            roles: [Role.ROLE_TEACHER],
         },
     },
     {

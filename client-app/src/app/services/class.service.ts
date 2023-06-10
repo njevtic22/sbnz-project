@@ -32,6 +32,11 @@ export class ClassService {
         return this.http.get<PaginatedResponse<Odeljenje>>(url);
     }
 
+    getClassForTeacher(): Observable<Odeljenje> {
+        const url: string = `${this.classUrl}/for-teacher`;
+        return this.http.get<Odeljenje>(url);
+    }
+
     updateClass(
         classId: number,
         classToUpdate: RequestOdeljenje

@@ -22,4 +22,8 @@ export class SidebarComponent {
     isAdmin(): boolean {
         return this.authService.isAdmin();
     }
+
+    isTeacher(): boolean {
+        return this.authService.isTeacher();
+    }
 }

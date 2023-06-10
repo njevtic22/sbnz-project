@@ -37,6 +37,10 @@ export class AuthenticationService {
         return sessionStorage.getItem("role") === Role[Role.ROLE_ADMIN];
     }
 
+    isTeacher(): boolean {
+        return sessionStorage.getItem("role") === Role[Role.ROLE_TEACHER];
+    }
+
     isStudent(): boolean {
         return sessionStorage.getItem("role") === Role[Role.ROLE_STUDENT];
     }

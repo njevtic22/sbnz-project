@@ -37,7 +37,7 @@ export class StudentsPerClassPageComponent implements OnInit, OnDestroy {
 
     private page: number = 0;
     private size: number = constants.MAX_SAFE_INTEGER_32;
-    private sort: string = "id,desc";
+    private sort: string = "id,asc";
 
     @ViewChild(MatTable) private table!: MatTable<any>;
     columnsToDisplay: string[] = [

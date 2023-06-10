@@ -35,6 +35,15 @@ export class StudentService {
         return this.http.get<PaginatedResponse<User>>(url);
     }
 
+    getStudentsForTeacher(
+        page: number,
+        size: number,
+        sort: string
+    ): Observable<PaginatedResponse<User>> {
+        const url: string = `${this.studentUrl}/for-teacher?page=${page}&size=${size}&sort=${sort}`;
+        return this.http.get<PaginatedResponse<User>>(url);
+    }
+
     updateStudent(changes: User): Observable<User> {
         const url: string = `${this.studentUrl}/${changes.id}`;
         return this.http.put<User>(url, changes, httpOptions);
