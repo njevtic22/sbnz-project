@@ -4,6 +4,7 @@ import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju;
 import com.ftn.sbnz.model.model.Odeljenje;
 import com.ftn.sbnz.model.model.Role;
 import com.ftn.sbnz.model.model.Student;
+import com.ftn.sbnz.model.model.Teacher;
 import com.ftn.sbnz.service.core.error.exceptions.EntityNotFoundException;
 import com.ftn.sbnz.service.core.error.exceptions.InvalidPasswordException;
 import com.ftn.sbnz.service.core.error.exceptions.MultipleDeletedRowsException;
@@ -29,14 +30,16 @@ public class StudentServiceImpl implements StudentService {
     private final AuthenticationService authenticationService;
     private final UserService userService;
     private final OdeljenjeService odeljenjeService;
+    private final TeacherService teacherService;
 
-    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService, OdeljenjeService odeljenjeService) {
+    public StudentServiceImpl(StudentRepository repository, RoleService roleService, PasswordEncoder passwordEncoder, AuthenticationService authenticationService, UserService userService, OdeljenjeService odeljenjeService, TeacherService teacherService) {
         this.repository = repository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationService = authenticationService;
         this.userService = userService;
         this.odeljenjeService = odeljenjeService;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -131,8 +134,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Page<Student> getAllForTeacher(Long teacherId, Pageable pageable) {
-        return repository.findAllByTeacherId(teacherId, pageable);
+    public Page<Student> getAllForTeacher(Pageable pageable) {
+        User authenticated = authenticationService.getAuthenticated();
+        Teacher authTeacher = teacherService.getByUsername(authenticated.getUsername());
+        return repository.findAllByTeacherId(authTeacher.getId(), pageable);
     }
 
     @Override

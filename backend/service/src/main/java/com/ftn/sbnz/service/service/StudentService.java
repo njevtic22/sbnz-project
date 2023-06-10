@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 public interface StudentService extends CrudService<Student> {
     Page<Student> getAllForClass(Long classId, Pageable pageable);
 
-    Page<Student> getAllForTeacher(Long teacherId, Pageable pageable);
+    Page<Student> getAllForTeacher(Pageable pageable);
 
     Student add(Long classId, Student newStudent, String repeatedPassword);
 
