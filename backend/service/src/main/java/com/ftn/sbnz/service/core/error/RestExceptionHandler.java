@@ -45,6 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({
+            NumberFormatException.class,
             UniquePropertyException.class,
             InvalidPasswordException.class,
             BlankStringException.class,
