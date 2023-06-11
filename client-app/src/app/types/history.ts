@@ -1,6 +1,9 @@
 export interface HistoryItem {
     id: number;
     nivoNasilja: string;
+    tipNasilja: string;
+    oblikNasilja: string;
+    opis: string;
     vdp: Vdp;
     sanction: Sanction;
     reportDate: number[];
@@ -19,4 +22,7 @@ export interface Sanction {
 export interface Report {
     studentId: number;
     nivoNasilja: string;
+    tipNasilja: string;
+    oblikNasilja: string;
+    opis: string;
 }

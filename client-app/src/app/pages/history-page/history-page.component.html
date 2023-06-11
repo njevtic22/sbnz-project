@@ -2,18 +2,81 @@
     Karton učenika: {{ student.name + " " + student.surname }}, &nbsp; Nivo
     sklonosti ka nasilju: {{ student.nivoSklonosti }}
 </h2>
-<table mat-table [dataSource]="history" class="padded mat-elevation-z5">
+<table
+    mat-table
+    multiTemplateDataRows
+    [dataSource]="history"
+    class="padded mat-elevation-z5"
+>
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    <tr
+        mat-row
+        *matRowDef="let history; columns: columnsToDisplay"
+        class="example-element-row"
+        [class.example-expanded-row]="history.isExpanded"
+        (click)="history.isExpanded = !history.isExpanded"
+    ></tr>
+    <tr
+        mat-row
+        *matRowDef="let row; columns: ['expandedDetail']"
+        class="example-detail-row"
+    ></tr>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td
+            mat-cell
+            *matCellDef="let history"
+            [attr.colspan]="columnsToDisplay.length"
+        >
+            <div
+                class="example-element-detail"
+                [@detailExpand]="history.isExpanded ? 'expanded' : 'collapsed'"
+            >
+                <table class="detail-table">
+                    <tr>
+                        <th>Oblk nasilja</th>
+                        <th>Opis događaja</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ history.oblikNasilja }}
+                        </td>
+                        <td>
+                            {{ history.opis }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </ng-container>
 
     <!-- <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>Id</th>
         <td mat-cell *matCellDef="let history">{{ history.id }}</td>
     </ng-container> -->
 
+    <ng-container matColumnDef="reportDate">
+        <th mat-header-cell *matHeaderCellDef>Datum prijave</th>
+        <td mat-cell *matCellDef="let history">
+            {{
+                history.reportDate[2] +
+                    "." +
+                    history.reportDate[1] +
+                    "." +
+                    history.reportDate[0] +
+                    "."
+            }}
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="nivoNasilja">
         <th mat-header-cell *matHeaderCellDef>Nivo nasilja</th>
         <td mat-cell *matCellDef="let history">{{ history.nivoNasilja }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipNasilja">
+        <th mat-header-cell *matHeaderCellDef>Tip nasilja</th>
+        <td mat-cell *matCellDef="let history">{{ history.tipNasilja }}</td>
     </ng-container>
 
     <ng-container matColumnDef="vdp">
@@ -28,25 +91,7 @@
     <ng-container matColumnDef="sanction">
         <th mat-header-cell *matHeaderCellDef>Sankcija</th>
         <td mat-cell *matCellDef="let history">
-            {{
-                !history.sanction.description
-                    ? "null"
-                    : history.sanction.description
-            }}
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="reportDate">
-        <th mat-header-cell *matHeaderCellDef>Datum prijave</th>
-        <td mat-cell *matCellDef="let history">
-            {{
-                history.reportDate[2] +
-                    "." +
-                    history.reportDate[1] +
-                    "." +
-                    history.reportDate[0] +
-                    "."
-            }}
+            {{ history.sanction?.description }}
         </td>
     </ng-container>
 </table>

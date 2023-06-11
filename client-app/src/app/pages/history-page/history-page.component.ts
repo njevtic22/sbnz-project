@@ -11,11 +11,28 @@ import { HistoryService } from "src/app/services/history.service";
 import { UserService } from "src/app/services/user.service";
 import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 import { PaginatedResponse } from "src/app/types/paginated-response";
+import {
+    trigger,
+    state,
+    style,
+    transition,
+    animate,
+} from "@angular/animations";
 
 @Component({
     selector: "app-history-page",
     templateUrl: "./history-page.component.html",
     styleUrls: ["./history-page.component.scss"],
+    animations: [
+        trigger("detailExpand", [
+            state("collapsed", style({ height: "0px", minHeight: "0" })),
+            state("expanded", style({ height: "*" })),
+            transition(
+                "expanded <=> collapsed",
+                animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+            ),
+        ]),
+    ],
 })
 export class HistoryPageComponent implements OnInit, OnDestroy {
     studentId: number | string = -1;
@@ -42,10 +59,11 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     @ViewChild(MatTable) private table!: MatTable<any>;
     columnsToDisplay: string[] = [
         // "id",
+        "reportDate",
         "nivoNasilja",
+        "tipNasilja",
         "vdp",
         "sanction",
-        "reportDate",
     ];
 
     constructor(
@@ -117,7 +135,15 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
             )
             .subscribe((response: PaginatedResponse<HistoryItem>) => {
                 this.history = response.data;
+                this.history = this.history.map((item: HistoryItem) => ({
+                    ...item,
+                    isExpanded: false,
+                }));
             }, this.errorHandler.handle);
+    }
+
+    getImage(): string {
+        return constants.userLogoImage;
     }
 
     private openSnackbar(

@@ -48,10 +48,10 @@ import { ClassesPageComponent } from "./pages/classes-page/classes-page.componen
 import { ClassDialogComponent } from "./components/class-dialog/class-dialog.component";
 import { TeachersPageComponent } from "./pages/teachers-page/teachers-page.component";
 import { AddUserDialogComponent } from "./components/user/add-user-dialog/add-user-dialog.component";
-import { UpdateUserDialogComponent } from './components/user/update-user-dialog/update-user-dialog.component';
-import { StudentsPerClassPageComponent } from './pages/students-per-class-page/students-per-class-page.component';
-import { StudentsForTeacherPageComponent } from './pages/students-for-teacher-page/students-for-teacher-page.component';
-import { HistoryPageComponent } from './pages/history-page/history-page.component';
+import { UpdateUserDialogComponent } from "./components/user/update-user-dialog/update-user-dialog.component";
+import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/students-per-class-page.component";
+import { StudentsForTeacherPageComponent } from "./pages/students-for-teacher-page/students-for-teacher-page.component";
+import { HistoryPageComponent } from "./pages/history-page/history-page.component";
 
 @NgModule({
     declarations: [
