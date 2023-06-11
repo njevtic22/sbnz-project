@@ -1,9 +1,19 @@
 package com.ftn.sbnz.model.model;
 
 public enum TipNasilja {
-    FIZICKO,
-    VERBALNO,
-    SOCIJALNO,
-    SEKSUALNO,
-    INFORMATICKO
+    FIZICKO("Fizičko"),
+    VERBALNO("Verbalno"),
+    SOCIJALNO("Socijalno"),
+    SEKSUALNO("Seksualno"),
+    INFORMATICKO("Informatičko");
+
+    private final String description;
+
+    TipNasilja(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

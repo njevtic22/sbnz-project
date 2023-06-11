@@ -5,15 +5,15 @@ import java.time.LocalDate;
 
 public class HistoryItemViewDto {
     private final Long id;
-    private final String nivoNasilja;
-    private final String tipNasilja;
-    private final String oblikNasilja;
+    private final NivoNasiljaDto nivoNasilja;
+    private final TipNasiljaDto tipNasilja;
+    private final OblikNasiljaDto oblikNasilja;
     private final String opis;
     private final VdpViewDto vdp;
     private final SanctionViewDto sanction;
     private final LocalDate reportDate;
 
-    public HistoryItemViewDto(Long id, String nivoNasilja, String tipNasilja, String oblikNasilja, String opis, VdpViewDto vdp, SanctionViewDto sanction, LocalDate reportDate) {
+    public HistoryItemViewDto(Long id, NivoNasiljaDto nivoNasilja, TipNasiljaDto tipNasilja, OblikNasiljaDto oblikNasilja, String opis, VdpViewDto vdp, SanctionViewDto sanction, LocalDate reportDate) {
         this.id = id;
         this.nivoNasilja = nivoNasilja;
         this.tipNasilja = tipNasilja;
@@ -28,15 +28,15 @@ public class HistoryItemViewDto {
         return id;
     }
 
-    public String getNivoNasilja() {
+    public NivoNasiljaDto getNivoNasilja() {
         return nivoNasilja;
     }
 
-    public String getTipNasilja() {
+    public TipNasiljaDto getTipNasilja() {
         return tipNasilja;
     }
 
-    public String getOblikNasilja() {
+    public OblikNasiljaDto getOblikNasilja() {
         return oblikNasilja;
     }
 

@@ -1,20 +1,15 @@
 export interface HistoryItem {
     id: number;
-    nivoNasilja: string;
-    tipNasilja: string;
-    oblikNasilja: string;
+    nivoNasilja: ValueDescriptionPair;
+    tipNasilja: ValueDescriptionPair;
+    oblikNasilja: ValueDescriptionPair;
     opis: string;
-    vdp: Vdp;
-    sanction: Sanction;
+    vdp: ValueDescriptionPair;
+    sanction: ValueDescriptionPair;
     reportDate: number[];
 }
 
-export interface Vdp {
-    value: string;
-    description: string;
-}
-
-export interface Sanction {
+export interface ValueDescriptionPair {
     value: string;
     description: string;
 }

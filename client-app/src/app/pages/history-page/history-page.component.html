@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ history.oblikNasilja }}
+                            {{ history.oblikNasilja.description }}
                         </td>
                         <td>
                             {{ history.opis }}
@@ -71,12 +71,16 @@
 
     <ng-container matColumnDef="nivoNasilja">
         <th mat-header-cell *matHeaderCellDef>Nivo nasilja</th>
-        <td mat-cell *matCellDef="let history">{{ history.nivoNasilja }}</td>
+        <td mat-cell *matCellDef="let history">
+            {{ history.nivoNasilja.description }}
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="tipNasilja">
         <th mat-header-cell *matHeaderCellDef>Tip nasilja</th>
-        <td mat-cell *matCellDef="let history">{{ history.tipNasilja }}</td>
+        <td mat-cell *matCellDef="let history">
+            {{ history.tipNasilja.description }}
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="vdp">

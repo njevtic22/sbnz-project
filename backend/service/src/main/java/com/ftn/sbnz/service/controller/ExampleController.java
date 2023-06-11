@@ -43,7 +43,7 @@ public class ExampleController {
 
         Student student1 = studentService.getById(id);
 
-        Report report1 = new Report(reportId.next(), student1, NivoNasilja.DRUGI, TipNasilja.FIZICKO, OblikNasilja.SAMARANJE, "Neki dugacak opis");
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.DRUGI, TipNasilja.FIZICKO, OblikNasilja.SAMARANJE, "Neki dugacki opis. ".repeat(20));
 
         System.out.println("Student1 - " + student1.toString());
         System.out.println("Student1 - History size: " + student1.getHistory().size());
@@ -85,7 +85,7 @@ public class ExampleController {
 
         Student student1 = studentService.getById(id);
 
-        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI, TipNasilja.FIZICKO, OblikNasilja.UDARANJE_CVRGA, "Neki dugacki opis");
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI, TipNasilja.FIZICKO, OblikNasilja.UDARANJE_CVRGA, "Neki dugacki opis. ".repeat(20));
 
         System.out.println("Student1 - " + student1.toString());
         System.out.println("Student1 - History size: " + student1.getHistory().size());

@@ -6,7 +6,7 @@ public enum Vdp {
     ),
 
     SAVETODAVNI_RAD_PPS(
-            "Savetodavni rad pps sa učenikom i roditeljem. Smanjenje ocene iz vladanja."
+            "Savetodavni rad pedagoško psihološke službe sa učenikom i roditeljem. Smanjenje ocene iz vladanja."
     ),
 
     POJACAN_RAD_NASTAVNIKA(
@@ -14,15 +14,15 @@ public enum Vdp {
     ),
 
     POJACAN_RAD_PPS(
-            "Pojačan rad pps sa učenikom i roditeljem. Smanjenje ocene iz vladanja."
+            "Pojačan rad pedagoško psihološke službe sa učenikom i roditeljem. Smanjenje ocene iz vladanja."
     ),
 
     POJACAN_RAD_SS(
-            "Pojačan rad pps sa učenikom i roditeljem i uključivanje socijalne službe. Smanjenje ocene iz vladanja."
+            "Pojačan rad pedagoško psihološke službe sa učenikom i roditeljem i uključivanje socijalne službe. Smanjenje ocene iz vladanja."
     ),
 
     POJACAN_RAD_MUP(
-            "Pojačan rad pps sa učenikom i roditeljem i uključivanje socijalne službe, tužilaštva i MUP-a."
+            "Pojačan rad pedagoško psihološke službe sa učenikom i roditeljem i uključivanje socijalne službe, tužilaštva i MUP-a."
     );
 
     private final String description;
