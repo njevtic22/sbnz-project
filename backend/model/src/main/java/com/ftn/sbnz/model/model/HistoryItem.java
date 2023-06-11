@@ -29,6 +29,15 @@ public class HistoryItem {
     private NivoNasilja nivoNasilja;
 
     @Enumerated(EnumType.STRING)
+    private TipNasilja tipNasilja;
+
+    @Enumerated(EnumType.STRING)
+    private OblikNasilja oblikNasilja;
+
+    @Column(length = 1000)
+    private String opis;
+
+    @Enumerated(EnumType.STRING)
     private Vdp vdp;
 
     @Enumerated(EnumType.STRING)
@@ -39,14 +48,17 @@ public class HistoryItem {
 
     public HistoryItem() { }
 
-    public HistoryItem(Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction, LocalDate reportDate) {
-        this(null, student, nivoNasilja, vdp, sanction, reportDate);
+    public HistoryItem(Student student, NivoNasilja nivoNasilja, TipNasilja tipNasilja, OblikNasilja oblikNasilja, String opis, Vdp vdp, Sanction sanction, LocalDate reportDate) {
+        this(null, student, nivoNasilja, tipNasilja, oblikNasilja, opis, vdp, sanction, reportDate);
     }
 
-    public HistoryItem(Long id, Student student, NivoNasilja nivoNasilja, Vdp vdp, Sanction sanction, LocalDate reportDate) {
+    public HistoryItem(Long id, Student student, NivoNasilja nivoNasilja, TipNasilja tipNasilja, OblikNasilja oblikNasilja, String opis, Vdp vdp, Sanction sanction, LocalDate reportDate) {
         this.id = id;
         this.student = student;
         this.nivoNasilja = nivoNasilja;
+        this.tipNasilja = tipNasilja;
+        this.oblikNasilja = oblikNasilja;
+        this.opis = opis;
         this.vdp = vdp;
         this.sanction = sanction;
         this.reportDate = reportDate;
@@ -71,8 +83,12 @@ public class HistoryItem {
                 "id=" + id +
                 ", student=" + student +
                 ", nivoNasilja=" + nivoNasilja +
+                ", tipNasilja=" + tipNasilja +
+                ", oblikNasilja=" + oblikNasilja +
+                ", opis='" + opis + '\'' +
                 ", vdp=" + vdp +
                 ", sanction=" + sanction +
+                ", reportDate=" + reportDate +
                 '}';
     }
 
@@ -98,6 +114,30 @@ public class HistoryItem {
 
     public void setNivoNasilja(NivoNasilja nivoNasilja) {
         this.nivoNasilja = nivoNasilja;
+    }
+
+    public TipNasilja getTipNasilja() {
+        return tipNasilja;
+    }
+
+    public void setTipNasilja(TipNasilja tipNasilja) {
+        this.tipNasilja = tipNasilja;
+    }
+
+    public OblikNasilja getOblikNasilja() {
+        return oblikNasilja;
+    }
+
+    public void setOblikNasilja(OblikNasilja oblikNasilja) {
+        this.oblikNasilja = oblikNasilja;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public Vdp getVdp() {

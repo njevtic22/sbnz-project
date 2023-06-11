@@ -12,6 +12,9 @@ public class HistoryItemMapper {
         return new HistoryItemViewDto(
                 item.getId(),
                 item.getNivoNasilja().toString(),
+                item.getTipNasilja().toString(),
+                item.getOblikNasilja().toString(),
+                item.getOpis(),
                 new VdpViewDto(item.getVdp().toString(), item.getVdp().getDescription()),
                 new SanctionViewDto(
                         item.getSanction() == null ? null : item.getSanction().toString(),

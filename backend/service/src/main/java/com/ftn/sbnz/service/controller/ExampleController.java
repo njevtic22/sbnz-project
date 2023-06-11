@@ -1,8 +1,10 @@
 package com.ftn.sbnz.service.controller;
 
 import com.ftn.sbnz.model.model.NivoNasilja;
+import com.ftn.sbnz.model.model.OblikNasilja;
 import com.ftn.sbnz.model.model.Report;
 import com.ftn.sbnz.model.model.Student;
+import com.ftn.sbnz.model.model.TipNasilja;
 import com.ftn.sbnz.service.service.HistoryItemService;
 import com.ftn.sbnz.service.service.KnowledgeService;
 import com.ftn.sbnz.service.service.RoleService;
@@ -41,7 +43,7 @@ public class ExampleController {
 
         Student student1 = studentService.getById(id);
 
-        Report report1 = new Report(reportId.next(), student1, NivoNasilja.DRUGI);
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.DRUGI, TipNasilja.FIZICKO, OblikNasilja.SAMARANJE, "Neki dugacak opis");
 
         System.out.println("Student1 - " + student1.toString());
         System.out.println("Student1 - History size: " + student1.getHistory().size());
@@ -83,7 +85,7 @@ public class ExampleController {
 
         Student student1 = studentService.getById(id);
 
-        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI);
+        Report report1 = new Report(reportId.next(), student1, NivoNasilja.PRVI, TipNasilja.FIZICKO, OblikNasilja.UDARANJE_CVRGA, "Neki dugacki opis");
 
         System.out.println("Student1 - " + student1.toString());
         System.out.println("Student1 - History size: " + student1.getHistory().size());

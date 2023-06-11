@@ -2,8 +2,8 @@ package rules.com.ftn;
 import java.time.LocalDate
 import com.ftn.sbnz.model.model.HistoryItem;
 
+//    System.out.println("isInLastThreeMonths called for history item: " + $item.getId());
 function boolean isInLastThreeMonths(HistoryItem $item) {
-    System.out.println("isInLastThreeMonths called for history item: " + $item.getId());
 
     LocalDate $endDate = LocalDate.now();
     LocalDate $startDate = $endDate.minusMonths(3);

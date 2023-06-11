@@ -20,7 +20,10 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
         $report: Report(
             nivoNasilja == NivoNasilja.PRVI,
             $student: student,
-            $nivo: nivoNasilja
+            $nivo: nivoNasilja,
+            $tip: tipNasilja,
+            $oblik: oblikNasilja,
+            $opis: opis
         )
         Number(intValue < 2) from accumulate (
             $historyItem: HistoryItem(
@@ -29,7 +32,7 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
             count(isInLastThreeMonths($historyItem))
         )
     then
-        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null, LocalDate.now());
+        HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null, LocalDate.now());
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
@@ -86,7 +89,10 @@ rule "3th time reported for 1st level violence"
         $report: Report(
             nivoNasilja == NivoNasilja.PRVI,
             $student: student,
-            $nivo: nivoNasilja
+            $nivo: nivoNasilja,
+            $tip: tipNasilja,
+            $oblik: oblikNasilja,
+            $opis: opis
         )
         Number(intValue >= 2) from accumulate (
             $historyItem: HistoryItem(
@@ -95,7 +101,7 @@ rule "3th time reported for 1st level violence"
             count(isInLastThreeMonths($historyItem))
         )
     then
-        HistoryItem $item = new HistoryItem($student, $nivo, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
+        HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
