@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { HistoryItem } from "src/app/types/history";
+import { HistoryItem, Report } from "src/app/types/history";
 import { User } from "src/app/types/user";
 import { Subscription } from "rxjs";
 import { constants } from "src/app/constants";
@@ -18,6 +18,10 @@ import {
     transition,
     animate,
 } from "@angular/animations";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { ModalData, ModalResult } from "src/app/types/modal";
+import { ReportStudentDialogComponent } from "src/app/components/report-student-dialog/report-student-dialog.component";
+import { AuthenticationService } from "src/app/services/authentication.service";
 
 @Component({
     selector: "app-history-page",
@@ -69,9 +73,11 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
+        private dialog: MatDialog,
         private snackbar: MatSnackBar,
         private userService: UserService,
         private studentService: StudentService,
+        private authService: AuthenticationService,
         private historyService: HistoryService,
         private errorHandler: ErrorHandlerService
     ) {}
@@ -100,6 +106,10 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.studentSubscription.unsubscribe();
         this.historySubscription.unsubscribe();
+    }
+
+    isTeacher(): boolean {
+        return this.authService.isTeacher();
     }
 
     getStudent(): void {
@@ -139,6 +149,42 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
                     ...item,
                     isExpanded: false,
                 }));
+            }, this.errorHandler.handle);
+    }
+
+    openReportStudentModal(): void {
+        const data: ModalData<Report> = {
+            mainData: {
+                studentId: this.studentId as number,
+                nivoNasilja: "",
+                tipNasilja: "",
+                oblikNasilja: "",
+                opis: "",
+            },
+            additionalData: {},
+        };
+
+        const dialogRef: MatDialogRef<ReportStudentDialogComponent> =
+            this.dialog.open(ReportStudentDialogComponent, {
+                data: data, // to share data by reference
+                // height: "400px",
+                // width: "400px",
+            });
+
+        dialogRef.afterClosed().subscribe((result: ModalResult<Report>) => {
+            if (result.success) {
+                this.reportStudent(result.data);
+            }
+        });
+    }
+
+    reportStudent(report: Report): void {
+        this.historySubscription.unsubscribe();
+        this.historySubscription = this.historyService
+            .reportStudent(this.studentId as number, report)
+            .subscribe((item: HistoryItem) => {
+                console.log(item);
+                this.getHistory();
             }, this.errorHandler.handle);
     }
 

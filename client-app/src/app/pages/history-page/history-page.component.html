@@ -1,7 +1,17 @@
-<h2>
-    Karton učenika: {{ student.name + " " + student.surname }}, &nbsp; Nivo
-    sklonosti ka nasilju: {{ student.nivoSklonosti }}
-</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2>
+        Karton učenika: {{ student.name + " " + student.surname }}, &nbsp; Nivo
+        sklonosti ka nasilju: {{ student.nivoSklonosti }}
+    </h2>
+    <button
+        *ngIf="isTeacher()"
+        mat-raised-button
+        color="primary"
+        (click)="openReportStudentModal()"
+    >
+        Prijavi učenika
+    </button>
+</div>
 <table
     mat-table
     multiTemplateDataRows
@@ -34,11 +44,11 @@
             >
                 <table class="detail-table">
                     <tr>
-                        <th>Oblk nasilja</th>
+                        <th class="detail-table-cell">Oblk nasilja</th>
                         <th>Opis događaja</th>
                     </tr>
                     <tr>
-                        <td>
+                        <td class="detail-table-cell">
                             {{ history.oblikNasilja.description }}
                         </td>
                         <td>

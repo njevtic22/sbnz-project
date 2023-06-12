@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environment/environment";
 import { PaginatedResponse } from "../types/paginated-response";
-import { HistoryItem } from "../types/history";
+import { HistoryItem, Report } from "../types/history";
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -20,6 +20,11 @@ export class HistoryService {
     private histories: string = "histories";
 
     constructor(private http: HttpClient) {}
+
+    reportStudent(studentId: number, report: Report): Observable<HistoryItem> {
+        const url: string = `${this.hisotryUrl}/${studentId}/${this.histories}`;
+        return this.http.post<HistoryItem>(url, report, httpOptions);
+    }
 
     getHistory(
         studentId: number,

@@ -44,8 +44,8 @@ tr.example-element-row:active {
     padding: 1%;
 }
 
-.detail-table tr > th,
-td {
+.detail-table-cell {
+    width: 200px;
     padding-left: 25px;
     padding-right: 25px;
 }
