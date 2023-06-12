@@ -5,8 +5,8 @@ import { ModalData } from "src/app/types/modal";
 import { Report } from "src/app/types/history";
 import {
     getNivoNasiljaKeyValuePairs,
-    getOblikNasiljaKeyValuePairs,
     getTipNasiljaKeyValuePairs,
+    getOblikNasiljaKeyValuePairs,
 } from "src/app/types/violence-types-util";
 import { KeyValuePair } from "src/app/types/pair";
 

@@ -25,8 +25,6 @@ export class StudentsForTeacherPageComponent implements OnInit, OnDestroy {
     private size: number = constants.MAX_SAFE_INTEGER_32;
     private sort: string = "id,asc";
 
-    JSON = JSON;
-
     @ViewChild(MatTable) private table!: MatTable<any>;
     columnsToDisplay: string[] = [
         // "id",

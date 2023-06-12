@@ -80,27 +80,6 @@
                 Obavezno polje
             </mat-error>
         </mat-form-field>
-
-        <!-- {{ JSON.stringify(reportForm.controls["nivoNasilja"].value) }}
-        {{ JSON.stringify(reportForm.get("tipNasilja")?.value) }} -->
-
-        <!-- <mat-form-field>
-            <mat-label>Odeljenski starešina</mat-label>
-            <mat-select formControlName="staresinaId" required>
-                <mat-option
-                    *ngFor="let teacher of data.additionalData.teachers"
-                    [value]="teacher.id"
-                >
-                    {{ teacher.name + " " + teacher.surname }}
-                </mat-option>
-            </mat-select>
-
-            <mat-error
-                *ngIf="reportForm.controls['staresinaId'].hasError('required')"
-            >
-                Obavezno polje
-            </mat-error>
-        </mat-form-field> -->
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

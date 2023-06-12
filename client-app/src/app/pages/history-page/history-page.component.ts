@@ -20,7 +20,7 @@ import {
 } from "@angular/animations";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ModalData, ModalResult } from "src/app/types/modal";
-import { ReportStudentDialogComponent } from "src/app/components/report-student-dialog/report-student-dialog.component";
+import { ReportStudentDialogComponent } from "src/app/components/report/report-student-dialog/report-student-dialog.component";
 import { AuthenticationService } from "src/app/services/authentication.service";
 
 @Component({
@@ -58,7 +58,8 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
 
     private page: number = 0;
     private size: number = constants.MAX_SAFE_INTEGER_32;
-    private sort: string = "id,asc";
+    private sortReportDate: string = "reportDate,desc";
+    private sortId: string = "id,desc";
 
     @ViewChild(MatTable) private table!: MatTable<any>;
     columnsToDisplay: string[] = [
@@ -141,7 +142,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
                 this.student.id as number,
                 this.page,
                 this.size,
-                this.sort
+                this.sortReportDate + "&sort=" + this.sortId
             )
             .subscribe((response: PaginatedResponse<HistoryItem>) => {
                 this.history = response.data;

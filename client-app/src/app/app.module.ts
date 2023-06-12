@@ -52,7 +52,7 @@ import { UpdateUserDialogComponent } from "./components/user/update-user-dialog/
 import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/students-per-class-page.component";
 import { StudentsForTeacherPageComponent } from "./pages/students-for-teacher-page/students-for-teacher-page.component";
 import { HistoryPageComponent } from "./pages/history-page/history-page.component";
-import { ReportStudentDialogComponent } from './components/report-student-dialog/report-student-dialog.component';
+import { ReportStudentDialogComponent } from "./components/report/report-student-dialog/report-student-dialog.component";
 
 @NgModule({
     declarations: [
