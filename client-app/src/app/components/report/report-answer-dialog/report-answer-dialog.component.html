@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Postupak</h2>
+<mat-dialog-content>
+    <form novalidate fxLayout="column" fxLayoutAlign="center stretch">
+        <br />
+        <mat-form-field appearance="outline">
+            <mat-label>Vaspitno disciplinski postupak</mat-label>
+            <textarea
+                matInput
+                readonly
+                rows="3"
+                name="vdp"
+                [(ngModel)]="data.mainData.vdp.description"
+            ></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Sankcija</mat-label>
+            <textarea
+                matInput
+                readonly
+                rows="1"
+                name="sanction"
+                [(ngModel)]="data.mainData.sanction.description"
+            ></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button color="primary" mat-raised-button (click)="closeCancel()">
+        Zatvori
+    </button>
+</mat-dialog-actions>

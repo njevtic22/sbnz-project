@@ -22,6 +22,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ModalData, ModalResult } from "src/app/types/modal";
 import { ReportStudentDialogComponent } from "src/app/components/report/report-student-dialog/report-student-dialog.component";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { ReportAnswerDialogComponent } from "src/app/components/report/report-answer-dialog/report-answer-dialog.component";
 
 @Component({
     selector: "app-history-page",
@@ -184,9 +185,23 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
         this.historySubscription = this.historyService
             .reportStudent(this.studentId as number, report)
             .subscribe((item: HistoryItem) => {
-                console.log(item);
+                this.openReportAnswerDialog(item);
                 this.getHistory();
             }, this.errorHandler.handle);
+    }
+
+    openReportAnswerDialog(item: HistoryItem): void {
+        const data: ModalData<HistoryItem> = {
+            mainData: item,
+            additionalData: {},
+        };
+
+        const dialogRef: MatDialogRef<ReportAnswerDialogComponent> =
+            this.dialog.open(ReportAnswerDialogComponent, {
+                data: data, // to share data by reference
+                height: "380px",
+                width: "500px",
+            });
     }
 
     getImage(): string {

@@ -53,6 +53,7 @@ import { StudentsPerClassPageComponent } from "./pages/students-per-class-page/s
 import { StudentsForTeacherPageComponent } from "./pages/students-for-teacher-page/students-for-teacher-page.component";
 import { HistoryPageComponent } from "./pages/history-page/history-page.component";
 import { ReportStudentDialogComponent } from "./components/report/report-student-dialog/report-student-dialog.component";
+import { ReportAnswerDialogComponent } from './components/report/report-answer-dialog/report-answer-dialog.component';
 
 @NgModule({
     declarations: [
@@ -74,6 +75,7 @@ import { ReportStudentDialogComponent } from "./components/report/report-student
         StudentsForTeacherPageComponent,
         HistoryPageComponent,
         ReportStudentDialogComponent,
+        ReportAnswerDialogComponent,
     ],
     imports: [
         BrowserModule,
