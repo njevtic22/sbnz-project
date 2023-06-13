@@ -37,6 +37,12 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
             ) from $student.getHistory(),
             count(isInLastThreeMonths($historyItem))
         )
+        Number(intValue == 0) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.TRECI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null, LocalDate.now());
         $student.addToHistory($item);
@@ -113,6 +119,12 @@ rule "3th time reported for 1st level violence"
             ) from $student.getHistory(),
             count(isInLastThreeMonths($historyItem))
         )
+        Number(intValue == 0) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.TRECI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
         $student.addToHistory($item);
@@ -127,7 +139,7 @@ rule "3th time reported for 1st level violence"
         System.out.println("COMPLEX 2: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
-rule "eported for 1st level violence with having 2nd"
+rule "reported for 1st level violence with having 2nd"
     lock-on-active true
     when
         $report: Report(
@@ -144,6 +156,12 @@ rule "eported for 1st level violence with having 2nd"
             ) from $student.getHistory(),
             count(isInLastThreeMonths($historyItem))
         )
+        Number(intValue == 0) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.TRECI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
         $student.addToHistory($item);
@@ -156,6 +174,37 @@ rule "eported for 1st level violence with having 2nd"
         insert($vdpfs);
 
         System.out.println("COMPLEX 2.1: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+end
+
+rule "reported for 1st level violence with having 3nd"
+    lock-on-active true
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.PRVI,
+            $student: student,
+            $nivo: nivoNasilja,
+            $tip: tipNasilja,
+            $oblik: oblikNasilja,
+            $opis: opis
+        )
+        Number(intValue >= 1) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.TRECI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
+    then
+        HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.POJACAN_RAD_NASTAVNIKA, null, LocalDate.now());
+        $student.addToHistory($item);
+
+        VdpForStudent $vdpfs = new VdpForStudent();
+        $vdpfs.setStudent($student);
+        $vdpfs.setVdp(Vdp.POJACAN_RAD_NASTAVNIKA);
+        $vdpfs.setHistoryItem($item);
+
+        insert($vdpfs);
+
+        System.out.println("COMPLEX 2.2: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
 rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 day"
