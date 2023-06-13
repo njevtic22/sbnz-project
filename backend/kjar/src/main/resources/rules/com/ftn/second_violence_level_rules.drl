@@ -83,6 +83,7 @@ end
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "when: Report for 2nd level violence and previously reported for 1st level, then pojacan rad pps"
     lock-on-active true
+    salience 40
     when
         $report: Report(
             nivoNasilja == NivoNasilja.DRUGI,
@@ -147,8 +148,82 @@ rule "when suspension for 3 days and nivo sklonosti ka nasilju LAKSI, then set n
         System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end
 
+// 5
+////////////////////////////////////////////////////////////////////////////////////////////////////
+rule "when: Report for 2nd level violence and previously reported for 2nd level, then pojacan rad pps i sc"
+    lock-on-active true
+    salience 50
+    when
+        $report: Report(
+            nivoNasilja == NivoNasilja.DRUGI,
+            $student: student,
+            $nivo: nivoNasilja,
+            $tip: tipNasilja,
+            $oblik: oblikNasilja,
+            $opis: opis
+        )
+        Number(intValue >= 1) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.DRUGI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
+    then
+        HistoryItem $item = new HistoryItem(
+                $student,
+                $nivo,
+                $tip,
+                $oblik,
+                $opis,
+                Vdp.POJACAN_RAD_SS,
+                null,
+                LocalDate.now()
+        );
+        $student.addToHistory($item);
 
+        VdpForStudent $vdpfs = new VdpForStudent();
+        $vdpfs.setStudent($student);
+        $vdpfs.setVdp(Vdp.POJACAN_RAD_SS);
+        $vdpfs.setHistoryItem($item);
 
+        insert($vdpfs);
+
+        System.out.println("COMPLEX 5: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+end
+
+rule "when: pojacan rad pps i sc i nivo sklonosti SREDNJI, then suspension for 7 days"
+    no-loop true
+    when
+        $vdpfs: VdpForStudent(
+            $student: student,
+            vdp == Vdp.POJACAN_RAD_SS,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
+        )
+    then
+        HistoryItem $item = $vdpfs.getHistoryItem();
+        $item.setSanction(Sanction.SUSPENSION_7);
+
+        SanctionForStudent $sanctionfs = new SanctionForStudent();
+        $sanctionfs.setStudent($student);
+        $sanctionfs.setSanction(Sanction.SUSPENSION_7);
+        $sanctionfs.setHistoryItem($item);
+
+        insert($sanctionfs);
+
+        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+end
+
+rule "when: suspension for 7 days and nivo sklonosti SREDNJI, then set nivo sklonosti na TEZI"
+    when
+        $sanctionfs: SanctionForStudent(
+            $student: student,
+            sanction == Sanction.SUSPENSION_7,
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
+        )
+    then
+        $student.setNivoSklonosti(NivoSklonostiKaNasilju.TEZI);
+        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
+end
 
 
 
