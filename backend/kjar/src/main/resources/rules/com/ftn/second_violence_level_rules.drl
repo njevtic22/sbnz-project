@@ -83,7 +83,6 @@ end
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "when: Report for 2nd level violence and previously reported for 1st level, then pojacan rad pps"
     lock-on-active true
-    salience 40
     when
         $report: Report(
             nivoNasilja == NivoNasilja.DRUGI,
@@ -99,7 +98,12 @@ rule "when: Report for 2nd level violence and previously reported for 1st level,
             ) from $student.getHistory(),
             count(isInLastThreeMonths($historyItem))
         )
-        // no NivoNasilja.DRUGI
+        Number(intValue == 0) from accumulate (
+            $historyItem: HistoryItem(
+                nivoNasilja == NivoNasilja.DRUGI
+            ) from $student.getHistory(),
+            count(isInLastThreeMonths($historyItem))
+        )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.POJACAN_RAD_PPS, null, LocalDate.now());
         $student.addToHistory($item);
@@ -154,7 +158,6 @@ end
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "when: Report for 2nd level violence and previously reported for 2nd level, then pojacan rad pps i sc"
     lock-on-active true
-    salience 50
     when
         $report: Report(
             nivoNasilja == NivoNasilja.DRUGI,
@@ -199,7 +202,8 @@ rule "when: pojacan rad pps i sc i nivo sklonosti SREDNJI, then suspension for 7
         $vdpfs: VdpForStudent(
             $student: student,
             vdp == Vdp.POJACAN_RAD_SS,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI ||
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.TEZI
         )
     then
         HistoryItem $item = $vdpfs.getHistoryItem();
