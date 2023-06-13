@@ -3,6 +3,7 @@ import com.ftn.sbnz.model.model.Student;
 
 rule "Hello Student"
     lock-on-active true
+    salience 1000
     when
         $s: Student()
     then

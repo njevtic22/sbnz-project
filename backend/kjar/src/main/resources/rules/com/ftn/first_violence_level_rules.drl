@@ -12,7 +12,7 @@ import com.ftn.sbnz.model.model.NivoSklonostiKaNasilju
 import com.ftn.sbnz.model.model.NivoNasilja
 import com.ftn.sbnz.model.model.HistoryItem;
 
-// 1, 2
+// 1
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
     lock-on-active true
@@ -33,26 +33,27 @@ rule "when: Report for 1st level violence, then savetodavni rad nastavnika"
         )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_NASTAVNIKA, null, LocalDate.now());
+        $student.addToHistory($item);
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
         $vdpfs.setVdp(Vdp.SAVETODAVNI_RAD_NASTAVNIKA);
         $vdpfs.setHistoryItem($item);
 
-        modify($student){addToHistory($item)}
         insert($vdpfs);
 
-        System.out.println("COMPLEX 1,2: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+        System.out.println("COMPLEX 1: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
 
-rule "when: savetodavni rad nastavnika and nivo sklonosti NEMA, then warning"
+rule "when: savetodavni rad nastavnika and nivo sklonosti NEMA or LAKSI, then warning"
     no-loop true
     when
         $vdpfs: VdpForStudent(
             $student: student,
             vdp == Vdp.SAVETODAVNI_RAD_NASTAVNIKA,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA ||
+             $student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
         )
     then
         HistoryItem $item = $vdpfs.getHistoryItem();
@@ -81,7 +82,7 @@ rule "when warning and student violence level NEMA, then student violence level 
         System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.LAKSI + "  for student with id: " + $student.getId());
 end
 
-// 3
+// 2
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "3th time reported for 1st level violence"
     lock-on-active true
@@ -102,16 +103,16 @@ rule "3th time reported for 1st level violence"
         )
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.SAVETODAVNI_RAD_PPS, null, LocalDate.now());
+        $student.addToHistory($item);
 
         VdpForStudent $vdpfs = new VdpForStudent();
         $vdpfs.setStudent($student);
         $vdpfs.setVdp(Vdp.SAVETODAVNI_RAD_PPS);
         $vdpfs.setHistoryItem($item);
 
-        $student.addToHistory($item);
         insert($vdpfs);
 
-        System.out.println("COMPLEX 3: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
+        System.out.println("COMPLEX 2: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
 rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 day"
@@ -146,6 +147,6 @@ rule "when suspension for 1 day and student violence level LAKSI, then student v
             $student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
         )
     then
-        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI)}
+        $student.setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI);
         System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end

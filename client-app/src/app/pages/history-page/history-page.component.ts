@@ -186,7 +186,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
             .reportStudent(this.studentId as number, report)
             .subscribe((item: HistoryItem) => {
                 this.openReportAnswerDialog(item);
-                this.getHistory();
+                this.getStudent();
             }, this.errorHandler.handle);
     }
 
