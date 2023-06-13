@@ -53,43 +53,6 @@ rule "report for 3rd level violence, then pojacan rad sc"
         System.out.println("COMPLEX 6: Added report for violence level: " + $report.getNivoNasilja() + "  for student with id: " + $student.getId());
 end
 
-rule "when: pojacan rad sc i nivo sklonosti NEMA: then suspension for 7 days"
-    no-loop true
-    when
-        $vdpfs: VdpForStudent(
-            $student: student,
-            vdp == Vdp.POJACAN_RAD_SS,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
-        )
-    then
-        HistoryItem $item = $vdpfs.getHistoryItem();
-        $item.setSanction(Sanction.SUSPENSION_7);
-
-        SanctionForStudent $sanctionfs = new SanctionForStudent();
-        $sanctionfs.setStudent($student);
-        $sanctionfs.setSanction(Sanction.SUSPENSION_7);
-        $sanctionfs.setHistoryItem($item);
-
-        insert($sanctionfs);
-
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
-end
-
-
-rule "when: suspension for 7 days and nivo sklonosti NEMA, then set nivo sklonosti na TEZI"
-    no-loop true
-    when
-        $sanctionfs: SanctionForStudent(
-            $student: student,
-            sanction == Sanction.SUSPENSION_7,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
-        )
-    then
-        $student.setNivoSklonosti(NivoSklonostiKaNasilju.TEZI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
-end
-
-
 // 7
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 rule "report for 3rd level violence with previous reports"

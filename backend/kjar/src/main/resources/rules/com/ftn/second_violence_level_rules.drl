@@ -201,9 +201,7 @@ rule "when: pojacan rad pps i sc i nivo sklonosti SREDNJI, then suspension for 7
     when
         $vdpfs: VdpForStudent(
             $student: student,
-            vdp == Vdp.POJACAN_RAD_SS,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI ||
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.TEZI
+            vdp == Vdp.POJACAN_RAD_SS
         )
     then
         HistoryItem $item = $vdpfs.getHistoryItem();
@@ -223,8 +221,7 @@ rule "when: suspension for 7 days and nivo sklonosti SREDNJI, then set nivo sklo
     when
         $sanctionfs: SanctionForStudent(
             $student: student,
-            sanction == Sanction.SUSPENSION_7,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
+            sanction == Sanction.SUSPENSION_7
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.TEZI);
