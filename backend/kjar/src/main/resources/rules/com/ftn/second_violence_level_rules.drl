@@ -99,6 +99,7 @@ rule "when: Report for 2nd level violence and previously reported for 1st level,
             ) from $student.getHistory(),
             count(isInLastThreeMonths($historyItem))
         )
+        // no NivoNasilja.DRUGI
     then
         HistoryItem $item = new HistoryItem($student, $nivo, $tip, $oblik, $opis, Vdp.POJACAN_RAD_PPS, null, LocalDate.now());
         $student.addToHistory($item);
@@ -119,7 +120,8 @@ rule "when: pojacan rad pps and nivo sklonosti LAKSI, then suspension for 3 days
         $vdpfs: VdpForStudent(
             $student: student,
             vdp == Vdp.POJACAN_RAD_PPS,
-            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI ||
+            $student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
         )
     then
         HistoryItem $item = $vdpfs.getHistoryItem();

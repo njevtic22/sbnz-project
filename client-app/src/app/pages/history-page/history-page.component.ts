@@ -170,7 +170,7 @@ export class HistoryPageComponent implements OnInit, OnDestroy {
             this.dialog.open(ReportStudentDialogComponent, {
                 data: data, // to share data by reference
                 // height: "400px",
-                // width: "400px",
+                width: "600px",
             });
 
         dialogRef.afterClosed().subscribe((result: ModalResult<Report>) => {

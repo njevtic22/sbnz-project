@@ -121,7 +121,8 @@ rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 d
         $vdpfs: VdpForStudent(
             $student: student,
             vdp == Vdp.SAVETODAVNI_RAD_PPS,
-            student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI
+            student.getNivoSklonosti() == NivoSklonostiKaNasilju.LAKSI ||
+            student.getNivoSklonosti() == NivoSklonostiKaNasilju.SREDNJI
         )
     then
         HistoryItem $item = $vdpfs.getHistoryItem();

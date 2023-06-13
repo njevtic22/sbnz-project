@@ -2,79 +2,88 @@
 <mat-dialog-content>
     <form
         [formGroup]="reportForm"
-        fxLayout="column"
-        fxLayoutAlign="center stretch"
+        fxLayout="row"
+        fxLayoutAlign="space-around center"
     >
-        <mat-form-field>
-            <mat-label>Nivo nasilja</mat-label>
-            <mat-select
-                formControlName="nivoNasilja"
-                (selectionChange)="changeObliciNasilja()"
-            >
-                <mat-option
-                    *ngFor="let nivoNasiljaKeyValue of nivoNasiljaKeyValues"
-                    [value]="nivoNasiljaKeyValue.key"
+        <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="50%">
+            <mat-form-field>
+                <mat-label>Nivo nasilja</mat-label>
+                <mat-select
+                    formControlName="nivoNasilja"
+                    (selectionChange)="changeObliciNasilja()"
                 >
-                    {{ nivoNasiljaKeyValue.value }}
-                </mat-option>
-            </mat-select>
+                    <mat-option
+                        *ngFor="let nivoNasiljaKeyValue of nivoNasiljaKeyValues"
+                        [value]="nivoNasiljaKeyValue.key"
+                    >
+                        {{ nivoNasiljaKeyValue.value }}
+                    </mat-option>
+                </mat-select>
 
-            <mat-error
-                *ngIf="reportForm.controls['nivoNasilja'].hasError('required')"
-            >
-                Obavezno polje
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Tip nasilja</mat-label>
-            <mat-select
-                formControlName="tipNasilja"
-                (selectionChange)="changeObliciNasilja()"
-            >
-                <mat-option
-                    *ngFor="let tipNasiljaKeyValue of tipNasiljaKeyValues"
-                    [value]="tipNasiljaKeyValue.key"
+                <mat-error
+                    *ngIf="
+                        reportForm.controls['nivoNasilja'].hasError('required')
+                    "
                 >
-                    {{ tipNasiljaKeyValue.value }}
-                </mat-option>
-            </mat-select>
+                    Obavezno polje
+                </mat-error>
+            </mat-form-field>
 
-            <mat-error
-                *ngIf="reportForm.controls['tipNasilja'].hasError('required')"
-            >
-                Obavezno polje
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Oblik nasilja</mat-label>
-            <mat-select formControlName="oblikNasilja">
-                <mat-option
-                    *ngFor="let oblikNasiljaKeyValue of oblikNasiljaKeyValues"
-                    [value]="oblikNasiljaKeyValue.key"
+            <mat-form-field>
+                <mat-label>Tip nasilja</mat-label>
+                <mat-select
+                    formControlName="tipNasilja"
+                    (selectionChange)="changeObliciNasilja()"
                 >
-                    {{ oblikNasiljaKeyValue.value }}
-                </mat-option>
-            </mat-select>
+                    <mat-option
+                        *ngFor="let tipNasiljaKeyValue of tipNasiljaKeyValues"
+                        [value]="tipNasiljaKeyValue.key"
+                    >
+                        {{ tipNasiljaKeyValue.value }}
+                    </mat-option>
+                </mat-select>
 
-            <mat-error
-                *ngIf="
-                    reportForm.controls['oblikNasilja'].hasError('required') &&
-                    oblikNasiljaKeyValues.length > 0
-                "
-            >
-                Obavezno polje
-            </mat-error>
+                <mat-error
+                    *ngIf="
+                        reportForm.controls['tipNasilja'].hasError('required')
+                    "
+                >
+                    Obavezno polje
+                </mat-error>
+            </mat-form-field>
 
-            <mat-error *ngIf="oblikNasiljaKeyValues.length === 0">
-                Odaberite prvo nivo i tip nasilja
-            </mat-error>
-        </mat-form-field>
+            <mat-form-field>
+                <mat-label>Oblik nasilja</mat-label>
+                <mat-select formControlName="oblikNasilja">
+                    <mat-option
+                        *ngFor="
+                            let oblikNasiljaKeyValue of oblikNasiljaKeyValues
+                        "
+                        [value]="oblikNasiljaKeyValue.key"
+                    >
+                        {{ oblikNasiljaKeyValue.value }}
+                    </mat-option>
+                </mat-select>
 
-        <mat-form-field>
+                <mat-error
+                    *ngIf="
+                        reportForm.controls['oblikNasilja'].hasError(
+                            'required'
+                        ) && oblikNasiljaKeyValues.length > 0
+                    "
+                >
+                    Obavezno polje
+                </mat-error>
+
+                <mat-error *ngIf="oblikNasiljaKeyValues.length === 0">
+                    Odaberite prvo nivo i tip nasilja
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field fxFlex>
             <mat-label>Opis događaja</mat-label>
-            <textarea matInput rows="4" formControlName="opis"></textarea>
+            <textarea matInput rows="8" formControlName="opis"></textarea>
 
             <mat-error *ngIf="reportForm.controls['opis'].hasError('required')">
                 Obavezno polje

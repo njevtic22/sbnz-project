@@ -78,7 +78,7 @@
 </div>
 
 <ng-template #notStaresina>
-    <div fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="showNotStaresina" fxLayout="row" fxLayoutAlign="center center">
         <mat-card class="padded-2" style="text-align: center">
             <mat-card-header>
                 <mat-card-title> Niste odeljenski staresina </mat-card-title>

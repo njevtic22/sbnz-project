@@ -15,6 +15,7 @@ import { PaginatedResponse } from "src/app/types/paginated-response";
     styleUrls: ["./students-for-teacher-page.component.scss"],
 })
 export class StudentsForTeacherPageComponent implements OnInit, OnDestroy {
+    showNotStaresina: boolean = false;
     class!: Odeljenje;
     private classSubscription: Subscription = new Subscription();
 
@@ -60,6 +61,9 @@ export class StudentsForTeacherPageComponent implements OnInit, OnDestroy {
             .getClassForTeacher()
             .subscribe((odeljenje: Odeljenje) => {
                 this.class = odeljenje;
+                if (!this.class) {
+                    this.showNotStaresina = true;
+                }
             }, this.errorHandler.handle);
     }
 
