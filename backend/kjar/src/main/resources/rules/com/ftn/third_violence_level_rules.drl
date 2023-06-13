@@ -113,7 +113,7 @@ rule "when pojacan rad mup, then transfer"
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#13 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 
@@ -127,7 +127,7 @@ rule "when: transfer, then set nivo sklonosti na TEZI"
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.TEZI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
+        System.out.println("#14 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
 end
 
 

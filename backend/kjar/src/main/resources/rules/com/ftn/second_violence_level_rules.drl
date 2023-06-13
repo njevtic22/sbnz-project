@@ -62,7 +62,7 @@ rule "when: pojacan rad nastavnika, then suspension for 3 days"
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#5 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 rule "when suspension for 3 days and student violence level NEMA, then student violence level SREDNJI"
@@ -75,7 +75,7 @@ rule "when suspension for 3 days and student violence level NEMA, then student v
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+        System.out.println("#6 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end
 
 // 4
@@ -143,7 +143,7 @@ rule "when: pojacan rad pps and nivo sklonosti NEMA or LAKSI, then suspension fo
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#7 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 rule "when: pojacan rad pps and nivo sklonosti SREDNJI or TEZI, then suspension for 3 days"
@@ -166,7 +166,7 @@ rule "when: pojacan rad pps and nivo sklonosti SREDNJI or TEZI, then suspension 
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#8 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 rule "when suspension for 3 days and nivo sklonosti ka nasilju LAKSI, then set nivo sklonosti na SREDNJI"
@@ -179,7 +179,7 @@ rule "when suspension for 3 days and nivo sklonosti ka nasilju LAKSI, then set n
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+        System.out.println("#9 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end
 
 // 5
@@ -288,7 +288,7 @@ rule "when: pojacan rad pps i sc i nivo sklonosti SREDNJI, then suspension for 7
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#11 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 rule "when: suspension for 7 days and nivo sklonosti SREDNJI, then set nivo sklonosti na TEZI"
@@ -299,7 +299,7 @@ rule "when: suspension for 7 days and nivo sklonosti SREDNJI, then set nivo sklo
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.TEZI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
+        System.out.println("#12 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.TEZI + "  for student with id: " + $student.getId());
 end
 
 

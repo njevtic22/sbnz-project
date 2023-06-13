@@ -78,7 +78,7 @@ rule "when: savetodavni rad nastavnika and nivo sklonosti NEMA or LAKSI, then wa
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#1 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 rule "when warning and student violence level NEMA, then student violence level LAKSI"
@@ -90,8 +90,8 @@ rule "when warning and student violence level NEMA, then student violence level 
             $student.getNivoSklonosti() == NivoSklonostiKaNasilju.NEMA
         )
     then
-        modify($student){setNivoSklonosti(NivoSklonostiKaNasilju.LAKSI)}
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.LAKSI + "  for student with id: " + $student.getId());
+        $student.setNivoSklonosti(NivoSklonostiKaNasilju.LAKSI);
+        System.out.println("#2 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.LAKSI + "  for student with id: " + $student.getId());
 end
 
 // 2
@@ -226,7 +226,7 @@ rule "when savetodavni rad pps and nivo sklonosti LAKSI, then suspension for 1 d
 
         insert($sanctionfs);
 
-        System.out.println("Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
+        System.out.println("#3 Added sanction: " + $sanctionfs.getSanction().getDescription() + "  for student with id: " + $student.getId());
 end
 
 
@@ -240,5 +240,5 @@ rule "when suspension for 1 day and student violence level LAKSI, then student v
         )
     then
         $student.setNivoSklonosti(NivoSklonostiKaNasilju.SREDNJI);
-        System.out.println("Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
+        System.out.println("#4 Set nivo sklonosti ka nasilju to: " + NivoSklonostiKaNasilju.SREDNJI + "  for student with id: " + $student.getId());
 end
